@@ -257,22 +257,31 @@ const QuizScreen: React.FC<Props> = ({ navigation }) => {
           )}
 
           {/* ── Banner: The Mirror Game (Quẹt Thẻ Tâm Lý) ── */}
-          <TouchableOpacity 
-            style={styles.mirrorBannerGlass} 
-            onPress={() => { HapticFeedback.trigger('impactHeavy'); navigation.navigate('SwipeGame'); }}
-            activeOpacity={0.8}
-          >
-             <LinearGradient colors={['rgba(244, 63, 94, 0.4)', 'rgba(139, 92, 246, 0.4)']} style={styles.mirrorGradient} start={{x:0, y:0}} end={{x:1, y:1}}>
-                <Text style={{fontSize: 28, marginRight: 12}}>🪞</Text>
-                <View style={{flex: 1}}>
-                   <Text style={styles.mirrorTitleNeon}>TẤM GƯƠNG VÔ THỨC</Text>
-                   <Text style={styles.mirrorSubtitle}>Giai thoại sinh tồn tâm lý (Swipe Game)</Text>
-                </View>
-                <View style={styles.mirrorPlayBtn}>
-                   <Text style={styles.mirrorPlayText}>CHƠI</Text>
-                </View>
-             </LinearGradient>
-          </TouchableOpacity>
+          <View style={{flexDirection: 'row', gap: 12, marginHorizontal: 20, marginBottom: 28}}>
+            <TouchableOpacity 
+              style={[styles.mirrorBannerGlass, {flex: 1, marginHorizontal: 0, marginBottom: 0}]} 
+              onPress={() => { HapticFeedback.trigger('impactHeavy'); navigation.navigate('SwipeGame'); }}
+              activeOpacity={0.8}
+            >
+               <LinearGradient colors={['rgba(244, 63, 94, 0.4)', 'rgba(139, 92, 246, 0.4)']} style={styles.mirrorGradient} start={{x:0, y:0}} end={{x:1, y:1}}>
+                  <Text style={{fontSize: 28, marginBottom: 8}}>🪞</Text>
+                  <Text style={[styles.mirrorTitleNeon, {fontSize: 14}]}>TẤM GƯƠNG</Text>
+                  <Text style={[styles.mirrorSubtitle, {fontSize: 10}]}>Sinh tồn (Swipe)</Text>
+               </LinearGradient>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.mirrorBannerGlass, {flex: 1, marginHorizontal: 0, marginBottom: 0}]} 
+              onPress={() => { HapticFeedback.trigger('impactHeavy'); navigation.navigate('ImpostorGame'); }}
+              activeOpacity={0.8}
+            >
+               <LinearGradient colors={['rgba(56, 189, 248, 0.4)', 'rgba(52, 211, 153, 0.4)']} style={styles.mirrorGradient} start={{x:0, y:0}} end={{x:1, y:1}}>
+                  <Text style={{fontSize: 28, marginBottom: 8}}>🎭</Text>
+                  <Text style={[styles.mirrorTitleNeon, {fontSize: 14, color: '#38bdf8', textShadowColor: '#38bdf8'}]}>KẺ GIẢ MẠO</Text>
+                  <Text style={[styles.mirrorSubtitle, {fontSize: 10}]}>Ai đang thao túng?</Text>
+               </LinearGradient>
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.sectionHeader}>
              <Text style={styles.sectionTitleNeon}>🗺️ BẢN ĐỒ VÙNG ĐẤT</Text>
@@ -361,12 +370,12 @@ const styles = StyleSheet.create({
   dailyRewardTextNeon: { color: '#e0e7ff', fontSize: 11, fontWeight: '900', letterSpacing: 1 },
 
   // Mirror Banner
-  mirrorBannerGlass: { marginHorizontal: 20, marginBottom: 26, borderRadius: 24, borderWidth: 1, borderColor: '#f43f5e', overflow: 'hidden', shadowColor: '#f43f5e', shadowOpacity: 0.5, shadowRadius: 15, shadowOffset: { width:0, height:8 } },
-  mirrorGradient: { flexDirection: 'row', alignItems: 'center', padding: 16 },
-  mirrorTitleNeon: { color: '#fff', fontSize: 15, fontWeight: '900', letterSpacing: 1, textShadowColor: '#f43f5e', textShadowRadius: 10 },
-  mirrorSubtitle: { color: '#e2e8f0', fontSize: 11, fontWeight: '600', marginTop: 3 },
-  mirrorPlayBtn: { backgroundColor: '#f43f5e', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 12 },
-  mirrorPlayText: { color: '#fff', fontSize: 12, fontWeight: '900', letterSpacing: 1 },
+  mirrorBannerGlass: { borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', elevation: 5, shadowColor: '#f43f5e', shadowOpacity: 0.3, shadowRadius: 10 },
+  mirrorGradient: { padding: 16, alignItems: 'center', justifyContent: 'center' },
+  mirrorTitleNeon: { color: '#f43f5e', fontSize: 16, fontWeight: '900', letterSpacing: 1, textShadowColor: '#f43f5e', textShadowRadius: 8, textAlign: 'center' },
+  mirrorSubtitle: { color: '#e2e8f0', fontSize: 11, fontWeight: '600', marginTop: 4, textAlign: 'center' },
+  mirrorPlayBtn: { backgroundColor: '#fff', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20 },
+  mirrorPlayText: { color: '#000', fontSize: 13, fontWeight: '900', letterSpacing: 1 },
 
   // Regions Section
   sectionHeader: { paddingHorizontal: 24, marginBottom: 16, borderLeftWidth: 4, borderLeftColor: '#8b5cf6', marginLeft: 20 },

@@ -22,62 +22,138 @@ export const PSY_EFFECTS: EffectModel[] = [
   {
     id: "e1",
     title: "Hiệu ứng Dunning-Kruger",
-    shortDescription: "Ảo tưởng sức mạnh: Người kém cỏi thường đánh giá cao bản thân, trong khi người tài giỏi lại hay khiêm tốn.",
-    fullLesson: "Hiệu ứng Dunning-Kruger mô tả một khuynh hướng nhận thức phổ biến. Những cá nhân có kiến thức hoặc năng lực thấp trong một lĩnh vực cụ thể thường gặp khó khăn trong việc đánh giá khách quan năng lực của chính mình. Sự thiếu hiểu biết này ngăn cản họ nhận ra những sai lầm cá nhân và khiến họ tự mãn. Ngược lại, những chuyên gia và người có kiến thức sâu rộng lại thường mắc hội chứng 'Kẻ mạo danh' (Imposter Syndrome) – họ cho rằng nếu một việc dễ với mình thì cũng sẽ dễ với người khác, từ đó đánh giá thấp năng lực của bản thân.",
-    origin: "Được David Dunning và Justin Kruger thuộc Đại học Cornell mô tả khoa học lần đầu tiên vào năm 1999.",
-    famousExperiment: "Trong một thử nghiệm nổi tiếng tại Đại học Cornell, sinh viên làm bài kiểm tra ngữ pháp, lô-gích và sự hài hước. Kết quả: Những sinh viên đạt điểm thấp nhất (tốp 12%) lại tự tin đánh giá mình nằm ở tốp xuất sắc nhất (tốp 62%).",
-    neuroImpact: "Hiệu ứng này liên quan đến vùng vỏ não trước trán (Prefrontal Cortex) – nơi xử lý nhận thức siêu bản thân (Metacognition). Khi vùng này thiếu dữ kiện chuyên môn để phản tư, bộ não tự động lấp đầy khoảng trống bằng 'ảo tưởng tự tôn' như một cơ chế bảo vệ cái tôi (Ego defense).",
-    example: "Một người vừa mới tham gia một khóa học đầu tư chứng khoán online trong 3 ngày đã tự tin rủ bạn bè hùn vốn mở quỹ, trong khi chuyên gia kinh tế 10 năm kinh nghiệm lại không dám dự đoán chắc chắn hướng đi của thị trường ngày mai.",
-    prevention: "Hãy luôn tự nhủ rằng 'Càng học nhiều, ta càng thấy mình biết ít'. Hãy chủ động tìm kiếm các thông tin phản hồi từ những người có kinh nghiệm hơn và không ngừng tích lũy kiến thức.",
+
+    shortDescription:
+      "Biết chút chút → tưởng mình ghê. Biết sâu → mới thấy mình còn thiếu nhiều.",
+
+    fullLesson:
+      "Có một giai đoạn rất dễ dính:\n\nBạn vừa học được một thứ gì đó.\nKhông nhiều, nhưng đủ để hiểu sơ sơ.\n\nVà ngay lúc đó, não bắt đầu bật mode:\n'Ờ cái này mình nắm rồi đấy'.\n\nBạn thấy mọi thứ có vẻ đơn giản.\nBạn bắt đầu tự tin.\nThậm chí có thể đi góp ý người khác.\n\nNhưng nếu bạn tiếp tục đào sâu thêm…\n\nBạn sẽ gặp một cú 'vỡ mặt nhẹ':\n\n– Có quá nhiều thứ mình chưa hiểu\n– Những thứ tưởng dễ hoá ra không dễ\n– Người giỏi họ nhìn vấn đề rất khác\n\nTừ đó, tự tin giảm xuống.\nBạn bắt đầu nghi ngờ chính mình.\n\nNhưng irony ở đây là:\n👉 Lúc bạn nghi ngờ bản thân nhiều hơn = lúc bạn đang hiểu đúng hơn.\n\n=> Người mới thường tự tin vì chưa thấy hết\n=> Người làm lâu lại cẩn thận vì họ biết cái gì có thể sai",
+
+    origin:
+      "Hai ông Dunning và Kruger phát hiện ra chuyện này khi thấy người kém thường không nhận ra mình kém.",
+
+    famousExperiment:
+      "Nhóm làm bài tệ nhất lại nghĩ mình thuộc top giỏi — vì họ không đủ khả năng để nhận ra lỗi của mình.",
+
+    neuroImpact:
+      "Não thiếu dữ liệu → tự fill bằng sự tự tin để không cảm thấy mình 'ngu'.",
+
+    example:
+      "Học đầu tư vài hôm → bắt đầu phân tích thị trường như chuyên gia.\nNgười làm 5–10 năm → lại nói 'cái này không chắc đâu'.",
+
+    prevention:
+      "Khi bạn thấy mình bắt đầu quá tự tin → đó là tín hiệu nên chậm lại.\n\nĐi hỏi người giỏi hơn.\nHoặc thử giải thích lại kiến thức của mình — bạn sẽ thấy mình hổng chỗ nào ngay.",
+
     image: require('../assets/images/Screenshot 2026-03-31 at 22.10.22.png'),
+
     category: "Nhận thức"
   },
   {
     id: "e2",
     title: "Hiệu ứng Hào quang (Halo Effect)",
-    shortDescription: "Nhìn mặt bắt hình dong: Ấn tượng tốt ở một điểm khiến ta mặc định toàn bộ con người họ đều tốt.",
-    fullLesson: "Hiệu ứng Hào quang (Halo Effect) là một dạng thành kiến nhận thức (cognitive bias), trong đó ấn tượng tổng thể về một người, một vật hoặc một thương hiệu ảnh hưởng trực tiếp đến cảm nhận, đánh giá của chúng ta về những nét tính cách hoặc tính năng cụ thể của người/vật đó. 'Hào quang' này làm che mờ sự thật, khiến ta dễ dàng bỏ qua hoặc biện minh cho những điểm yếu, khuyết điểm của đối tượng.",
-    origin: "Thuật ngữ này được nhà tâm lý học Edward Thorndike đưa ra vào năm 1920 qua bài báo khoa học 'Lỗi thường gặp trong đánh giá tâm lý'.",
-    famousExperiment: "Thorndike yêu cầu các sĩ quan chỉ huy đánh giá lính của họ về đa dạng các mặt: trí thông minh, thể chất, kỹ năng lãnh đạo. Kết quả là những người có 'ngoại hình và thể lực nổi bật' vô thức được sĩ quan đánh giá điểm rất cao cho mọi khía cạnh khác, dù chưa hề kiểm tra kỹ năng.",
-    neuroImpact: "Não bộ con người luôn có xu hướng tiết kiệm năng lượng (Cognitive miser). Khi phát hiện ra một đặc điểm quá nổi bật và hấp dẫn, hạch hạnh nhân (Amygdala) và hệ viền kích hoạt cảm xúc tích cực mãnh liệt, chèn ép hoạt động phân tích logic của vỏ não, tự động kết luận các vùng thông tin khác.",
-    example: "Khán giả thần tượng một diễn viên có ngoại hình đẹp và tự động tin rằng diễn viên đó cũng thông minh, tử tế chuẩn mực, dẫn đến việc họ bị sốc nặng và khó chấp nhận khi thần tượng đó vướng vòng lao lý hay bê bối lối sống.",
-    prevention: "Nỗ lực phân tách các thuộc tính. Khi đánh giá năng lực một nhân sự, hãy nhìn vào số liệu khách quan, bảng mã nguồn, kết quả KPI thay vì đánh giá chỉ dựa trên phong thái tự tin hoặc ngoại hình sáng.",
+
+    shortDescription:
+      "Thấy người ta xịn 1 điểm → auto nghĩ họ xịn hết.",
+
+    fullLesson:
+      "Não bạn lười hơn bạn nghĩ.\n\nThay vì đánh giá một người từ nhiều góc,\nnó chọn cách nhanh hơn:\n\n👉 Lấy 1 điểm nổi bật → suy ra tất cả.\n\nVí dụ:\n– Người ăn mặc đẹp → nghĩ họ chuyên nghiệp\n– Người nói chuyện cuốn → nghĩ họ thông minh\n– Người tự tin → nghĩ họ giỏi\n\nNghe hợp lý đúng không?\n\nNhưng vấn đề là: những thứ đó không liên quan trực tiếp.\n\nBạn chỉ đang bị ấn tượng ban đầu dẫn dắt.\n\nVà nguy hiểm hơn:\n\nKhi bạn đã thích ai đó rồi,\nbạn sẽ tự động bỏ qua lỗi của họ.\n\n=> Bạn không còn nhìn họ như họ thật sự là nữa.",
+
+    origin:
+      "Một nhà tâm lý học phát hiện con người hay đánh giá kiểu '1 tốt = tốt hết'.",
+
+    famousExperiment:
+      "Người có ngoại hình tốt được chấm luôn cả thông minh và lãnh đạo — dù không test.",
+
+    neuroImpact:
+      "Cảm xúc chạy trước → logic chạy theo sau (nếu còn kịp).",
+
+    example:
+      "Bạn thấy một influencer nhìn rất 'uy tín'.\n\nHọ review sản phẩm → bạn tin.\nHọ nói gì → bạn cũng gật.\n\nĐến lúc phát hiện họ quảng cáo sai → mới nhận ra mình bị dắt từ đầu.",
+
+    prevention:
+      "Tập nhìn tách ra:\n\nĐẹp ≠ giỏi\nTự tin ≠ đúng\nNói hay ≠ có kiến thức\n\nLuôn hỏi:\n'Mình thích họ vì cái gì cụ thể?'",
+
     image: require('../assets/images/halo_effect_art_1774885089039.png'),
+
     category: "Cảm xúc"
   },
   {
     id: "e3",
     title: "Hiệu ứng Người ngoài cuộc (Bystander Effect)",
-    shortDescription: "Phân tán trách nhiệm: Càng đông người, khả năng giúp đỡ một ai đó gặp nạn càng giảm.",
-    fullLesson: "Hiệu ứng Người ngoài cuộc là một hiện tượng tâm lý xã hội nguy hiểm phá vỡ lòng trắc ẩn của đám đông. Nội dung chính của hiệu ứng là: Sự hiện diện của những người khác kìm hãm cá nhân trong việc can thiệp vào một tình huống khẩn cấp. Mỗi người trong đám đông đều tin rằng \"Ai đó khác có chuyên môn hơn, hoặc ở gần hơn sẽ can thiệp\", dẫn đến kết cục bi thảm là không một ai ra tay.",
-    origin: "Được nghiên cứu mạnh mẽ và đặt tên sau vụ sát hại thảm khốc của cô gái Kitty Genovese năm 1964 tại New York, Mỹ.",
-    famousExperiment: "Năm 1968, hai nhà tâm lý học John Darley và Bibb Latané thực hiện thí nghiệm cho khói tràn vào một căn phòng. Nếu chủ thể ở 1 mình, họ lập tức báo cáo trong vòng 2 phút. Nhưng nếu có thêm 2 diễn viên cố tình lờ đi coi như không có chuyện gì, thì chủ thể cũng sẽ ngồi im trong phòng có khói tới hơn 6 phút.",
-    neuroImpact: "Khi gặp tình huống bất thường, não bắt đầu đánh giá tín hiệu xã hội (Social referencing). Nếu mắt thấy xung quanh ai cũng tỏ ra bình tĩnh (dù là giả tạo), não bộ diễn dịch rằng tín hiệu này không đủ nguy hiểm, từ đó giảm nhịp tim và không kích hoạt lượng Adrenaline cần thiết để hành động.",
-    example: "Trông thấy một người đột quỵ trên phố đi bộ đông đúc, mọi người thường chạy chậm lại, cầm điện thoại quay phim hoặc nhìn lướt qua rồi đi tiếp dẫu biết họ đang gặp nguy hiểm tính mạng.",
-    prevention: "Nếu bạn là nạn nhân: Đừng kêu cứu chung chung. Hãy chỉ định rành mạch một người cụ thể: 'Anh mặc áo đỏ đang đeo kính kia, xin giúp tôi gọi số cứu thương!'. Bạn sẽ phá vỡ sự phân tán trách nhiệm của người đó.",
+
+    shortDescription:
+      "Càng đông người → càng dễ… không ai làm gì.",
+
+    fullLesson:
+      "Nghe thì ngược đời, nhưng đúng:\n\nCàng nhiều người xung quanh,\nbạn càng ít có khả năng được giúp.\n\nVì mỗi người đều nghĩ:\n👉 'Chắc có người khác xử lý rồi'\n\nVà vì ai cũng nghĩ vậy,\ncuối cùng không ai làm gì.\n\nNgoài ra còn một cái nữa:\n\nBạn nhìn xung quanh thấy mọi người bình thường →\nbạn nghĩ tình huống này chắc không nghiêm trọng.\n\n=> Bạn cũng không hành động.\n\nThế là cả đám đông đứng nhìn nhau.",
+
+    origin:
+      "Hiện tượng này được chú ý mạnh sau một vụ án mà rất nhiều người thấy nhưng không ai giúp.",
+
+    famousExperiment:
+      "Có khói trong phòng:\n– Ở một mình → báo ngay\n– Có nhiều người → ngồi nhìn nhau",
+
+    neuroImpact:
+      "Não né việc 'mình là người phải chịu trách nhiệm'.",
+
+    example:
+      "Một người gặp nạn giữa nơi đông người.\n\nAi cũng nhìn.\nCó người quay video.\nNhưng rất ít người bước ra giúp thật.",
+
+    prevention:
+      "Nếu bạn cần giúp:\n\nĐừng nói 'ai đó giúp tôi'.\n\nHãy chỉ thẳng:\n👉 'Anh áo đen, gọi cấp cứu giúp tôi'\n\nKhi đó người đó không né được nữa.",
+
     image: require('../assets/images/bystander_effect_art_1774885220936.png'),
+
     category: "Xã hội"
   },
   {
     id: "e4",
-    title: "Hiệu ứng Pygmalion (Lời tiên tri Tự ứng nghiệm)",
-    shortDescription: "Sự kỳ vọng cao của người khác có thể trực tiếp làm tăng năng lực và kết quả thực tế của một người.",
-    fullLesson: "Pygmalion là hiệu ứng của sự kỳ vọng, mô tả sự thật rằng \"Bạn tin người khác ra sao, họ có xu hướng trở thành như thế ấy\". Những kỳ vọng tích cực thường mang lại hành vi tích cực. Sự vĩ đại của hiệu ứng này nằm ở quá trình tác động vi tế: Nếu bạn đánh giá cao học trò/nhân viên của mình, bạn sẽ vô thức trao cho họ ánh mắt tin tưởng hơn",
-    origin: "Đặt theo tên của nhà điêu khắc Pygmalion trong thần thoại Hy Lạp, người yêu bức tượng mình tạc đến nỗi nó được thần linh ban cho sự sống.",
-    famousExperiment: "Thí nghiệm Rosenthal-Jacobson ở trường học (1968): Các giáo viên được thông báo danh sách một nhóm học sinh 'có tiềm năng thiên tài rực rỡ' (thực chất chỉ là bốc thăm ngẫu nhiên). Chỉ sau một năm, đúng nhóm học sinh bình thường đó lại đạt chỉ số IQ tăng vọt vượt trội so với trường do cách giáo viên đối xử tin tưởng vô thức vào họ.",
-    neuroImpact: "Sự tin tưởng và hỗ trợ của người khác giúp kích hoạt việc sản sinh hàm lượng Dopamine và Oxytocin trong não bộ, giảm stress, từ đó tăng độ mở của các vùng liên kết nơ-ron giúp người ta sáng tạo và ghi nhớ tuyệt vời hơn hẳn.",
-    example: "Một quản lý dự án tin rằng anh lập trình viên mới là một 'thần đồng ẩn danh'. Người quản lý vô thức giao các dự án có tính thử thách cao và sẵn sàng lắng nghe lý luận của anh ta. Kết quả là lập trình viên đó phát triển thần tốc và trở thành nhân sự chủ chốt.",
-    prevention: "Tuyệt đối cẩn trọng với mặt trái (Hiệu ứng Golem). Nếu bạn liên tục chỉ trích con cái bạn là 'đứa ngốc nghếch', chúng sẽ ngày một thui chột và thực sự hành xử ngốc nghếch chỉ để phù hợp với định kiến của bạn.",
+    title: "Hiệu ứng Pygmalion",
+
+    shortDescription:
+      "Người khác tin bạn giỏi → bạn dễ giỏi thật.",
+
+    fullLesson:
+      "Con người bị ảnh hưởng cực mạnh bởi cách người khác nhìn mình.\n\nNếu ai đó tin bạn có khả năng:\n\n– Họ sẽ giao việc khó hơn\n– Họ kiên nhẫn hơn khi bạn sai\n– Họ lắng nghe bạn nghiêm túc hơn\n\nDần dần… bạn bắt đầu làm được thật.\n\nKhông phải vì phép màu.\nMà vì môi trường xung quanh bạn thay đổi.\n\nNgược lại cũng đúng:\n\nNếu bạn bị coi là 'không có tố chất'\n→ bạn sẽ ít cơ hội hơn\n→ ít được tin hơn\n→ và dần dần… đúng là bạn kém đi thật.\n\n=> Bạn không chỉ sống theo năng lực của mình\nMà còn sống theo kỳ vọng của người khác.",
+
+    origin:
+      "Tên lấy từ một câu chuyện: một người tin vào bức tượng đến mức nó 'sống' thật.",
+
+    famousExperiment:
+      "Một nhóm học sinh được gắn mác 'có tiềm năng cao' (dù random).\nSau 1 năm → nhóm đó tiến bộ vượt trội thật.",
+
+    neuroImpact:
+      "Được tin tưởng → ít stress hơn → não hoạt động tốt hơn, dám thử hơn.",
+
+    example:
+      "Sếp tin bạn → giao việc khó → bạn học nhanh.\nSếp coi bạn 'tầm thường' → bạn cũng không có cơ hội để khá hơn.",
+
+    prevention:
+      "Chọn môi trường có người tin bạn.\n\nVà quan trọng hơn:\nĐừng dán nhãn tiêu cực lên người khác — bạn đang vô tình kéo họ xuống.",
+
     image: require('../assets/images/tientri.png'),
+
     category: "Cảm xúc"
   },
   {
     id: "e5",
-    title: "Hiệu ứng Đám đông (Bandwagon Effect)",
-    shortDescription: "Chúng ta thích đi theo số đông dẫu biết đôi lúc số đông sai lầm.",
-    fullLesson: "Đây là một dạng thành kiến nhận thức liên quan đến tâm lý bầy đàn, trong đó tỷ lệ tiếp nhận niềm tin, xu hướng, hoặc trào lưu tăng tỷ lệ thuận với số người đã làm điều đó. Chúng ta bị thôi thúc bỏ học, mua sắm sai lệch, hay tin vào tin giả vì không chịu được áp lực trở thành kẻ đi ngược dòng.",
-    example: "Xếp hàng đếm tiếng đồng hồ để mua một cốc trà sữa đang hot trên mạng xã hội dẫu không thực sự thích ngọt, chỉ vì thấy ai cũng 'check-in'.",
-    prevention: "Tạm dừng 24 giờ trước khi ra bất cứ quyết định mua sắm hoặc gia nhập trào lưu gì. Hãy dùng 'logic bậc 2' để đánh giá.",
+    title: "Hiệu ứng Đám đông",
+
+    shortDescription:
+      "Thấy nhiều người làm → tự nhiên cũng muốn làm theo.",
+
+    fullLesson:
+      "Con người sợ bị lạc lõng.\n\nNên khi thấy một thứ đang hot,\nbạn rất dễ bị cuốn theo mà không nhận ra.\n\nBạn không thực sự thích nó.\nNhưng bạn thấy:\n\n– Ai cũng nói về nó\n– Ai cũng mua\n– Ai cũng check-in\n\n=> Thế là bạn cũng làm theo.\n\nVấn đề là:\nSố đông không phải lúc nào cũng đúng.\n\nRất nhiều trend chỉ tồn tại vì… mọi người nghĩ người khác thấy nó hay.",
+
+    origin:
+      "Đây là một dạng tâm lý bầy đàn rất phổ biến trong xã hội.",
+
+    example:
+      "Xếp hàng cả tiếng mua một món đang hot.\nMua xong mới thấy… cũng bình thường.",
+
+    prevention:
+      "Trước khi chạy theo cái gì:\n\nHỏi:\n'Mình thật sự thích hay chỉ vì thấy người khác làm?'\n\nNếu không chắc → đợi 1–2 ngày.\nHết hype là biết liền.",
+
     image: require('../assets/images/đamong.png'),
 
     category: "Nhận thức"
@@ -86,58 +162,118 @@ export const PSY_EFFECTS: EffectModel[] = [
 
   {
     id: "e6",
-    title: "Hiệu ứng Mỏ neo (Anchoring Effect)",
-    shortDescription: "Con số đầu tiên bạn nghe sẽ vô thức trở thành 'mỏ neo' ảnh hưởng đến mọi quyết định tiếp theo.",
-    fullLesson: "Hiệu ứng Mỏ neo mô tả xu hướng con người phụ thuộc quá nhiều vào thông tin đầu tiên được tiếp nhận (gọi là 'mỏ neo') khi đưa ra quyết định. Dù thông tin sau đó có đầy đủ và chính xác hơn, não bộ vẫn liên tục so sánh mọi thứ với cái mỏ neo ban đầu đó. Đây là vũ khí lợi hại mà các nhà kinh doanh, đàm phán và marketing sử dụng hàng ngày để dẫn dắt quyết định của khách hàng.",
-    origin: "Được phát hiện bởi hai nhà tâm lý học Amos Tversky và Daniel Kahneman vào năm 1974 trong nghiên cứu về heuristics và thành kiến nhận thức.",
-    famousExperiment: "Kahneman yêu cầu người tham gia quay một bánh xe số (được gian lận để chỉ dừng ở 10 hoặc 65), sau đó đoán tỷ lệ phần trăm các quốc gia châu Phi trong Liên Hợp Quốc. Những người thấy số 65 đưa ra con số trung bình là 45%, trong khi nhóm thấy số 10 chỉ đoán 25% — dù bánh xe hoàn toàn không liên quan.",
-    neuroImpact: "Vùng vỏ não trước trán xử lý thông tin mới luôn bị 'kéo về' bởi ký ức ngắn hạn lưu trữ thông tin đầu tiên. Đây là cơ chế tiết kiệm năng lượng của não — thay vì xử lý từ đầu, não dùng mỏ neo như một điểm xuất phát để tính toán nhanh hơn.",
-    example: "Một chiếc áo được ghi giá gốc 2.000.000đ, nay sale còn 800.000đ. Bạn cảm thấy hời dù thực ra 800.000đ vẫn là mức giá cao. Con số 2.000.000đ đã trở thành mỏ neo trong đầu bạn.",
-    prevention: "Trước khi ra quyết định, hãy tự hỏi: 'Con số này xuất hiện từ đâu? Nó có thực sự liên quan đến giá trị thật không?' Hãy nghiên cứu mức giá thị trường độc lập trước khi bước vào bất kỳ cuộc đàm phán nào.",
+    title: "Hiệu ứng Mỏ neo",
+
+    shortDescription:
+      "Con số đầu tiên bạn thấy sẽ 'dính' trong đầu và ảnh hưởng hết quyết định sau đó.",
+
+    fullLesson:
+      "Não bạn có một thói quen:\n\nNó bám vào thông tin đầu tiên nó thấy.\n\nVà dùng cái đó làm chuẩn để so sánh mọi thứ về sau.\n\nDù cái đó… có thể hoàn toàn vô nghĩa.\n\nVí dụ:\n\nBạn thấy một cái áo:\n– Giá gốc: 2 triệu\n– Sale còn: 800k\n\nBạn cảm thấy 'hời'.\n\nNhưng thực ra bạn không biết nó đáng giá bao nhiêu.\n\nCái giá 2 triệu chỉ là mỏ neo.\n\nNó khiến 800k trông rẻ hơn thực tế.",
+
+    origin:
+      "Một nghiên cứu cho thấy chỉ cần một con số ngẫu nhiên cũng có thể ảnh hưởng quyết định của bạn.",
+
+    famousExperiment:
+      "Người thấy số lớn → đoán cao.\nNgười thấy số nhỏ → đoán thấp.\nDù con số ban đầu không liên quan gì.",
+
+    neuroImpact:
+      "Não thích có 'điểm bắt đầu' để đỡ phải suy nghĩ từ đầu.",
+
+    example:
+      "Người bán nói giá cao trước → rồi giảm xuống.\nBạn cảm thấy được deal tốt dù chưa chắc vậy.",
+
+    prevention:
+      "Đừng tin con số đầu tiên.\n\nLuôn check thêm 2–3 nguồn khác trước khi quyết định.",
+
     image: require('../assets/images/moNeo.png'),
-   
+
     category: "Nhận thức"
   },
   {
     id: "e7",
-    title: "Hiệu ứng Xác nhận (Confirmation Bias)",
-    shortDescription: "Chúng ta vô thức chỉ tìm kiếm và tin vào những thông tin đồng ý với niềm tin sẵn có của mình.",
-    fullLesson: "Confirmation Bias là xu hướng tìm kiếm, diễn giải, và ghi nhớ thông tin theo cách xác nhận hoặc hỗ trợ những niềm tin, quan điểm ban đầu của mình. Đây là một trong những thành kiến nhận thức nguy hiểm nhất vì nó hoạt động hoàn toàn vô thức và rất khó nhận ra ở bản thân. Nó là nguyên nhân chính dẫn đến những buồng vang (echo chamber) trên mạng xã hội và sự phân cực trong xã hội.",
-    origin: "Khái niệm này được nhà tâm lý học Peter Wason nghiên cứu từ năm 1960 qua các thí nghiệm về lý luận và tư duy.",
-    famousExperiment: "Thí nghiệm Wason Selection Task: Người tham gia được cho 4 lá bài và một quy tắc. Phần lớn chỉ lật những lá bài có thể 'xác nhận' quy tắc thay vì lật những lá có thể 'bác bỏ' nó — dù về mặt logic, bác bỏ mới là cách kiểm tra đúng.",
-    neuroImpact: "Khi gặp thông tin trái chiều, hạch hạnh nhân (Amygdala) kích hoạt phản ứng đe dọa nhẹ. Não bộ trải nghiệm sự bất hòa nhận thức như một cơn đau nhẹ và tự động tìm cách giảm đau bằng cách bác bỏ thông tin đó.",
-    example: "Một người tin rằng một loại thực phẩm chức năng có tác dụng kỳ diệu. Họ sẽ đọc kỹ mọi bài đánh giá 5 sao, nhưng gạt đi các nghiên cứu khoa học phủ nhận công dụng của nó là 'tin giả do đối thủ tung ra'.",
-    prevention: "Hãy chủ động tìm kiếm những bằng chứng có thể bác bỏ niềm tin của bạn. Đặt câu hỏi: 'Điều gì sẽ khiến mình thay đổi quan điểm này?' Nếu không có câu trả lời, đó là dấu hiệu bạn đang bị Confirmation Bias chi phối.",
+    title: "Hiệu ứng Xác nhận",
+
+    shortDescription:
+      "Bạn chỉ tin thứ bạn muốn tin.",
+
+    fullLesson:
+      "Một khi bạn đã tin vào cái gì đó,\nbạn sẽ vô thức:\n\n– Tìm thông tin ủng hộ nó\n– Bỏ qua thông tin phản bác\n\nVà bạn không hề nhận ra.\n\nBạn nghĩ mình đang 'tìm hiểu kỹ'.\nNhưng thực ra bạn chỉ đang chọn lọc thông tin cho hợp ý mình.\n\nĐó là lý do vì sao:\n\nHai người có thể xem cùng một vấn đề\nnhưng lại tin hai hướng hoàn toàn khác nhau.",
+
+    origin:
+      "Hiện tượng này được phát hiện khi người ta thấy con người rất kém trong việc tự phản biện chính mình.",
+
+    famousExperiment:
+      "Người tham gia chỉ chọn kiểm tra thông tin giúp chứng minh mình đúng — thay vì tìm cách chứng minh mình sai.",
+
+    neuroImpact:
+      "Não ghét cảm giác 'mình sai' → nên tự động né thông tin gây khó chịu.",
+
+    example:
+      "Bạn thích một sản phẩm → đọc review 5 sao.\nReview 1 sao → bạn nghĩ 'chắc do người dùng sai'.",
+
+    prevention:
+      "Thử làm điều khó:\n\nTìm lý do tại sao mình có thể sai.\n\nNếu bạn không tìm được → khả năng cao bạn đang bị bias.",
+
     image: require('../assets/images/xacnhan.png'),
-    
+
     category: "Nhận thức"
   },
   {
     id: "e8",
-    title: "Hiệu ứng Spotlight (Spotlight Effect)",
-    shortDescription: "Bạn nghĩ mọi người đang chú ý đến bạn nhiều hơn thực tế — chiếc đèn sân khấu chỉ tồn tại trong đầu bạn.",
-    fullLesson: "Hiệu ứng Spotlight mô tả xu hướng con người tin rằng mình đang bị người khác chú ý, quan sát và đánh giá nhiều hơn thực tế rất nhiều. Chúng ta đặt bản thân vào trung tâm của sân khấu tưởng tượng và mặc định mọi người đều đang 'chiếu đèn' vào mình. Thực tế, mỗi người đều đang bận rộn với vở kịch của riêng họ và hiếm khi thực sự chú ý đến bạn như bạn nghĩ.",
-    origin: "Được nghiên cứu bởi Thomas Gilovich và Kenneth Savitsky tại Đại học Cornell vào năm 1999.",
-    famousExperiment: "Sinh viên được yêu cầu mặc áo có in hình Barry Manilow (một nhân vật họ thấy 'xấu hổ') vào lớp học. Họ ước tính khoảng 50% bạn học sẽ nhận ra chiếc áo, nhưng thực tế chỉ có 25% để ý.",
-    neuroImpact: "Não bộ có xu hướng lấy bản thân làm trung tâm tham chiếu (Egocentric bias). Vùng vỏ não liên quan đến nhận thức xã hội liên tục mô phỏng cái nhìn của người khác về mình, nhưng luôn phóng đại mức độ chú ý của họ.",
-    example: "Bạn vấp ngã trên đường, mặt đỏ bừng và nghĩ cả phố đang nhìn và cười mình. Thực tế, hầu hết người đi đường đang mải nghĩ về bữa trưa hoặc deadline công việc của họ.",
-    prevention: "Nhắc nhở bản thân: 'Mọi người đều đang bận với cuộc sống của họ'. Hãy quan sát xem bạn có thực sự nhớ những lần người khác vấp ngã hay mắc lỗi nhỏ mà bạn chứng kiến không — câu trả lời thường là không.",
+    title: "Hiệu ứng Spotlight",
+
+    shortDescription:
+      "Bạn nghĩ ai cũng đang nhìn mình — nhưng thật ra không.",
+
+    fullLesson:
+      "Bạn bao giờ bị:\n\n– Vấp ngã giữa chỗ đông người\n– Nói nhầm một câu\n– Mặc đồ hơi 'kỳ'\n\nXong nghĩ:\n'Chắc ai cũng thấy hết rồi'\n\nThực tế:\n\nKhông ai để ý nhiều như bạn nghĩ.\n\nVì mỗi người đều đang bận với cuộc sống của họ.\n\nBạn là trung tâm trong đầu bạn.\nNhưng không phải trong đầu người khác.",
+
+    origin:
+      "Một nghiên cứu cho thấy con người luôn phóng đại mức độ người khác chú ý đến mình.",
+
+    famousExperiment:
+      "Sinh viên nghĩ 50% lớp để ý mình.\nThực tế chỉ ~25%.",
+
+    neuroImpact:
+      "Não lấy bản thân làm trung tâm → tưởng mình quan trọng hơn thực tế.",
+
+    example:
+      "Bạn đăng story xong ngồi nghĩ 'không biết mọi người nghĩ gì'.\n\nThực ra đa số lướt qua trong 1s.",
+
+    prevention:
+      "Nhớ đơn giản:\n\nMọi người đang lo việc của họ.\nKhông ai rảnh soi bạn nhiều như bạn nghĩ.",
+
     image: require('../assets/images/spolite.png'),
-   
+
     category: "Cảm xúc"
   },
   {
     id: "e9",
-    title: "Hiệu ứng Sunk Cost (Chi phí chìm)",
-    shortDescription: "Chúng ta tiếp tục đầu tư vào thứ thua lỗ chỉ vì đã lỡ bỏ quá nhiều vào đó — dù biết càng đi càng lỗ.",
-    fullLesson: "Sunk Cost Fallacy là xu hướng tiếp tục một hành động, dự án, hoặc mối quan hệ vì những nguồn lực đã bỏ ra (tiền bạc, thời gian, công sức) không thể lấy lại được, thay vì đánh giá tương lai một cách khách quan. Đây là cái bẫy cảm xúc khiến con người tiếp tục ném tiền vào một canh bạc thua, xem tiếp một bộ phim dở tệ, hoặc ở lại trong một mối quan hệ độc hại.",
-    origin: "Khái niệm này xuất phát từ kinh tế học hành vi, được phổ biến qua nghiên cứu của Arkes và Blumer vào năm 1985.",
-    famousExperiment: "Người tham gia được hỏi: 'Bạn đã mua vé trượt tuyết 100$ cho kỳ nghỉ tuần tới, nhưng hôm nay bạn mua được vé cho kỳ nghỉ đẹp hơn nhiều giá 50$. Bạn chọn cái nào?' Hầu hết chọn kỳ nghỉ đắt hơn dù kỳ nghỉ rẻ hơn thực sự tốt hơn — chỉ vì không muốn 'lãng phí' 100$.",
-    neuroImpact: "Mất mát kích hoạt vùng Insula — vùng não liên quan đến đau đớn và ghê tởm. Não bộ xử lý 'lãng phí' như một cơn đau thực sự, khiến chúng ta liều lĩnh tiếp tục để tránh cảm giác đau đó.",
-    example: "Bạn đã học một ngành đại học 3 năm và nhận ra mình không có đam mê với nó, nhưng vẫn tiếp tục học hết vì 'đã mất 3 năm rồi'. Thực ra, 3 năm đó đã mất rồi — điều quan trọng là 1-2 năm tiếp theo bạn sẽ làm gì.",
-    prevention: "Hỏi bản thân: 'Nếu hôm nay là ngày đầu tiên mình biết đến dự án/mối quan hệ này, mình có bắt đầu lại không?' Nếu câu trả lời là không, hãy dũng cảm cắt lỗ và bắt đầu lại.",
+    title: "Hiệu ứng Chi phí chìm",
+
+    shortDescription:
+      "Đã lỡ bỏ nhiều vào rồi → nên cố tiếp, dù biết không đáng.",
+
+    fullLesson:
+      "Đây là một cái bẫy rất đau:\n\nBạn đã bỏ vào:\n– thời gian\n– tiền\n– công sức\n\nNên bạn nghĩ:\n'Bỏ giờ thì phí quá'\n\nVà bạn tiếp tục.\n\nDù trong đầu bạn biết rõ:\n👉 Nó không còn đáng nữa.\n\nNhưng bạn không chịu dừng.\n\nVì bạn đang cố 'cứu' những thứ đã mất.\n\nVấn đề là:\nNhững thứ đó đã mất rồi.\n\nCàng cố → càng lỗ thêm.",
+
+    origin:
+      "Một khái niệm trong kinh tế hành vi: con người rất sợ cảm giác lãng phí.",
+
+    famousExperiment:
+      "Người chọn phương án tệ hơn chỉ vì đã bỏ nhiều tiền hơn vào đó trước đó.",
+
+    neuroImpact:
+      "Não coi 'mất mát' như đau thật → nên cố tránh bằng cách tiếp tục.",
+
+    example:
+      "Học 1 ngành không thích 3 năm → vẫn học tiếp vì 'lỡ rồi'.\nỞ trong mối quan hệ không ổn → vẫn cố vì 'đã quen lâu'.",
+
+    prevention:
+      "Hỏi một câu:\n\n'Nếu bắt đầu lại từ hôm nay, mình có chọn cái này không?'\n\nNếu không → dừng lại.\nĐừng để quá khứ quyết định tương lai.",
+
     image: require('../assets/images/chiphi.png'),
-    
+
     category: "Nhận thức"
   },
   // ─── Premium Effects (Shop Unlockable) ──────────────────────────────────
@@ -225,7 +361,7 @@ export const PSY_EFFECTS: EffectModel[] = [
     example: "Bạn đọc tác dụng phụ của một loại vitamin là 'gây nhức đầu'. Dù viên bạn uống chỉ là một viên kẹo đường bọc vỏ ai đó trêu, bạn vẫn đau đầu quằn quại.",
     prevention: "Hiểu ranh giới giữa triệu chứng vật lý và phản ứng tâm lý. Ngưng việc tự tra Google bệnh (Cyberchondria).",
     image: require('../assets/images/voduong.png'),
-    
+
     category: "Nhận thức",
     isPremium: true,
     premiumData: {
@@ -327,7 +463,7 @@ export const PSY_EFFECTS: EffectModel[] = [
     example: "Trong một phòng ban có chỉ tiêu lương như nhau, khi có một cá nhân trẻ vừa vô xung phong gánh 1 dự án khó để lấy KPI cao, và các lập trình viên cũ không giúp đỡ mà còn ngầm phá hoại, giấu lỗi, cô lập cá nhân đó vì 'Nó làm vỡ nồi cơm chung, cố làm nổi làm gì'.",
     prevention: "Bỏ giỏ. Hãy liên tục audit mạng lưới mối quan hệ của bản thân. Nếu thấy bạn đang bị những con 'cua đồng loại' dùng sự thân thiết để bẻ cong ý chí, kéo bạn trở lại vũng lầy, điều duy nhất nên làm là im lặng nỗ lực leo giỏ và đừng nói với chúng cho đến khi bạn đi khỏi. Bạn không thể dạy con cua cách bay.",
     image: require('../assets/images/cua.png'),
-   
+
     category: "Xã hội",
     isPremium: true,
     premiumData: {
@@ -360,7 +496,7 @@ export const PSY_EFFECTS: EffectModel[] = [
     example: "Sự kiện thảm sát tàn ác tại nhà tù Abu Ghraib. Hay gần gũi hơn là hiện trạng bắt nạt mạng xã hội (Cyberbullying), nơi những cô cậu sinh viên bình thường, khi có 'quyền lực ấn phím tàng hình' đằng sau màn hình, sẵn sàng dùng ngôn từ sỉ nhục, tiêu vong những cá nhân yếu đuối đến mức tự tử mà không cho rằng mình là kẻ ác.",
     prevention: "Bạn không thể tin hoàn toàn vào sự bền bỉ của vùng la bàn đạo đức của chính mình (Đạo đức tự xưng). Hệ thống tốt quan trọng hơn con người tốt. Phải luôn thiết lập một cơ chế minh bạch và có giám sát chống lạm quyền ở bất cứ cương vị lãnh đạo hoặc tập thể nào bạn làm việc.",
     image: require('../assets/images/lucifer.png'),
-    
+
     category: "Xã hội",
     isPremium: true,
     premiumData: {

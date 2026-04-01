@@ -23,24 +23,32 @@ import {
   PERSONA_BUFFS,
   PersonaBuff,
   SwipeScenario,
+  BOSS_CARDS,
+  STORY_CHAPTERS,
+  StoryChapter,
+  CardRarity,
 } from '../data/swipeScenarios';
 import { useGame } from '../context/gameContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width: SW, height: SH } = Dimensions.get('window');
 const SWIPE_THRESHOLD = 120;
 const MAX_STAT = 100;
 
-type Phase = 'intro' | 'menu' | 'confirm' | 'playing' | 'event' | 'gameover';
+type Phase = 'intro' | 'mode_select' | 'menu' | 'story_select' | 'confirm' | 'playing' | 'event' | 'gameover';
+type GameMode = 'free' | 'story';
 
-// ═══════════════════════════════════════════════════════
-//                  SWIPE GAME SCREEN
-// ═══════════════════════════════════════════════════════
+const RARITY_COLORS: Record<CardRarity, string> = { common: '#94a3b8', rare: '#38bdf8', epic: '#c084fc', legendary: '#fbbf24' };
+const RARITY_LABELS: Record<CardRarity, string> = { common: '', rare: '⭐ Hiếm', epic: '💜 Sử Thi', legendary: '👑 Huyền Thoại' };
+
 const SwipeGameScreen = ({ navigation }: any) => {
   const game = useGame();
 
   // ── State ──
   const [phase, setPhase] = useState<Phase>('intro');
+  const [gameMode, setGameMode] = useState<GameMode>('free');
   const [selectedDiff, setSelectedDiff] = useState<DifficultyConfig>(DIFFICULTY_CONFIGS[0]);
+  const [selectedChapter, setSelectedChapter] = useState<StoryChapter | null>(null);
   const [scenarios, setScenarios] = useState<SwipeScenario[]>([]);
   const [idx, setIdx] = useState(0);
   const [stats, setStats] = useState({ sanity: 60, energy: 60, social: 60, wealth: 60 });
@@ -49,6 +57,8 @@ const SwipeGameScreen = ({ navigation }: any) => {
   const [survived, setSurvived] = useState(0);
   const [pendingEv, setPendingEv] = useState<RandomEvent | null>(null);
   const [showHint, setShowHint] = useState(false);
+  const [playedIds, setPlayedIds] = useState<string[]>([]);
+  const [highScores, setHighScores] = useState<Record<string, number>>({});
 
   const activeBuff = useMemo(() =>
     PERSONA_BUFFS.find(p => p.personaId === game.activePersona) || PERSONA_BUFFS[0],
@@ -124,8 +134,14 @@ const SwipeGameScreen = ({ navigation }: any) => {
     try { HapticFeedback.trigger(dir === 'right' ? 'notificationSuccess' : 'notificationError'); } catch(e) {}
   };
 
+  // ── Load persisted data ──
+  useEffect(() => {
+    AsyncStorage.getItem('swipe_played_ids').then(v => v && setPlayedIds(JSON.parse(v)));
+    AsyncStorage.getItem('swipe_high_scores').then(v => v && setHighScores(JSON.parse(v)));
+  }, []);
+
   // ── Start Game ──
-  const startGame = useCallback((diff: DifficultyConfig) => {
+  const startGame = useCallback((diff: DifficultyConfig, chapter?: StoryChapter) => {
     setSelectedDiff(diff);
     const s = diff.startStats;
     setStats({
@@ -134,19 +150,45 @@ const SwipeGameScreen = ({ navigation }: any) => {
       social: Math.min(MAX_STAT, s + activeBuff.statBonus.social),
       wealth: Math.min(MAX_STAT, s + activeBuff.statBonus.wealth),
     });
-    const shuffled = [...SWIPE_SCENARIOS].sort(() => Math.random() - 0.5).slice(0, diff.cardCount);
-    setScenarios(shuffled);
+
+    let deck: SwipeScenario[];
+    if (chapter) {
+      // Story mode: fixed order
+      deck = [...chapter.scenarios];
+      setSelectedChapter(chapter);
+    } else {
+      // Free mode: shuffle, no-repeat, inject boss cards
+      let pool = SWIPE_SCENARIOS.filter(sc => !playedIds.includes(sc.id));
+      if (pool.length < diff.cardCount) {
+        // Reset pool if not enough fresh cards
+        pool = [...SWIPE_SCENARIOS];
+        setPlayedIds([]);
+        AsyncStorage.setItem('swipe_played_ids', '[]');
+      }
+      const shuffled = pool.sort(() => Math.random() - 0.5).slice(0, diff.cardCount);
+      // Insert boss cards every 5th position
+      const bossPool = [...BOSS_CARDS].sort(() => Math.random() - 0.5);
+      let bi = 0;
+      deck = [];
+      shuffled.forEach((sc, i) => {
+        deck.push(sc);
+        if ((i + 1) % 5 === 0 && bi < bossPool.length) {
+          deck.push(bossPool[bi++]);
+        }
+      });
+    }
+    setScenarios(deck);
     setIdx(0); setDeathReason(''); setProfilerLog([]); setSurvived(0); setPendingEv(null); setShowHint(false);
     pos.setValue({ x: 0, y: 0 });
     setPhase('playing');
-  }, [activeBuff]);
+  }, [activeBuff, playedIds]);
 
   // ── Apply Decision ──
   const applySwipe = (dir: 'left' | 'right') => {
     const sc = scenarios[idx];
     if (!sc) return;
     const raw = dir === 'left' ? sc.leftImpact : sc.rightImpact;
-    const m = selectedDiff.multiplier;
+    const m = sc.isBoss ? 1 : selectedDiff.multiplier; // Boss cards don't get multiplied
     const imp = {
       sanity: raw.sanity > 0 ? raw.sanity : Math.round(raw.sanity * m),
       energy: raw.energy > 0 ? raw.energy : Math.round(raw.energy * m),
@@ -156,6 +198,11 @@ const SwipeGameScreen = ({ navigation }: any) => {
     if (activeBuff.personaId === 'philosopher') imp.sanity = imp.sanity < 0 ? Math.round(imp.sanity * 0.5) : imp.sanity;
     if (activeBuff.personaId === 'manipulator') imp.social = imp.social < 0 ? Math.round(imp.social * 0.7) : imp.social;
     if (raw.effectName) setProfilerLog(prev => [...new Set([...prev, raw.effectName!])]);
+
+    // Track played
+    const newPlayed = [...playedIds, sc.id];
+    setPlayedIds(newPlayed);
+    AsyncStorage.setItem('swipe_played_ids', JSON.stringify(newPlayed));
 
     const ns = survived + 1;
     setSurvived(ns);
@@ -172,7 +219,7 @@ const SwipeGameScreen = ({ navigation }: any) => {
       else if (n.social <= 0) endGame('🚪 Bị tẩy chay: Xã hội ruồng bỏ', ns, false);
       else if (n.wealth <= 0) endGame('💸 Phá sản: Vỡ nợ tứ bề', ns, false);
       else if (idx >= scenarios.length - 1) endGame('🏆 SỐNG SÓT HOÀN HẢO!', ns, true);
-      else maybeEvent(idx + 1);
+      else if (gameMode === 'free') maybeEvent(idx + 1);
       return n;
     });
     setIdx(prev => prev + 1);
@@ -180,12 +227,23 @@ const SwipeGameScreen = ({ navigation }: any) => {
     setShowHint(false);
   };
 
-  const endGame = (reason: string, count: number, win: boolean) => {
+  const endGame = async (reason: string, count: number, win: boolean) => {
     setDeathReason(reason);
     let gems = count * selectedDiff.gemRewardPerCard;
     if (win) gems += selectedDiff.bonusGems;
     if (activeBuff.personaId === 'mastermind' && win) gems *= 2;
+    // Boss card bonus: x3 gems for each boss survived
+    const bossCount = scenarios.slice(0, count).filter(sc => sc.isBoss).length;
+    gems += bossCount * selectedDiff.gemRewardPerCard * 2; // extra x2 on top
     if (gems > 0) game.addGems(gems);
+    // Save high score
+    const key = gameMode === 'story' && selectedChapter ? `story_${selectedChapter.id}` : `free_${selectedDiff.id}`;
+    const prev = highScores[key] || 0;
+    if (count > prev) {
+      const updated = { ...highScores, [key]: count };
+      setHighScores(updated);
+      await AsyncStorage.setItem('swipe_high_scores', JSON.stringify(updated));
+    }
     setPhase('gameover');
     try { HapticFeedback.trigger(win ? 'notificationSuccess' : 'notificationWarning'); } catch(e) {}
   };
@@ -261,14 +319,14 @@ const SwipeGameScreen = ({ navigation }: any) => {
 
         {/* CTA */}
         <Animated.View style={{ opacity: introBtnOp, transform: [{ scale: introBtnScale }], width: '100%', paddingHorizontal: 24 }}>
-          <TouchableOpacity onPress={() => setPhase('menu')} activeOpacity={0.85}>
+          <TouchableOpacity onPress={() => setPhase('mode_select')} activeOpacity={0.85}>
             <LinearGradient colors={['#f43f5e', '#9333ea']} start={{x:0,y:0}} end={{x:1,y:1}} style={s.introBtn}>
               <Text style={s.introBtnText}>🪞 NHÌN VÀO GƯƠNG</Text>
             </LinearGradient>
           </TouchableOpacity>
         </Animated.View>
 
-        <TouchableOpacity style={s.skipBtn} onPress={() => setPhase('menu')}>
+        <TouchableOpacity style={s.skipBtn} onPress={() => setPhase('mode_select')}>
           <Text style={s.skipText}>Bỏ qua →</Text>
         </TouchableOpacity>
       </View>
@@ -276,7 +334,95 @@ const SwipeGameScreen = ({ navigation }: any) => {
   }
 
   // ═══════════════════════════════
-  //        RENDER: MENU
+  //     RENDER: MODE SELECT
+  // ═══════════════════════════════
+  if (phase === 'mode_select') {
+    return (
+      <LinearGradient colors={['#07080f', '#1e1b4b', '#07080f']} style={s.flex}>
+        <SafeAreaView style={[s.flex, {justifyContent: 'center', paddingHorizontal: 24}]}>
+          <StatusBar barStyle="light-content" />
+          <Text style={{fontSize: 48, textAlign: 'center'}}>🪞</Text>
+          <Text style={s.menuTitle}>CHỌN CHẾ ĐỘ</Text>
+          <Text style={{color: '#64748b', textAlign: 'center', marginBottom: 28, fontSize: 13, fontWeight: '700'}}>Bạn muốn chiến đấu kiểu nào?</Text>
+
+          <TouchableOpacity onPress={() => { setGameMode('free'); setPhase('menu'); }} activeOpacity={0.85}>
+            <LinearGradient colors={['#1e3a5f', '#0f172a']} style={s.modeCard}>
+              <Text style={{fontSize: 40}}>🎲</Text>
+              <View style={{flex: 1, marginLeft: 16}}>
+                <Text style={s.modeName}>Tự Do</Text>
+                <Text style={s.modeDesc}>Thẻ ngẫu nhiên • Chọn độ khó • Boss mỗi 5 thẻ</Text>
+                <Text style={{color: '#fbbf24', fontSize: 11, fontWeight: '800', marginTop: 4}}>🏆 Kỷ lục: {highScores[`free_${DIFFICULTY_CONFIGS[0].id}`] || 0} thẻ (Tập Sự)</Text>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => { setGameMode('story'); setPhase('story_select'); }} activeOpacity={0.85}>
+            <LinearGradient colors={['#4a1942', '#0f172a']} style={s.modeCard}>
+              <Text style={{fontSize: 40}}>📖</Text>
+              <View style={{flex: 1, marginLeft: 16}}>
+                <Text style={s.modeName}>Cốt Truyện</Text>
+                <Text style={s.modeDesc}>3 chương • Kịch bản liền mạch • Boss cuối chương</Text>
+                <Text style={{color: '#c084fc', fontSize: 11, fontWeight: '800', marginTop: 4}}>🎬 Trải nghiệm điện ảnh</Text>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
+            <Text style={s.backText}>← Quay lại</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </LinearGradient>
+    );
+  }
+
+  // ═══════════════════════════════
+  //     RENDER: STORY SELECT
+  // ═══════════════════════════════
+  if (phase === 'story_select') {
+    return (
+      <LinearGradient colors={['#07080f', '#1e1b4b', '#07080f']} style={s.flex}>
+        <SafeAreaView style={s.flex}>
+          <StatusBar barStyle="light-content" />
+          <ScrollView contentContainerStyle={s.menuPad} showsVerticalScrollIndicator={false}>
+            <View style={s.menuHeader}>
+              <Text style={{fontSize: 40}}>📖</Text>
+              <Text style={s.menuTitle}>CHỌN CHƯƠNG</Text>
+            </View>
+
+            {STORY_CHAPTERS.map((ch, i) => {
+              const hs = highScores[`story_${ch.id}`] || 0;
+              const colors = i === 0 ? ['#1e3a5f', '#0f172a'] : i === 1 ? ['#5b1a3a', '#0f172a'] : ['#3d2e0a', '#0f172a'];
+              return (
+                <TouchableOpacity key={ch.id} onPress={() => { setSelectedChapter(ch); setPhase('confirm'); }} activeOpacity={0.85}>
+                  <LinearGradient colors={colors} start={{x:0,y:0}} end={{x:1,y:1}} style={s.diffCard}>
+                    <View style={s.diffTop}>
+                      <Text style={{fontSize: 36}}>{ch.emoji}</Text>
+                      <View style={{flex: 1, marginLeft: 14}}>
+                        <Text style={s.diffName}>{ch.title}</Text>
+                        <Text style={s.diffDesc}>{ch.description}</Text>
+                      </View>
+                    </View>
+                    <View style={s.diffBottom}>
+                      <View style={s.diffChip}><Text style={s.diffChipText}>🃏 {ch.scenarios.length} thẻ</Text></View>
+                      <View style={s.diffChip}><Text style={s.diffChipText}>⚔️ {ch.scenarios.filter(sc => sc.isBoss).length} Boss</Text></View>
+                      {hs > 0 && <View style={[s.diffChip, {backgroundColor: 'rgba(251,191,36,0.2)'}]}><Text style={[s.diffChipText, {color: '#fbbf24'}]}>🏆 {hs}/{ch.scenarios.length}</Text></View>}
+                    </View>
+                  </LinearGradient>
+                </TouchableOpacity>
+              );
+            })}
+
+            <TouchableOpacity style={s.backBtn} onPress={() => setPhase('mode_select')}>
+              <Text style={s.backText}>← Đổi chế độ</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </SafeAreaView>
+      </LinearGradient>
+    );
+  }
+
+  // ═══════════════════════════════
+  //        RENDER: MENU (Free mode)
   // ═══════════════════════════════
   if (phase === 'menu') {
     return (
@@ -324,7 +470,7 @@ const SwipeGameScreen = ({ navigation }: any) => {
               );
             })}
 
-            <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={s.backBtn} onPress={() => setPhase('mode_select')}>
               <Text style={s.backText}>← Quay lại</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -337,26 +483,29 @@ const SwipeGameScreen = ({ navigation }: any) => {
   //     RENDER: CONFIRM (Xác nhận)
   // ═══════════════════════════════
   if (phase === 'confirm') {
+    const isStory = gameMode === 'story' && selectedChapter;
     const d = selectedDiff;
+    const storyDiff = DIFFICULTY_CONFIGS[1]; // Story uses 'normal' difficulty
+    const usedDiff = isStory ? storyDiff : d;
     const preview = {
-      sanity: Math.min(MAX_STAT, d.startStats + activeBuff.statBonus.sanity),
-      energy: Math.min(MAX_STAT, d.startStats + activeBuff.statBonus.energy),
-      social: Math.min(MAX_STAT, d.startStats + activeBuff.statBonus.social),
-      wealth: Math.min(MAX_STAT, d.startStats + activeBuff.statBonus.wealth),
+      sanity: Math.min(MAX_STAT, usedDiff.startStats + activeBuff.statBonus.sanity),
+      energy: Math.min(MAX_STAT, usedDiff.startStats + activeBuff.statBonus.energy),
+      social: Math.min(MAX_STAT, usedDiff.startStats + activeBuff.statBonus.social),
+      wealth: Math.min(MAX_STAT, usedDiff.startStats + activeBuff.statBonus.wealth),
     };
+    const title = isStory ? selectedChapter!.title : d.name;
+    const emoji = isStory ? selectedChapter!.emoji : d.emoji;
+    const desc = isStory ? selectedChapter!.description : d.description;
+    const cardCount = isStory ? selectedChapter!.scenarios.length : d.cardCount;
     return (
       <LinearGradient colors={['#07080f', '#1e1b4b', '#07080f']} style={s.flex}>
         <SafeAreaView style={[s.flex, {justifyContent: 'center', paddingHorizontal: 24}]}>
           <StatusBar barStyle="light-content" />
-
-          {/* Difficulty Badge */}
           <View style={s.confirmTop}>
-            <Text style={{fontSize: 56}}>{d.emoji}</Text>
-            <Text style={s.confirmName}>{d.name}</Text>
-            <Text style={s.confirmDesc}>{d.description}</Text>
+            <Text style={{fontSize: 56}}>{emoji}</Text>
+            <Text style={s.confirmName}>{title}</Text>
+            <Text style={s.confirmDesc}>{desc}</Text>
           </View>
-
-          {/* Stats Preview */}
           <View style={s.confirmStats}>
             <Text style={s.confirmLabel}>CHỈ SỐ KHỞI ĐẦU</Text>
             <View style={s.confirmRow}>
@@ -368,24 +517,19 @@ const SwipeGameScreen = ({ navigation }: any) => {
               <StatPreview emoji="💰" label="Tài Sản" val={preview.wealth} color="#fbbf24" />
             </View>
           </View>
-
-          {/* Info */}
           <View style={s.confirmInfo}>
-            <InfoRow label="Số thẻ kịch bản" value={`${d.cardCount} thẻ`} />
-            <InfoRow label="Hệ số sát thương" value={`x${d.multiplier}`} danger={d.multiplier > 1} />
-            <InfoRow label="Phần thưởng" value={`💎 ${d.gemRewardPerCard}/thẻ`} gold />
-            {d.curseChance > 0 && <InfoRow label="Thẻ Đen xuất hiện" value={`${Math.round(d.curseChance * 100)}%`} danger />}
+            <InfoRow label="Số thẻ" value={`${cardCount} thẻ`} />
+            {!isStory && <InfoRow label="Hệ số sát thương" value={`x${d.multiplier}`} danger={d.multiplier > 1} />}
+            <InfoRow label="Phần thưởng" value={`💎 ${usedDiff.gemRewardPerCard}/thẻ`} gold />
+            {isStory && <InfoRow label="Boss Cards" value={`${selectedChapter!.scenarios.filter(sc => sc.isBoss).length} boss`} danger />}
           </View>
-
-          {/* Start Button */}
-          <TouchableOpacity onPress={() => startGame(d)} activeOpacity={0.85}>
+          <TouchableOpacity onPress={() => startGame(usedDiff, isStory ? selectedChapter! : undefined)} activeOpacity={0.85}>
             <LinearGradient colors={['#f43f5e', '#9333ea']} start={{x:0,y:0}} end={{x:1,y:1}} style={s.confirmStartBtn}>
               <Text style={s.confirmStartText}>⚔️ BẮT ĐẦU SINH TỒN</Text>
             </LinearGradient>
           </TouchableOpacity>
-
-          <TouchableOpacity style={{alignSelf: 'center', marginTop: 14, padding: 10}} onPress={() => setPhase('menu')}>
-            <Text style={{color: '#64748b', fontSize: 13, fontWeight: '700'}}>← Đổi độ khó</Text>
+          <TouchableOpacity style={{alignSelf: 'center', marginTop: 14, padding: 10}} onPress={() => setPhase(isStory ? 'story_select' : 'menu')}>
+            <Text style={{color: '#64748b', fontSize: 13, fontWeight: '700'}}>← Quay lại</Text>
           </TouchableOpacity>
         </SafeAreaView>
       </LinearGradient>
@@ -453,7 +597,7 @@ const SwipeGameScreen = ({ navigation }: any) => {
               </View>
             )}
 
-            <TouchableOpacity onPress={() => setPhase('menu')}>
+            <TouchableOpacity onPress={() => setPhase('mode_select')}>
               <LinearGradient colors={['#8b5cf6', '#4f46e5']} style={s.retryBtn}>
                 <Text style={s.retryText}>🔄 CHƠI LẠI</Text>
               </LinearGradient>
@@ -511,9 +655,13 @@ const SwipeGameScreen = ({ navigation }: any) => {
         {/* Card */}
         <View style={s.gameArea}>
           <Animated.View {...panResponder.panHandlers} style={[s.card, { transform: [...pos.getTranslateTransform(), { rotate }] }]}>
-            <LinearGradient colors={['#1e293b', '#111827', '#0f172a']} style={s.cardInner}>
-              {/* Theme tag */}
-              <View style={s.tagRow}><View style={s.tag}><Text style={s.tagText}>{themeMap[sc.theme] || sc.theme}</Text></View></View>
+            <LinearGradient colors={sc.isBoss ? ['#78350f', '#451a03', '#78350f'] : ['#1e293b', '#111827', '#0f172a']} style={[s.cardInner, { borderColor: sc.isBoss ? '#fbbf24' : RARITY_COLORS[sc.rarity] || 'rgba(255,255,255,0.12)' }]}>
+              {/* Tags */}
+              <View style={s.tagRow}>
+                <View style={s.tag}><Text style={s.tagText}>{themeMap[sc.theme] || sc.theme}</Text></View>
+                {RARITY_LABELS[sc.rarity] ? <View style={[s.tag, {backgroundColor: RARITY_COLORS[sc.rarity] + '25', marginLeft: 6}]}><Text style={[s.tagText, {color: RARITY_COLORS[sc.rarity]}]}>{RARITY_LABELS[sc.rarity]}</Text></View> : null}
+                {sc.isBoss && <View style={[s.tag, {backgroundColor: 'rgba(251,191,36,0.2)', marginLeft: 6}]}><Text style={[s.tagText, {color: '#fbbf24'}]}>⚔️ BOSS</Text></View>}
+              </View>
 
               {/* Scenario */}
               <Text style={s.scenarioText}>{sc.situation}</Text>
@@ -568,15 +716,23 @@ const ImpactChip = ({ icon, val }: { icon: string; val: number }) => (
   </View>
 );
 
-const HudBar = ({ icon, val, color }: { icon: string; val: number; color: string }) => (
-  <View style={s.hudItem}>
-    <Text style={{fontSize: 11}}>{icon}</Text>
-    <View style={s.hudTrack}>
-      <LinearGradient colors={[color, color + '80']} start={{x:0,y:0}} end={{x:1,y:0}} style={[s.hudFill, { width: `${val}%` }]} />
+const GAUGE_SIZE = 58;
+const GAUGE_STROKE = 4;
+const CircleGauge = ({ emoji, val, color }: { emoji: string; val: number; color: string }) => {
+  const isDanger = val <= 30;
+  const ringColor = isDanger ? '#ef4444' : color;
+  const bgRingColor = isDanger ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.06)';
+  return (
+    <View style={s.gaugeItem}>
+      <View style={[s.gaugeOuter, { borderColor: bgRingColor }]}>
+        {/* Simple visual progress using border + overlay */}
+        <View style={[s.gaugeFillBorder, { borderColor: ringColor, borderWidth: GAUGE_STROKE, opacity: Math.min(1, val / 100) }]} />
+        <Text style={{fontSize: 22}}>{emoji}</Text>
+      </View>
+      <Text style={[s.gaugeVal, { color: ringColor }]}>{val}</Text>
     </View>
-    <Text style={[s.hudVal, { color }]}>{val}</Text>
-  </View>
-);
+  );
+};
 
 const StatPreview = ({ emoji, label, val, color }: { emoji: string; label: string; val: number; color: string }) => (
   <View style={s.previewItem}>
@@ -636,6 +792,11 @@ const s = StyleSheet.create({
   backBtn: { alignSelf: 'center', marginTop: 16, paddingHorizontal: 28, paddingVertical: 10, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,255,255,0.08)' },
   backText: { color: '#94a3b8', fontSize: 13, fontWeight: '700' },
 
+  // MODE SELECT
+  modeCard: { flexDirection: 'row', alignItems: 'center', padding: 22, borderRadius: 24, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', marginBottom: 16, elevation: 4, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 10 },
+  modeName: { color: '#f8fafc', fontSize: 22, fontWeight: '900' },
+  modeDesc: { color: 'rgba(255,255,255,0.6)', fontSize: 12, fontWeight: '600', marginTop: 3 },
+
   // CONFIRM
   confirmTop: { alignItems: 'center', marginBottom: 24 },
   confirmName: { color: '#f8fafc', fontSize: 28, fontWeight: '900', marginTop: 10, letterSpacing: 2 },
@@ -653,23 +814,24 @@ const s = StyleSheet.create({
   confirmStartBtn: { paddingVertical: 18, borderRadius: 28, alignItems: 'center', shadowColor: '#f43f5e', shadowOpacity: 0.6, shadowRadius: 20, elevation: 8 },
   confirmStartText: { color: '#fff', fontSize: 17, fontWeight: '900', letterSpacing: 2 },
 
-  // HUD
-  hud: { paddingHorizontal: 16, paddingTop: 8 },
-  hudRow: { flexDirection: 'row', gap: 10, marginBottom: 6 },
-  hudItem: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 6 },
-  hudTrack: { flex: 1, height: 8, backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 4, overflow: 'hidden' },
-  hudFill: { height: '100%', borderRadius: 4 },
-  hudVal: { fontSize: 11, fontWeight: '900', width: 26, textAlign: 'right' },
-  hudMid: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 4, gap: 12 },
-  hudCount: { color: '#64748b', fontSize: 12, fontWeight: '900', letterSpacing: 1, backgroundColor: 'rgba(255,255,255,0.05)', paddingHorizontal: 14, paddingVertical: 4, borderRadius: 10 },
-  hintBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(139,92,246,0.25)', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10 },
+  // HUD - Circular Gauges
+  hud: { paddingHorizontal: 12, paddingTop: 10, alignItems: 'center' },
+  gaugeRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' },
+  gaugeItem: { alignItems: 'center', width: GAUGE_SIZE + 8 },
+  gaugeOuter: { width: GAUGE_SIZE, height: GAUGE_SIZE, borderRadius: GAUGE_SIZE / 2, borderWidth: GAUGE_STROKE, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.3)' },
+  gaugeFillBorder: { position: 'absolute', width: GAUGE_SIZE, height: GAUGE_SIZE, borderRadius: GAUGE_SIZE / 2 },
+  gaugeVal: { fontSize: 11, fontWeight: '900', marginTop: 3 },
+  hudMidBox: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: 6 },
+  hudCount: { color: '#f8fafc', fontSize: 20, fontWeight: '900' },
+  hudSlash: { color: '#475569', fontSize: 11, fontWeight: '700', marginTop: -2 },
+  hintBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(139,92,246,0.25)', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10, marginTop: 6 },
   hintBtnText: { color: '#c084fc', fontSize: 11, fontWeight: '800', marginLeft: 4 },
 
   // GAME
   gameArea: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   card: { width: SW * 0.9, height: SH * 0.55, elevation: 15, shadowColor: '#000', shadowOpacity: 0.6, shadowRadius: 25, shadowOffset: { width: 0, height: 15 } },
   cardInner: { flex: 1, borderRadius: 32, padding: 24, borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.12)', justifyContent: 'center', overflow: 'hidden' },
-  tagRow: { position: 'absolute', top: 16, left: 20 },
+  tagRow: { position: 'absolute', top: 16, left: 20, right: 20, flexDirection: 'row', flexWrap: 'wrap' },
   tag: { backgroundColor: 'rgba(255,255,255,0.08)', paddingHorizontal: 12, paddingVertical: 5, borderRadius: 10 },
   tagText: { color: '#94a3b8', fontSize: 11, fontWeight: '800' },
   scenarioText: { color: '#f8fafc', fontSize: 19, fontWeight: '900', lineHeight: 30, textAlign: 'center', marginBottom: 20, marginTop: 10, textShadowColor: 'rgba(192,132,252,0.5)', textShadowRadius: 10 },

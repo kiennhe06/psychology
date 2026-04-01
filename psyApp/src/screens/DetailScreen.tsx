@@ -207,27 +207,32 @@ const DetailScreen: React.FC<Props> = ({ route, navigation }) => {
     return <PremiumView effect={effect} onBack={() => navigation.goBack()} />;
   }
 
+  const sectionData = [
+    { key: 'lesson', icon: '💡', title: 'Định nghĩa', text: effect.fullLesson },
+    effect.origin ? { key: 'origin', icon: '📚', title: 'Nguồn gốc', text: effect.origin } : null,
+    effect.famousExperiment ? { key: 'experiment', icon: '🧪', title: 'Thí nghiệm kinh điển', text: effect.famousExperiment } : null,
+    effect.neuroImpact ? { key: 'neuro', icon: '🧠', title: 'Tác động thần kinh học', text: effect.neuroImpact } : null,
+    { key: 'example', icon: '🔍', title: 'Ví dụ thực tế', text: effect.example },
+    { key: 'prevention', icon: '🛡️', title: 'Cách phòng tránh', text: effect.prevention },
+  ].filter(Boolean) as {key: string; icon: string; title: string; text: string}[];
+
   return (
     <ScrollView style={styles.container} bounces={false}>
       {effect.image ? (
-        <Image source={effect.image} style={styles.heroImage} resizeMode="cover" />
+        <View>
+          <Image source={effect.image} style={styles.heroImage} resizeMode="cover" />
+          <View style={styles.heroOverlay} />
+        </View>
       ) : (
         <View style={styles.placeholderHeader} />
       )}
 
       {/* Back + Bookmark buttons */}
       <View style={styles.topBar}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Text style={styles.backButtonText}>← Quay lại</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.bookmarkButton, isBookmarked && styles.bookmarkButtonActive]}
-          onPress={() => game.toggleBookmark(effect.id)}
-        >
+        <TouchableOpacity style={[styles.bookmarkButton, isBookmarked && styles.bookmarkButtonActive]} onPress={() => game.toggleBookmark(effect.id)}>
           <Text style={styles.bookmarkIcon}>{isBookmarked ? '❤️' : '🤍'}</Text>
         </TouchableOpacity>
       </View>
@@ -242,41 +247,12 @@ const DetailScreen: React.FC<Props> = ({ route, navigation }) => {
 
         <View style={styles.divider} />
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>💡 Định nghĩa</Text>
-          <Text style={styles.content}>{effect.fullLesson}</Text>
-        </View>
-
-        {effect.origin && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>📚 Nguồn gốc</Text>
-            <Text style={styles.content}>{effect.origin}</Text>
+        {sectionData.map((sec) => (
+          <View key={sec.key} style={styles.section}>
+            <Text style={styles.sectionTitle}>{sec.icon}  {sec.title}</Text>
+            <Text style={styles.content}>{sec.text}</Text>
           </View>
-        )}
-
-        {effect.famousExperiment && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>🧪 Thí nghiệm kinh điển</Text>
-            <Text style={styles.content}>{effect.famousExperiment}</Text>
-          </View>
-        )}
-
-        {effect.neuroImpact && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>🧠 Tác động thần kinh học</Text>
-            <Text style={styles.content}>{effect.neuroImpact}</Text>
-          </View>
-        )}
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>🔍 Ví dụ thực tế</Text>
-          <Text style={styles.content}>{effect.example}</Text>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>🛡️ Cách phòng tránh / Áp dụng</Text>
-          <Text style={styles.content}>{effect.prevention}</Text>
-        </View>
+        ))}
 
         {/* Dr. Psy Tip Card */}
         <View style={styles.drPsyCard}>
@@ -289,15 +265,12 @@ const DetailScreen: React.FC<Props> = ({ route, navigation }) => {
 
         <View style={styles.standardFooter}>
           {!game.isArchiveRead(effect.id) ? (
-            <TouchableOpacity 
-              style={styles.standardCompleteBtn} 
-              onPress={() => {
-                game.markArchiveRead(effect.id);
-                game.addXp(30);
-                Alert.alert('Chúc mừng thám tử!', 'Bạn đã hấp thụ xong kiến thức bài học này. Tiếp tục phát huy nhé!');
-                navigation.goBack();
-              }}
-            >
+            <TouchableOpacity style={styles.standardCompleteBtn} onPress={() => {
+              game.markArchiveRead(effect.id);
+              game.addXp(30);
+              Alert.alert('Chúc mừng thám tử!', 'Bạn đã hấp thụ xong kiến thức bài học này.');
+              navigation.goBack();
+            }}>
               <Text style={styles.standardCompleteBtnText}>HOÀN THÀNH BÀI HỌC (+30 XP)</Text>
             </TouchableOpacity>
           ) : (
@@ -317,33 +290,34 @@ const styles = StyleSheet.create({
   // --- Standard Styles ---
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: '#0a0a0f',
   },
-  heroImage: { width: '100%', height: 300 },
-  placeholderHeader: { width: '100%', height: 100, backgroundColor: '#1A1A1A' },
+  heroImage: { width: '100%', height: 280 },
+  heroOverlay: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 120, backgroundColor: 'transparent', borderTopWidth: 0 },
+  placeholderHeader: { width: '100%', height: 80, backgroundColor: '#111118' },
   topBar: {
     position: 'absolute', top: 50, left: 0, right: 0,
     flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20,
   },
-  backButton: { backgroundColor: 'rgba(0,0,0,0.6)', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10 },
-  backButtonText: { color: '#FFF', fontWeight: 'bold', fontSize: 14 },
-  bookmarkButton: { backgroundColor: 'rgba(0,0,0,0.6)', width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' },
-  bookmarkButtonActive: { backgroundColor: 'rgba(255, 100, 100, 0.3)' },
+  backButton: { backgroundColor: 'rgba(0,0,0,0.7)', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  backButtonText: { color: '#f8fafc', fontWeight: '800', fontSize: 14 },
+  bookmarkButton: { backgroundColor: 'rgba(0,0,0,0.7)', width: 44, height: 44, borderRadius: 22, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  bookmarkButtonActive: { backgroundColor: 'rgba(244, 63, 94, 0.25)', borderColor: 'rgba(244,63,94,0.4)' },
   bookmarkIcon: { fontSize: 20 },
-  contentContainer: { padding: 24, paddingBottom: 60, borderTopLeftRadius: 24, borderTopRightRadius: 24, backgroundColor: '#121212', marginTop: -24 },
-  categoryChip: { alignSelf: 'flex-start', backgroundColor: '#6C63FF20', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 10, marginBottom: 12 },
-  categoryText: { color: '#6C63FF', fontSize: 13, fontWeight: '700' },
-  title: { fontSize: 32, fontWeight: '900', color: '#FFFFFF', lineHeight: 40, marginBottom: 12 },
-  shortDescription: { fontSize: 18, fontWeight: '500', color: '#A0A0A0', marginBottom: 20, lineHeight: 28 },
-  divider: { height: 1, backgroundColor: 'rgba(255,255,255,0.1)', marginBottom: 24 },
-  section: { marginBottom: 32 },
-  sectionTitle: { fontSize: 20, fontWeight: '700', color: '#4DA8DA', marginBottom: 12 },
-  content: { fontSize: 16, color: '#E0E0E0', lineHeight: 26 },
-  drPsyCard: { backgroundColor: '#1A1A2E', borderRadius: 16, padding: 16, borderWidth: 1, borderColor: '#6C63FF40', marginTop: 8 },
-  drPsyHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-  drPsyAvatar: { marginRight: 8 },
-  drPsyName: { color: '#6C63FF', fontSize: 15, fontWeight: '700' },
-  drPsyTip: { color: '#D0D0E0', fontSize: 14, lineHeight: 22, fontStyle: 'italic' },
+  contentContainer: { padding: 24, paddingBottom: 60, borderTopLeftRadius: 28, borderTopRightRadius: 28, backgroundColor: '#0a0a0f', marginTop: -28 },
+  categoryChip: { alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,0.06)', paddingHorizontal: 14, paddingVertical: 6, borderRadius: 12, marginBottom: 14 },
+  categoryText: { color: '#94a3b8', fontSize: 12, fontWeight: '800', letterSpacing: 1 },
+  title: { fontSize: 28, fontWeight: '900', color: '#f8fafc', lineHeight: 36, marginBottom: 10 },
+  shortDescription: { fontSize: 16, fontWeight: '500', color: '#64748b', marginBottom: 24, lineHeight: 26, fontStyle: 'italic' },
+  divider: { height: 1, backgroundColor: 'rgba(255,255,255,0.06)', marginBottom: 28 },
+  section: { marginBottom: 20, paddingBottom: 20, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.04)' },
+  sectionTitle: { fontSize: 15, fontWeight: '800', color: '#94a3b8', marginBottom: 12 },
+  content: { fontSize: 15, color: '#cbd5e1', lineHeight: 28 },
+  drPsyCard: { backgroundColor: 'rgba(255,255,255,0.04)', borderRadius: 16, padding: 18, borderWidth: 1, borderColor: 'rgba(255,255,255,0.06)', marginTop: 12, marginBottom: 8 },
+  drPsyHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
+  drPsyAvatar: { marginRight: 10 },
+  drPsyName: { color: '#94a3b8', fontSize: 14, fontWeight: '800' },
+  drPsyTip: { color: '#94a3b8', fontSize: 14, lineHeight: 24, fontStyle: 'italic' },
 
   // --- Premium Styles ---
   premiumContainer: {
