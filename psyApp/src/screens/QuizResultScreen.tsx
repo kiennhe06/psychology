@@ -8,11 +8,31 @@ import {
   Share,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
+import HapticFeedback from 'react-native-haptic-feedback';
+import Sound from 'react-native-sound';
+
 import { useGame } from '../context/gameContext';
 import { BADGES } from '../data/badges';
 import { QUIZZES, QUEST_REGIONS } from '../data/quizzes';
 import { getQuizCommentByPersona } from '../data/drPsyMessages';
 import DrPsyAvatar from '../components/DrPsyAvatar';
+import { Share2, ArrowLeft, Trophy, Zap, Diamond } from 'lucide-react-native';
+
+Sound.setCategory('Playback');
+
+// BẠN CẦN BỎ COMMENT & THÊM FILE VÀO `src/assets/sounds/` ĐỂ NHẠC HOẠT ĐỘNG
+/*
+const sounds = {
+  victory: new Sound(require('../assets/sounds/correct.mp3'), (e) => { if(e) console.log(e); }),
+  defeat: new Sound(require('../assets/sounds/wrong.mp3'), (e) => { if(e) console.log(e); })
+};
+*/
+const playResultSfx = (type: 'victory' | 'defeat') => {
+  // if (sounds[type]) {
+  //   sounds[type].setCurrentTime(0).play();
+  // }
+};
 
 interface Props {
   route: {
@@ -31,102 +51,91 @@ interface Props {
 }
 
 const QuizResultScreen: React.FC<Props> = ({ route, navigation }) => {
-  const {
-    quizId,
-    quizTitle,
-    correctCount,
-    totalQuestions,
-    earnedXp,
-    earnedGems,
-    isPerfect,
-    isDaily,
-  } = route.params;
-
+  const { quizId, quizTitle, correctCount, totalQuestions, earnedXp, earnedGems, isPerfect, isDaily } = route.params;
   const game = useGame();
-
-  // Animations
-  const scaleAnim = useRef(new Animated.Value(0)).current;
-  const xpAnim = useRef(new Animated.Value(0)).current;
-  const gemAnim = useRef(new Animated.Value(0)).current;
-  const badgeAnim = useRef(new Animated.Value(0)).current;
-
-  // Determine score percentage
   const scorePercent = Math.round((correctCount / totalQuestions) * 100);
 
-  // Badge checking logic
+  // --- Animations ---
+  const bounceAnim = useRef(new Animated.Value(0)).current; 
+  const scoreScaleAnim = useRef(new Animated.Value(0)).current;
+  const cardsSlideAnim = useRef([
+    new Animated.ValueXY({ x: 0, y: 50 }), // Dr.Psy
+    new Animated.ValueXY({ x: 0, y: 50 }), // Rewards
+    new Animated.ValueXY({ x: 0, y: 50 }), // Badges
+    new Animated.ValueXY({ x: 0, y: 50 }), // Buttons
+  ]).current;
+  const cardsOpacityAnim = useRef([
+    new Animated.Value(0),
+    new Animated.Value(0),
+    new Animated.Value(0),
+    new Animated.Value(0),
+  ]).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+
+  // --- Theme Colors logic ---
+  const glowColor = scorePercent === 100 ? '#10b981' : scorePercent >= 60 ? '#8b5cf6' : '#f59e0b';
+  const glowShadow = `rgba(${scorePercent === 100 ? '16, 185, 129' : scorePercent >= 60 ? '139, 92, 246' : '245, 158, 11'}, 0.4)`;
+
+  // --- Badges Calculation ---
   const newBadges = useMemo(() => {
     const badges: string[] = [];
-
-    // b1: First quiz completed
-    if (game.completedQuizIds.length === 0) {
-      badges.push('b1');
-    }
-
-    // b3: Perfect score
-    if (isPerfect && !game.isBadgeUnlocked('b3')) {
-      badges.push('b3');
-    }
-
-    // b4: Complete all quizzes in a region
+    if (game.completedQuizIds.length === 0) badges.push('b1');
+    if (isPerfect && !game.isBadgeUnlocked('b3')) badges.push('b3');
     const quiz = QUIZZES.find(q => q.id === quizId);
     if (quiz) {
       const region = QUEST_REGIONS.find(r => r.quizIds.includes(quizId));
       if (region) {
-        const regionQuizIds = region.quizIds;
         const willBeCompleted = [...game.completedQuizIds, quizId];
-        const allDone = regionQuizIds.every(id => willBeCompleted.includes(id));
-        if (allDone && !game.isBadgeUnlocked('b4')) {
-          badges.push('b4');
-        }
+        const allDone = region.quizIds.every(id => willBeCompleted.includes(id));
+        if (allDone && !game.isBadgeUnlocked('b4')) badges.push('b4');
       }
     }
-
-    // b5: 100 gems total
-    if (game.gems + earnedGems >= 100 && !game.isBadgeUnlocked('b5')) {
-      badges.push('b5');
-    }
-
+    if (game.gems + earnedGems >= 100 && !game.isBadgeUnlocked('b5')) badges.push('b5');
     return badges;
   }, []);
 
-  // Apply rewards once
+  // --- Initial Mount & Rewards ---
   useEffect(() => {
-    // Add XP & gems
     game.addXp(earnedXp);
     game.addGems(earnedGems);
     game.completeQuiz(quizId, isPerfect);
-    
-    // Nếu là trắc nghiệm tâm lý (Học phần Phân tích), đánh dấu hoàn thành bài học
-    if (quizId.startsWith('test_')) {
-      game.completeTest(quizId);
-    }
-
+    if (quizId.startsWith('test_')) game.completeTest(quizId);
     game.checkAndUpdateStreak();
 
-    // Run animations
-    Animated.sequence([
-      Animated.spring(scaleAnim, {
-        toValue: 1,
-        tension: 50,
-        friction: 6,
-        useNativeDriver: true,
-      }),
-      Animated.timing(xpAnim, {
-        toValue: 1,
-        duration: 600,
-        useNativeDriver: true,
-      }),
-      Animated.timing(gemAnim, {
-        toValue: 1,
-        duration: 400,
-        useNativeDriver: true,
-      }),
-      Animated.timing(badgeAnim, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }),
-    ]).start();
+    // Sound & Haptic Trigger
+    if (scorePercent >= 60) {
+      HapticFeedback.trigger('notificationSuccess');
+      playResultSfx('victory');
+    } else {
+      HapticFeedback.trigger('notificationWarning');
+      playResultSfx('defeat');
+    }
+
+    // STAGGERED ANIMATIONS (Đánh thức từng khu vực ngầu)
+    const animSequence = Animated.sequence([
+      // Vòng tròn điểm nổ ra
+      Animated.spring(scoreScaleAnim, { toValue: 1, tension: 60, friction: 5, useNativeDriver: true }),
+      // Nhảy chữ Cố lên/Hoàn hảo
+      Animated.spring(bounceAnim, { toValue: 1, friction: 4, tension: 70, useNativeDriver: true }),
+      // Nổi lần lượt Thẻ Dr.PSy -> Reward -> Badge -> Button
+      Animated.stagger(150, cardsSlideAnim.map((animXY, index) => 
+        Animated.parallel([
+          Animated.spring(animXY, { toValue: { x: 0, y: 0 }, tension: 40, friction: 6, useNativeDriver: true }),
+          Animated.timing(cardsOpacityAnim[index], { toValue: 1, duration: 400, useNativeDriver: true })
+        ])
+      ))
+    ]);
+
+    animSequence.start();
+
+    // Pulse nhấp nháy cho nút chi sẻ
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, { toValue: 1.05, duration: 800, useNativeDriver: true }),
+        Animated.timing(pulseAnim, { toValue: 1, duration: 800, useNativeDriver: true })
+      ])
+    ).start();
+
   }, []);
 
   const getEmoji = () => {
@@ -146,136 +155,81 @@ const QuizResultScreen: React.FC<Props> = ({ route, navigation }) => {
   };
 
   const drPsyComment = useMemo(() => getQuizCommentByPersona(game.activePersona, scorePercent), [game.activePersona, scorePercent]);
-
-  // Map persona to emoji for avatar
-  const personaEmoji = React.useMemo(() => {
+  const personaEmoji = useMemo(() => {
     if (game.activePersona === 'killer') return '💀';
     if (game.activePersona === 'philosopher') return '📜';
     return '🐱';
   }, [game.activePersona]);
 
   const handleShare = async () => {
+    HapticFeedback.trigger('impactLight');
     try {
       await Share.share({
-        message: `🧠 Tôi vừa đạt ${scorePercent}% trong quiz "${quizTitle}" trên ứng dụng Tâm Lý Học! Nhận ${earnedXp} XP và ${earnedGems} 💎. Bạn thử chưa?`,
+        message: `🧠 Mình vừa đạt ${scorePercent}% ở bài test "${quizTitle}" trên app Dr.Psy! Nhận ${earnedXp} XP ⚡ và ${earnedGems} 💎. Bạn thử chưa?`,
       });
-    } catch (error) {
-      // User cancelled or error
-    }
+    } catch (e) {}
   };
 
   const handleGoBack = () => {
+    HapticFeedback.trigger('impactLight');
     navigation.navigate('Tabs');
   };
 
-  const resolvedBadges = newBadges
-    .map(id => BADGES.find(b => b.id === id))
-    .filter(Boolean);
+  const resolvedBadges = newBadges.map(id => BADGES.find(b => b.id === id)).filter(Boolean);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        {/* ── Score Circle ──────────────────────────────────────────────── */}
-        <Animated.View
-          style={[
-            styles.scoreCircle,
-            {
-              transform: [{ scale: scaleAnim }],
-            },
-          ]}
-        >
-          <Text style={styles.scoreEmoji}>{getEmoji()}</Text>
-          <Text style={styles.scorePercent}>{scorePercent}%</Text>
-          <Text style={styles.scoreDetail}>
-            {correctCount}/{totalQuestions} câu đúng
-          </Text>
-        </Animated.View>
-
-        <Text style={styles.message}>{getMessage()}</Text>
-        {isDaily && (
-          <View style={styles.dailyTag}>
-            <Text style={styles.dailyTagText}>🎯 Thử thách hằng ngày hoàn thành!</Text>
-          </View>
-        )}
-
-        {/* ── Dr. Psy Comment ───────────────────────────────────────────── */}
-        <Animated.View style={[styles.drPsyCard, { transform: [{ scale: scaleAnim }] }]}>
-          <DrPsyAvatar emoji={personaEmoji} size={48} style={styles.drPsyAvatar} />
-          <View style={{flex: 1}}>
-             <Text style={styles.drName}>DR. PSY ({
-               game.activePersona === 'killer' ? 'Sát thủ' : 
-               game.activePersona === 'philosopher' ? 'Triết gia' : 
-               game.activePersona === 'sherlock' ? 'Sherlock' :
-               game.activePersona === 'mystic' ? 'Huyền bí' : 'Tâm lý'
-             })</Text>
-             <Text style={styles.drPsyCommentText}>{drPsyComment}</Text>
+    <LinearGradient colors={['#0f172a', '#1e1b4b', '#0f172a']} style={styles.container}>
+      <SafeAreaView style={styles.content}>
+        <Animated.View style={[styles.scoreHeaderZone, { transform: [{ scale: scoreScaleAnim }] }]}>
+          <View style={[styles.scoreCircleWrapper, { borderColor: glowColor, shadowColor: glowColor }]}>
+            <View style={styles.scoreCircle}>
+              <Text style={styles.scoreEmoji}>{getEmoji()}</Text>
+              <Text style={styles.scorePercent}>{scorePercent}%</Text>
+              <Text style={styles.scoreDetail}>{correctCount}/{totalQuestions} câu đúng</Text>
+            </View>
           </View>
         </Animated.View>
-
-        {/* ── Rewards ───────────────────────────────────────────────────── */}
-        <View style={styles.rewardsContainer}>
-          <Animated.View
-            style={[
-              styles.rewardCard,
-              {
-                opacity: xpAnim,
-                transform: [
-                  {
-                    translateY: xpAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [30, 0],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          >
-            <Text style={styles.rewardEmoji}>⚡</Text>
-            <Text style={styles.rewardValue}>+{earnedXp}</Text>
-            <Text style={styles.rewardLabel}>XP</Text>
-          </Animated.View>
-
-          <Animated.View
-            style={[
-              styles.rewardCard,
-              {
-                opacity: gemAnim,
-                transform: [
-                  {
-                    translateY: gemAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [30, 0],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          >
-            <Text style={styles.rewardEmoji}>💎</Text>
-            <Text style={styles.rewardValue}>+{earnedGems}</Text>
-            <Text style={styles.rewardLabel}>Gem</Text>
-          </Animated.View>
-        </View>
-
-        {/* ── New Badges ────────────────────────────────────────────────── */}
-        {resolvedBadges.length > 0 && (
-          <Animated.View
-            style={[
-              styles.badgeSection,
-              {
-                opacity: badgeAnim,
-                transform: [
-                  {
-                    scale: badgeAnim.interpolate({
-                      inputRange: [0, 0.5, 1],
-                      outputRange: [0.5, 1.1, 1],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          >
-            <Text style={styles.badgeTitle}>🎖️ Huy hiệu mới!</Text>
+        <Animated.View style={{ transform: [{ scale: bounceAnim }], opacity: bounceAnim, alignItems: 'center', marginBottom: 20 }}>
+          <Text style={styles.message}>{getMessage()}</Text>
+          {isDaily === true ? (
+            <View style={styles.dailyTag}>
+              <Text style={styles.dailyTagText}>🎯 Thử thách hằng ngày hoàn tất!</Text>
+            </View>
+          ) : null}
+        </Animated.View>
+        <Animated.View style={[styles.drPsyCard, { opacity: cardsOpacityAnim[0], transform: cardsSlideAnim[0].getTranslateTransform() }]}>
+          <DrPsyAvatar emoji={personaEmoji} size={52} />
+          <View style={styles.drPsyTextContainer}>
+            <Text style={styles.drName}>DR. PSY ( {game.activePersona.toUpperCase()} )</Text>
+            <Text style={styles.drPsyCommentText}>{drPsyComment}</Text>
+          </View>
+        </Animated.View>
+        <Animated.View style={[styles.rewardsContainer, { opacity: cardsOpacityAnim[1], transform: cardsSlideAnim[1].getTranslateTransform() }]}>
+          <View style={styles.rewardCard}>
+            <View style={[styles.rewardIconWrapper, { backgroundColor: 'rgba(56, 189, 248, 0.15)' }]}>
+               <Zap size={24} color="#38bdf8" fill="#38bdf8" />
+            </View>
+            <View>
+              <Text style={[styles.rewardValue, { color: '#38bdf8' }]}>+{earnedXp}</Text>
+              <Text style={styles.rewardLabel}>Kinh nghiệm</Text>
+            </View>
+          </View>
+          <View style={styles.rewardCard}>
+            <View style={[styles.rewardIconWrapper, { backgroundColor: 'rgba(216, 180, 254, 0.15)' }]}>
+              <Diamond size={24} color="#d8b4fe" fill="#d8b4fe" />
+            </View>
+            <View>
+              <Text style={[styles.rewardValue, { color: '#d8b4fe' }]}>+{earnedGems}</Text>
+              <Text style={styles.rewardLabel}>Gems</Text>
+            </View>
+          </View>
+        </Animated.View>
+        {resolvedBadges && resolvedBadges.length > 0 ? (
+          <Animated.View style={[styles.badgeSection, { opacity: cardsOpacityAnim[2], transform: cardsSlideAnim[2].getTranslateTransform() }]}>
+            <View style={styles.badgeTitleRow}>
+              <Trophy size={18} color="#fbbf24" fill="#fbbf24" style={{marginRight: 8}}/>
+              <Text style={styles.badgeTitle}>Huy hiệu độc quyền mới!</Text>
+            </View>
             <View style={styles.badgeRow}>
               {resolvedBadges.map(badge => (
                 <View key={badge!.id} style={styles.badgeCard}>
@@ -285,229 +239,108 @@ const QuizResultScreen: React.FC<Props> = ({ route, navigation }) => {
               ))}
             </View>
           </Animated.View>
-        )}
-
-        {/* ── Action Buttons ────────────────────────────────────────────── */}
-        <View style={styles.actions}>
-          <TouchableOpacity
-            style={styles.shareButton}
-            onPress={handleShare}
-            activeOpacity={0.85}
-          >
-            <Text style={styles.shareButtonText}>📤 Chia sẻ kết quả</Text>
+        ) : null}
+        <View style={{flex: 1}} />
+        <Animated.View style={[styles.actions, { opacity: cardsOpacityAnim[3], transform: cardsSlideAnim[3].getTranslateTransform() }]}>
+          <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
+            <TouchableOpacity onPress={handleShare} activeOpacity={0.85}>
+              <LinearGradient colors={['#8b5cf6', '#6366f1']} start={{x:0, y:0}} end={{x:1, y:1}} style={styles.shareButton}>
+                <Share2 size={20} color="#fff" style={{marginRight: 8}} />
+                <Text style={styles.shareButtonText}>Khoe thành tích ngay</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </Animated.View>
+          <TouchableOpacity style={styles.backButton} onPress={handleGoBack} activeOpacity={0.8}>
+            <ArrowLeft size={18} color="#94a3b8" style={{marginRight: 8}} />
+            <Text style={styles.backButtonText}>Trở về màn hình chính</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={handleGoBack}
-            activeOpacity={0.85}
-          >
-            <Text style={styles.backButtonText}>← Quay về</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+        </Animated.View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 export default QuizResultScreen;
 
-// ─── Styles ──────────────────────────────────────────────────────────────────
-
+// ─── Styles Glassmorphism ──────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 24,
-  },
+  container: { flex: 1 },
+  content: { flex: 1, paddingHorizontal: 24, paddingTop: 40, paddingBottom: 24 },
 
-  // Score
-  scoreCircle: {
-    width: 160,
-    height: 160,
-    borderRadius: 80,
-    backgroundColor: '#1A1A2E',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 3,
-    borderColor: '#6C63FF',
-    marginBottom: 16,
-    shadowColor: '#6C63FF',
+  // Score Circle
+  scoreHeaderZone: { alignItems: 'center', marginBottom: 20 },
+  scoreCircleWrapper: {
+    borderRadius: 100, padding: 8,
+    borderWidth: 2,
+    backgroundColor: 'rgba(255,255,255,0.02)',
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.4,
-    shadowRadius: 16,
-    elevation: 10,
+    shadowOpacity: 0.6, shadowRadius: 20, elevation: 15,
   },
-  scoreEmoji: {
-    fontSize: 36,
-    marginBottom: 4,
+  scoreCircle: {
+    width: 154, height: 154, borderRadius: 77,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center', alignItems: 'center',
   },
-  scorePercent: {
-    color: '#FFF',
-    fontSize: 32,
-    fontWeight: '900',
-  },
-  scoreDetail: {
-    color: '#A0A0D0',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  message: {
-    color: '#E0E0E0',
-    fontSize: 18,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  dailyTag: {
-    backgroundColor: '#FFD70015',
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 12,
-    marginBottom: 8,
-  },
-  dailyTagText: {
-    color: '#FFD700',
-    fontWeight: '700',
-    fontSize: 13,
-  },
+  scoreEmoji: { fontSize: 36, marginBottom: 4 },
+  scorePercent: { color: '#fff', fontSize: 36, fontWeight: '900', letterSpacing: 1 },
+  scoreDetail: { color: '#94a3b8', fontSize: 13, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 },
 
-  // Dr. Psy Card
+  // Messages
+  message: { color: '#f8fafc', fontSize: 20, fontWeight: '800', textAlign: 'center', marginBottom: 12, textShadowColor: 'rgba(0,0,0,0.5)', textShadowRadius: 4 },
+  dailyTag: { backgroundColor: 'rgba(251, 191, 36, 0.15)', paddingHorizontal: 16, paddingVertical: 6, borderRadius: 12 },
+  dailyTagText: { color: '#fbbf24', fontWeight: '800', fontSize: 13, textTransform: 'uppercase' },
+
+  // Dr Psy Card
   drPsyCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1A1A2E',
-    padding: 16,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#6C63FF40',
-    marginTop: 8,
-    marginBottom: 8,
+    flexDirection: 'row', alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)', borderRadius: 20, padding: 18,
+    borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.1)',
+    marginBottom: 20,
+    shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 10, shadowOffset: { width:0, height:4}
   },
-  drPsyAvatar: {
-    marginRight: 12,
-  },
-  drName: {
-    color: '#D4AF37',
-    fontSize: 10,
-    fontWeight: '900',
-    letterSpacing: 1,
-    marginBottom: 4,
-  },
-  drPsyCommentText: {
-    flex: 1,
-    color: '#D0D0E0',
-    fontSize: 14,
-    lineHeight: 22,
-    fontStyle: 'italic',
-  },
+  drPsyTextContainer: { flex: 1, marginLeft: 16 },
+  drName: { color: '#a78bfa', fontSize: 11, fontWeight: '900', letterSpacing: 1.5, marginBottom: 4 },
+  drPsyCommentText: { color: '#e2e8f0', fontSize: 15, lineHeight: 22, fontStyle: 'italic', fontWeight: '500' },
 
-  // Rewards
+  // Rewards Component
   rewardsContainer: {
-    flexDirection: 'row',
-    gap: 16,
-    marginTop: 20,
-    marginBottom: 24,
+    flexDirection: 'row', gap: 14, marginBottom: 24, paddingHorizontal: 5
   },
   rewardCard: {
-    backgroundColor: '#1A1A2E',
-    borderRadius: 16,
-    paddingHorizontal: 28,
-    paddingVertical: 16,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#333',
+    flex: 1, flexDirection: 'row', alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    borderRadius: 20, padding: 16,
+    borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.08)',
   },
-  rewardEmoji: {
-    fontSize: 24,
-    marginBottom: 4,
-  },
-  rewardValue: {
-    color: '#FFF',
-    fontSize: 24,
-    fontWeight: '900',
-  },
-  rewardLabel: {
-    color: '#888',
-    fontSize: 13,
-    fontWeight: '600',
-  },
+  rewardIconWrapper: { width: 44, height: 44, borderRadius: 22, justifyContent: 'center', alignItems: 'center', marginRight: 12 },
+  rewardValue: { fontSize: 22, fontWeight: '900', letterSpacing: 0.5 },
+  rewardLabel: { color: '#94a3b8', fontSize: 12, fontWeight: '700', textTransform: 'uppercase' },
 
-  // Badges
-  badgeSection: {
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  badgeTitle: {
-    color: '#FFD700',
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 12,
-  },
-  badgeRow: {
-    flexDirection: 'row',
-    gap: 16,
-  },
+  // Badges Component
+  badgeSection: { alignItems: 'center', backgroundColor: 'rgba(251, 191, 36, 0.05)', borderRadius: 20, padding: 20, borderWidth: 1, borderColor: 'rgba(251, 191, 36, 0.2)' },
+  badgeTitleRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 14 },
+  badgeTitle: { color: '#fbbf24', fontSize: 16, fontWeight: '800', textTransform: 'uppercase' },
+  badgeRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 12 },
   badgeCard: {
-    backgroundColor: '#1A1A2E',
-    borderRadius: 16,
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-    alignItems: 'center',
-    borderWidth: 1.5,
-    borderColor: '#FFD70060',
-    shadowColor: '#FFD700',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
+    alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 16, paddingHorizontal: 16, paddingVertical: 12,
+    borderWidth: 1, borderColor: 'rgba(251, 191, 36, 0.3)'
   },
-  newBadgeEmoji: {
-    fontSize: 32,
-    marginBottom: 6,
-  },
-  newBadgeName: {
-    color: '#FFD700',
-    fontSize: 14,
-    fontWeight: '700',
-  },
+  newBadgeEmoji: { fontSize: 32, marginBottom: 6 },
+  newBadgeName: { color: '#fef3c7', fontSize: 13, fontWeight: '800' },
 
-  // Actions
-  actions: {
-    width: '100%',
-    gap: 12,
-    marginTop: 8,
+  // Action Buttons
+  actions: { width: '100%', gap: 14 },
+  shareButton: { 
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    borderRadius: 16, paddingVertical: 18,
+    shadowColor: '#8b5cf6', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.5, shadowRadius: 15, elevation: 10
   },
-  shareButton: {
-    backgroundColor: '#6C63FF',
-    borderRadius: 14,
-    paddingVertical: 16,
-    alignItems: 'center',
-    shadowColor: '#6C63FF',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 6,
+  shareButtonText: { color: '#fff', fontSize: 17, fontWeight: '800' },
+  backButton: { 
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: 16, paddingVertical: 18,
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)'
   },
-  shareButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  backButton: {
-    backgroundColor: '#2A2A3E',
-    borderRadius: 14,
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-  backButtonText: {
-    color: '#A0A0D0',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  backButtonText: { color: '#94a3b8', fontSize: 16, fontWeight: '700' },
 });

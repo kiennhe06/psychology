@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -11,8 +11,12 @@ import {
   Modal,
   TextInput,
   Linking,
+  Animated,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
+import HapticFeedback from 'react-native-haptic-feedback';
+
 import { useGame } from '../context/gameContext';
 import { BADGES } from '../data/badges';
 import { QUIZZES } from '../data/quizzes';
@@ -31,13 +35,13 @@ interface Props {
 
 const ProfileScreen: React.FC<Props> = ({ navigation }) => {
   const game = useGame();
-  const [activeTab, setActiveTab] = React.useState<'STATS' | 'VAULT'>('STATS');
+  const [activeTab, setActiveTab] = useState<'STATS' | 'VAULT'>('STATS');
 
-  // States cho Hòm Thư
-  const [showFeedback, setShowFeedback] = React.useState(false);
-  const [feedbackText, setFeedbackText] = React.useState('');
-  const [contactEmail, setContactEmail] = React.useState('');
-  const [isSending, setIsSending] = React.useState(false);
+  // Hòm Thư
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackText, setFeedbackText] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   const xpProgress = game.maxXp > 0 ? game.xp / game.maxXp : 0;
   const completedQuizzes = game.completedQuizIds.length;
@@ -46,11 +50,45 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
   const totalEffects = PSY_EFFECTS.length;
   const bookmarkedEffects = PSY_EFFECTS.filter(e => game.bookmarkedEffectIds.includes(e.id));
 
+  // --- Animation Refs ---
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(30)).current;
+  
+  // Hiệu ứng Pulse nhẹ cho khung Avatar
+  const avatarGlowAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    // Kích hoạt animation khi đổi Tab
+    fadeAnim.setValue(0);
+    slideAnim.setValue(30);
+
+    Animated.parallel([
+      Animated.timing(fadeAnim, { toValue: 1, duration: 400, useNativeDriver: true }),
+      Animated.spring(slideAnim, { toValue: 0, tension: 60, friction: 6, useNativeDriver: true })
+    ]).start();
+  }, [activeTab]);
+
+  useEffect(() => {
+    // Vòng lặp Pulse
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(avatarGlowAnim, { toValue: 1.1, duration: 1500, useNativeDriver: true }),
+        Animated.timing(avatarGlowAnim, { toValue: 1, duration: 1500, useNativeDriver: true })
+      ])
+    ).start();
+  }, []);
+
   const handleLogout = () => {
+    HapticFeedback.trigger('impactHeavy');
     Alert.alert('🚪 Đăng xuất', 'Bạn muốn rời khỏi văn phòng thám tử?', [
       { text: 'Ở lại', style: 'cancel' },
       { text: 'Đăng xuất', style: 'destructive', onPress: () => { game.logout(); navigation.replace('Login'); } }
     ]);
+  };
+
+  const switchTab = (tab: 'STATS' | 'VAULT') => {
+    HapticFeedback.trigger('selection');
+    setActiveTab(tab);
   };
 
   const handleSendFeedback = async () => {
@@ -59,42 +97,32 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
       return;
     }
     setIsSending(true);
-
     try {
-      /* 
-       * BƯỚC QUAN TRỌNG NHẤT:
-       * Thay 'thay_id_cua_sep_vao_day' bằng cái mã rác mà Formspree cấp cho sếp
-       * Ví dụ: 'https://formspree.io/f/mxyqgwnj' (mxyqgwnj chính là ID)
-       */
       const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xykbpeda';
-
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify({
           'Tên Đặc Vụ': game.userName,
-          'email': contactEmail ? contactEmail : undefined, // Formspree dùng trường 'email' này để gán chức năng Nút Reply (Trả lời)
+          'email': contactEmail ? contactEmail : undefined,
           'Email Kèm Theo': contactEmail || 'Đặc vụ này chọn ẩn danh',
           'Nội dung Mật thư': feedbackText,
           'Thời gian gửi': new Date().toLocaleString()
         })
       });
-
       if (response.ok) {
         setShowFeedback(false);
         setFeedbackText('');
         setContactEmail('');
-        Alert.alert('Xác nhận', 'Mật thư đã nằm gọn trong hộp thư Email của sếp! 🕵️‍♂️💌');
+        Alert.alert('Thành công', 'Mật thư đã đến tay Chỉ huy! 🕵️‍♂️💌');
+        HapticFeedback.trigger('notificationSuccess');
       } else {
-        // Nếu sếp quên chưa đổi ID Formspree
-        Alert.alert('Hệ thống từ chối', 'Sếp chưa cấu hình ID Formspree! Sếp vui lòng đọc hướng dẫn để điền mã nhé.');
+        Alert.alert('Hệ thống từ chối', 'Gửi thất bại, cổng kết nối chưa sẵn sàng.');
+        HapticFeedback.trigger('notificationError');
       }
     } catch (error) {
-      console.log('Lỗi mạng:', error);
-      Alert.alert('Nhiễu sóng', 'Đường truyền đang gặp sự cố, vui lòng thử lại sau!');
+      Alert.alert('Nhiễu sóng', 'Đường truyền đang gặp sự cố!');
+      HapticFeedback.trigger('notificationError');
     } finally {
       setIsSending(false);
     }
@@ -102,750 +130,368 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleOpenTelegram = () => {
     const telegramUrl = 'https://t.me/kien_nhe';
-
-    // Bỏ qua bước kiểm tra canOpenURL để tránh bị hệ điều hành chặn
-    Linking.openURL(telegramUrl).catch(err => {
-      console.log('Lỗi mở ứng dụng:', err);
+    Linking.openURL(telegramUrl).catch(() => {
       Alert.alert('Lỗi', 'Không thể khởi chạy link Telegram trên thiết bị này!');
     });
   };
 
   const handleBadgePress = (badge: typeof BADGES[0]) => {
     const unlocked = game.isBadgeUnlocked(badge.id);
+    HapticFeedback.trigger('impactLight');
     Alert.alert(`${badge.emoji} ${badge.name}`, `${badge.description}\n\n📋 Điều kiện: ${badge.condition}\n\n${unlocked ? '✅ Đã đạt được!' : '🔒 Chưa đạt'}`);
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <StatusBar barStyle="light-content" />
+    <LinearGradient colors={['#0f172a', '#1e1b4b', '#0B0F19']} style={styles.container}>
+      <SafeAreaView style={{flex: 1}} edges={['top']}>
+        <StatusBar barStyle="light-content" />
 
-      {/* ── Compact Dashboard Header ─────────────────────────────────── */}
-      <View style={styles.dashboard}>
-        <View style={styles.profileRow}>
-          <View style={styles.avatarGlow}>
-            <DrPsyAvatar emoji={game.activeDrPsySkin} size={60} />
-          </View>
-          <View style={styles.profileInfo}>
-            <Text style={styles.userName}>{game.userName || 'Thám tử Psy'}</Text>
-            <View style={styles.levelRow}>
-              <View style={styles.levelTag}>
-                <Text style={styles.levelTagText}>Cấp {game.level}</Text>
+        {/* ── Compact Dashboard Header Glassmorphism ───────────────────────────── */}
+        <View style={styles.dashboard}>
+          <View style={styles.profileRow}>
+            {/* Avatar Pulse Glow */}
+            <View style={styles.avatarWrapper}>
+              <Animated.View style={[styles.avatarGlowBase, { transform: [{ scale: avatarGlowAnim }] }]} />
+              <View style={styles.avatarGlass}>
+                <DrPsyAvatar emoji={game.activeDrPsySkin} size={60} />
               </View>
-              <Text style={styles.xpLabelSmall}>{game.xp}/{game.maxXp} XP</Text>
             </View>
-            <View style={styles.xpTrackMini}>
-              <View style={[styles.xpFillMini, { width: `${xpProgress * 100}%` }]} />
+
+            <View style={styles.profileInfo}>
+              <Text style={styles.userName}>{game.userName || 'Thám tử Psy'}</Text>
+              <View style={styles.levelRow}>
+                <LinearGradient colors={['#8b5cf6', '#6366f1']} start={{x:0,y:0}} end={{x:1,y:1}} style={styles.levelTag}>
+                  <Text style={styles.levelTagText}>Cấp {game.level}</Text>
+                </LinearGradient>
+                <Text style={styles.xpLabelSmall}>{game.xp}/{game.maxXp} XP</Text>
+              </View>
+              {/* Neon XP Track */}
+              <View style={styles.xpTrackMini}>
+                <LinearGradient 
+                  colors={['#c084fc', '#8b5cf6', '#4f46e5']} 
+                  start={{x:0, y:0}} end={{x:1, y:0}} 
+                  style={[styles.xpFillMini, { width: `${Math.max(xpProgress * 100, 5)}%` }]} 
+                />
+              </View>
             </View>
+          </View>
+
+          {/* Tab Switcher */}
+          <View style={styles.tabSwitcher}>
+            <TouchableOpacity style={[styles.tabItem, activeTab === 'STATS' && styles.tabItemActive]} onPress={() => switchTab('STATS')}>
+              <Text style={[styles.tabItemText, activeTab === 'STATS' && styles.tabItemTextActive]}>📊 HỒ SƠ</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.tabItem, activeTab === 'VAULT' && styles.tabItemActive]} onPress={() => switchTab('VAULT')}>
+              <Text style={[styles.tabItemText, activeTab === 'VAULT' && styles.tabItemTextActive]}>🔐 KHO MẬT</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
-        {/* Tab Switcher */}
-        <View style={styles.tabSwitcher}>
-          <TouchableOpacity
-            style={[styles.tabItem, activeTab === 'STATS' && styles.tabItemActive]}
-            onPress={() => setActiveTab('STATS')}
-          >
-            <Text style={[styles.tabItemText, activeTab === 'STATS' && styles.tabItemTextActive]}>📊 HỒ SƠ</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.tabItem, activeTab === 'VAULT' && styles.tabItemActive]}
-            onPress={() => setActiveTab('VAULT')}
-          >
-            <Text style={[styles.tabItemText, activeTab === 'VAULT' && styles.tabItemTextActive]}>🔐 KHO MẬT</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollArea}>
-
-        {activeTab === 'STATS' ? (
-          <>
-            {/* ── Thẻ Thám Tử ──────────────────────────────────────────────── */}
-            <View style={styles.sectionHead}>
-              <Text style={styles.sectionTitle}>🪪 THẺ THÁM TỬ</Text>
-            </View>
-            <PsyIdCard />
-
-            {/* ── Stats Grid (Compact) ────────────────────────────────────── */}
-            <View style={styles.statsLayout}>
-              {/* ... (Existing stats code) */}
-              <View style={styles.statMiniCard}>
-                <Text style={{ fontSize: 20 }}>🔥</Text>
-                <View>
-                  <Text style={styles.statNum}>{game.streak}</Text>
-                  <Text style={styles.statTag}>Chuỗi</Text>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollArea}>
+          <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
+            {activeTab === 'STATS' ? (
+              <View>
+                {/* ── Thẻ Thám Tử ──────────────────────────────────────────────── */}
+                <View style={styles.sectionHead}>
+                  <Text style={styles.sectionTitle}>🪪 THẺ THÁM TỬ QUỐC TẾ</Text>
                 </View>
-              </View>
-              <View style={styles.statMiniCard}>
-                <Text style={{ fontSize: 20 }}>💎</Text>
-                <View>
-                  <Text style={styles.statNum}>{game.gems}</Text>
-                  <Text style={styles.statTag}>Đá quý</Text>
-                </View>
-              </View>
-              <View style={styles.statMiniCard}>
-                <Text style={{ fontSize: 20 }}>📝</Text>
-                <View>
-                  <Text style={styles.statNum}>{completedQuizzes}/{totalQuizzes}</Text>
-                  <Text style={styles.statTag}>Quizzes</Text>
-                </View>
-              </View>
-              <View style={styles.statMiniCard}>
-                <Text style={{ fontSize: 20 }}>📖</Text>
-                <View>
-                  <Text style={styles.statNum}>{readEffects}/{totalEffects}</Text>
-                  <Text style={styles.statTag}>Hiệu ứng</Text>
-                </View>
-              </View>
-            </View>
+                <PsyIdCard />
 
-            {/* ── Badges Section ───────────────────────────────────────────── */}
-            <View style={styles.sectionHead}>
-              <Text style={styles.sectionTitle}>🏅 HUY HIỆU DANH GIÁ</Text>
-            </View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.badgeScroll}>
-              {BADGES.map(badge => {
-                const unlocked = game.isBadgeUnlocked(badge.id);
-                return (
-                  <TouchableOpacity
-                    key={badge.id}
-                    style={[styles.badgeItem, unlocked && styles.badgeItemActive]}
-                    onPress={() => handleBadgePress(badge)}
-                  >
-                    <Text style={[styles.badgeIcon, !unlocked && { opacity: 0.2 }]}>{badge.emoji}</Text>
-                    {unlocked && <View style={styles.badgeCheck}><Text style={styles.badgeCheckIcon}>✓</Text></View>}
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-          </>
-        ) : (
-          <View style={styles.vaultArea}>
-            {/* ── Forbidden Archives ────────────────────────────────────────── */}
-            <View style={styles.sectionHead}>
-              <Text style={styles.sectionTitle}>📑 HỒ SƠ TUYỆT MẬT</Text>
-            </View>
-            {FORBIDDEN_ARCHIVES.filter(a => game.isArchiveUnlocked(a.id)).length === 0 ? (
-              <View style={styles.emptyVaultCard}>
-                <Text style={styles.emptyVaultText}>Sếp chưa có hồ sơ cấm nào. Hãy vào Shop mua "Chìa khóa" nhé! 🗝️</Text>
+                {/* ── Stats Grid (Glass) ────────────────────────────────────── */}
+                <View style={styles.statsLayout}>
+                  <View style={styles.statMiniCard}>
+                    <View style={styles.statIconWrap}><Text style={{ fontSize: 20 }}>🔥</Text></View>
+                    <View>
+                      <Text style={styles.statNum}>{game.streak}</Text>
+                      <Text style={styles.statTag}>Chuỗi Tốt</Text>
+                    </View>
+                  </View>
+                  <View style={styles.statMiniCard}>
+                    <View style={styles.statIconWrap}><Text style={{ fontSize: 20 }}>💎</Text></View>
+                    <View>
+                      <Text style={styles.statNum}>{game.gems}</Text>
+                      <Text style={styles.statTag}>Gems</Text>
+                    </View>
+                  </View>
+                  <View style={styles.statMiniCard}>
+                    <View style={styles.statIconWrap}><Text style={{ fontSize: 20 }}>📝</Text></View>
+                    <View>
+                      <Text style={styles.statNum}>{completedQuizzes}/{totalQuizzes}</Text>
+                      <Text style={styles.statTag}>Nhiệm vụ</Text>
+                    </View>
+                  </View>
+                  <View style={styles.statMiniCard}>
+                    <View style={styles.statIconWrap}><Text style={{ fontSize: 20 }}>📚</Text></View>
+                    <View>
+                      <Text style={styles.statNum}>{readEffects}/{totalEffects}</Text>
+                      <Text style={styles.statTag}>Hiệu ứng</Text>
+                    </View>
+                  </View>
+                </View>
+
+                {/* ── Yêu Thích (Bookmarks) - ĐÃ KHÔI PHỤC ────────────────────── */}
+                <View style={styles.sectionHead}>
+                  <Text style={styles.sectionTitle}>📌 BÍ KÍP TÂM LÝ YÊU THÍCH</Text>
+                </View>
+                {bookmarkedEffects.length === 0 ? (
+                   <View style={styles.emptyCardLight}>
+                     <Text style={styles.emptyTextLight}>Bạn chưa đánh dấu trái tim ♥️ hiệu ứng nào.\nKhám phá tại màn hình Khám Phá nhé!</Text>
+                   </View>
+                ) : (
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.bookmarkScroll}>
+                    {bookmarkedEffects.map(effect => (
+                      <TouchableOpacity 
+                        key={effect.id} 
+                        style={[styles.bookCardLight, { borderLeftColor: effect.category === 'Xã hội' ? '#3b82f6' : effect.category === 'Cảm xúc' ? '#ec4899' : '#8b5cf6', borderLeftWidth: 4 }]}
+                        onPress={() => {
+                          HapticFeedback.trigger('impactLight');
+                          navigation.navigate('Detail', { effect });
+                        }}
+                      >
+                        <Text style={styles.bookEmoji}>{effect.category === 'Xã hội' ? '🤝' : effect.category === 'Cảm xúc' ? '♥️' : '🧠'}</Text>
+                        <Text style={styles.bookTitle} numberOfLines={2}>{effect.title}</Text>
+                        <Text style={styles.bookCategory}>{effect.category}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                )}
+
+                {/* ── Badges Section ───────────────────────────────────────────── */}
+                <View style={styles.sectionHead}>
+                  <Text style={styles.sectionTitle}>🎖️ HUY HIỆU DANH GIÁ</Text>
+                </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.badgeScroll}>
+                  {BADGES.map(badge => {
+                    const unlocked = game.isBadgeUnlocked(badge.id);
+                    return (
+                      <TouchableOpacity key={badge.id} style={[styles.badgeItem, unlocked && styles.badgeItemActive]} onPress={() => handleBadgePress(badge)}>
+                        <Text style={[styles.badgeIcon, !unlocked && { opacity: 0.3 }]}>{badge.emoji}</Text>
+                        {unlocked && <View style={styles.badgeCheck}><Text style={styles.badgeCheckIcon}>✓</Text></View>}
+                      </TouchableOpacity>
+                    );
+                  })}
+                </ScrollView>
               </View>
             ) : (
-              <View style={styles.vaultGrid}>
-                {FORBIDDEN_ARCHIVES.filter(a => game.isArchiveUnlocked(a.id)).map(archive => (
-                  <TouchableOpacity
-                    key={archive.id}
-                    style={styles.archiveVaultCard}
-                    onPress={() => navigation.navigate('ArchiveDetail', { archive })}
-                  >
-                    <Text style={styles.vaultEmoji}>{archive.coverEmoji}</Text>
-                    <Text style={styles.vaultItemTitle} numberOfLines={1}>{archive.title}</Text>
-                    <Text style={styles.vaultItemSub}>{archive.caseCode}</Text>
-                  </TouchableOpacity>
-                ))}
+              <View style={styles.vaultArea}>
+                {/* ── Forbidden Archives ────────────────────────────────────────── */}
+                <View style={styles.sectionHead}>
+                  <Text style={styles.sectionTitle}>📂 HỒ SƠ VỤ ÁN TUYỆT MẬT</Text>
+                </View>
+                {FORBIDDEN_ARCHIVES.filter(a => game.isArchiveUnlocked(a.id)).length === 0 ? (
+                  <View style={styles.emptyCardLight}>
+                    <Text style={styles.emptyTextLight}>Sếp chưa có hồ sơ cấm nào. Hãy truy cập "Kho Mật" ở Shop (Dùng vàng) đổi nhé🗝️</Text>
+                  </View>
+                ) : (
+                  <View style={styles.vaultGrid}>
+                    {FORBIDDEN_ARCHIVES.filter(a => game.isArchiveUnlocked(a.id)).map(archive => (
+                      <TouchableOpacity key={archive.id} style={styles.glassVaultCard} onPress={() => { HapticFeedback.trigger('impactLight'); navigation.navigate('ArchiveDetail', { archive }); }}>
+                        <Text style={styles.vaultEmoji}>{archive.coverEmoji}</Text>
+                        <Text style={styles.vaultItemTitle} numberOfLines={1}>{archive.title}</Text>
+                        <Text style={styles.vaultItemSub}>{archive.caseCode}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
+
+                {/* ── Psychometric Tests ────────────────────────────────────────── */}
+                <View style={styles.sectionHead}>
+                  <Text style={styles.sectionTitle}>🪞 PHÒNG TRẮC NGHIỆM BẢN NGÃ</Text>
+                </View>
+                <View style={styles.vaultGrid}>
+                  {PSYCHOMETRIC_TESTS.map(test => {
+                    const isUnlocked = game.isTestUnlocked(test.id);
+                    return (
+                      <TouchableOpacity key={test.id} style={[styles.glassVaultCard, !isUnlocked && { opacity: 0.5, borderColor: 'rgba(255,255,255,0.02)' }]} 
+                        onPress={() => {
+                          HapticFeedback.trigger('impactLight');
+                          isUnlocked ? navigation.navigate('PsychometricTest', { test }) : Alert.alert('🔒 Bị khóa', 'Truy cập tab Hành Trình hoặc Shop để mở!')
+                        }}
+                      >
+                        <Text style={styles.vaultEmoji}>{isUnlocked ? '🧠' : '🔒'}</Text>
+                        <Text style={styles.vaultItemTitle} numberOfLines={1}>{test.title}</Text>
+                        <Text style={[styles.vaultItemSub, { color: isUnlocked ? '#a78bfa' : '#64748b' }]}>
+                          {isUnlocked ? 'BẮT ĐẦU PHÂN TÍCH' : 'CHƯA MỞ KHÓA'}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+
+                {/* ── Real-world Missions ────────────────────────────────────────── */}
+                <View style={styles.sectionHead}>
+                  <Text style={styles.sectionTitle}>🛡️ NHIỆM VỤ THỰC TẾ TUẦN</Text>
+                </View>
+                {MISSIONS.map(mission => {
+                  const isCompleted = game.isMissionCompleted(mission.id);
+                  return (
+                    <View key={mission.id} style={[styles.glassMissionCard, isCompleted && styles.missionCardCompleted]}>
+                      <View style={styles.missionInfo}>
+                        <Text style={[styles.missionTitle, isCompleted && { textDecorationLine: 'line-through', color: '#94a3b8' }]}>{mission.title}</Text>
+                        <Text style={styles.missionDesc} numberOfLines={2}>{mission.description}</Text>
+                      </View>
+                      <TouchableOpacity style={[styles.missionBtn, isCompleted && styles.missionBtnDone]} 
+                        onPress={() => {
+                           HapticFeedback.trigger('impactLight');
+                           isCompleted ? null : navigation.navigate('MissionReport', { missionId: mission.id })
+                        }}>
+                        <Text style={styles.missionBtnText}>{isCompleted ? '✓ ĐÃ HOÀN TẤT' : 'TIẾP NHẬN BÁO CÁO'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  );
+                })}
               </View>
             )}
 
-            {/* ── Psychometric Tests ────────────────────────────────────────── */}
-            <View style={styles.sectionHead}>
-              <Text style={styles.sectionTitle}>🪞 TRẮC NGHIỆM BẢN NGÃ</Text>
-            </View>
-            <View style={styles.vaultGrid}>
-              {PSYCHOMETRIC_TESTS.map(test => {
-                const isUnlocked = game.isTestUnlocked(test.id);
-                return (
-                  <TouchableOpacity
-                    key={test.id}
-                    style={[styles.archiveVaultCard, !isUnlocked && { opacity: 0.5 }]}
-                    onPress={() => isUnlocked ? navigation.navigate('PsychometricTest', { test }) : Alert.alert('🔒 Bị khóa', 'Sếp cần dùng Gems mua vĩnh viễn bài trắc nghiệm này trong Shop!')}
-                  >
-                    <Text style={styles.vaultEmoji}>{isUnlocked ? '🧠' : '🔒'}</Text>
-                    <Text style={styles.vaultItemTitle} numberOfLines={1}>{test.title}</Text>
-                    <Text style={[styles.vaultItemSub, { color: isUnlocked ? '#4CAF50' : '#888' }]}>
-                      {isUnlocked ? 'BẮT ĐẦU NGAY' : 'CHƯA MỞ KHÓA'}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+            {/* ── Footer ───────────────────────────────────────────────────── */}
+            <View style={{height: 1, backgroundColor: 'rgba(255,255,255,0.05)', marginHorizontal: 20, marginVertical: 10}}/>
+            <View style={styles.psySay}>
+              <Text style={styles.psySayText}>"Không có vụ án nào khó, chỉ có thám tử chưa đọc đủ sách tâm lý sếp ạ!"</Text>
             </View>
 
-            {/* ── Real-world Missions ────────────────────────────────────────── */}
-            <View style={styles.sectionHead}>
-              <Text style={styles.sectionTitle}>🛡️ NHIỆM VỤ THỰC ĐỊA</Text>
+            <View style={styles.actionButtonsRow}>
+              <TouchableOpacity style={styles.actionBtnBlue} onPress={handleOpenTelegram}>
+                <Text style={styles.actionBtnText}>✈️ TELEGRAM HỖ TRỢ</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.actionBtnDark} onPress={() => { HapticFeedback.trigger('impactLight'); setShowFeedback(true); }}>
+                <Text style={styles.actionBtnTextDark}>✉️ GỬI BÁO CÁO MẬT</Text>
+              </TouchableOpacity>
             </View>
-            {MISSIONS.map(mission => {
-              const isCompleted = game.isMissionCompleted(mission.id);
-              return (
-                <View key={mission.id} style={[styles.missionCard, isCompleted && styles.missionCardCompleted]}>
-                  <View style={styles.missionInfo}>
-                    <Text style={styles.missionTitle}>{mission.title}</Text>
-                    <Text style={styles.missionDesc} numberOfLines={2}>{mission.description}</Text>
-                  </View>
-                  <TouchableOpacity
-                    style={[styles.missionBtn, isCompleted && styles.missionBtnDone]}
-                    onPress={() => isCompleted ? null : navigation.navigate('MissionReport', { missionId: mission.id })}
-                  >
-                    <Text style={styles.missionBtnText}>{isCompleted ? '✓ XONG' : 'XÁC NHẬN'}</Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            })}
-          </View>
-        )}
 
-        {/* ── Footer ───────────────────────────────────────────────────── */}
-        <View style={styles.psySay}>
-          <Text style={styles.psySayText}>"Mỗi bước đi là một sự khai mở. Văn phòng thám tử tin tưởng sếp!"</Text>
-        </View>
+            <TouchableOpacity style={styles.logoutBtnGlass} onPress={handleLogout}>
+              <Text style={styles.logoutBtnText}>🚪 ĐĂNG XUẤT THIẾT BỊ</Text>
+            </TouchableOpacity>
 
-        <View style={styles.actionButtonsRow}>
-          <TouchableOpacity style={[styles.actionBtn, { backgroundColor: '#229ED9' }]} onPress={handleOpenTelegram}>
-            <Text style={styles.actionBtnText}>✈️ CHAT TELEGRAM</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.actionBtn, { backgroundColor: '#1E1E2E', borderColor: '#6C63FF40', borderWidth: 1 }]} onPress={() => setShowFeedback(true)}>
-            <Text style={[styles.actionBtnText, { color: '#8982FF' }]}>✉️ GỬI MẬT THƯ</Text>
-          </TouchableOpacity>
-        </View>
+            <View style={{ height: 100 }} />
+          </Animated.View>
+        </ScrollView>
+      </SafeAreaView>
 
-        <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
-          <Text style={styles.logoutBtnText}>🚪 RỜI KHỎI VĂN PHÒNG</Text>
-        </TouchableOpacity>
-
-        <View style={{ height: 60 }} />
-      </ScrollView>
-
-      {/* Modal Mật Thư */}
+      {/* Modal Mật Thư Giữ Nguyên (Hoặc Glassmorphism sương sương) */}
       <Modal visible={showFeedback} transparent animationType="slide">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>📩 HÒM THƯ TUYỆT MẬT</Text>
-            <Text style={styles.modalDesc}>Mọi thông tin của sếp sẽ được mã hóa và truyền thẳng về trung tâm đầu não (Máy chủ nội bộ).</Text>
-
-            <TextInput
-              style={styles.emailInput}
-              placeholder="Gửi Email của sếp (để nhận thư hồi đáp)..."
-              placeholderTextColor="#666"
-              value={contactEmail}
-              onChangeText={setContactEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-
-            <TextInput
-              style={styles.feedbackInput}
-              multiline
-              placeholder="Sếp có gặp lỗi gì, hay muốn thêm tính năng gì không? Hãy góp ý nhé..."
-              placeholderTextColor="#666"
-              value={feedbackText}
-              onChangeText={setFeedbackText}
-            />
-
+            <Text style={styles.modalTitle}>📩 TRẠM THƯ TÍN TUYỆT MẬT</Text>
+            <Text style={styles.modalDesc}>Mọi chỉ thị của sếp sẽ được mã hóa và gửi thẳng đến điện thoại của Tổng Bộ Chỉ Huy.</Text>
+            <TextInput style={styles.emailInput} placeholder="Bút danh hoặc Email của sếp..." placeholderTextColor="#64748b" value={contactEmail} onChangeText={setContactEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} />
+            <TextInput style={styles.feedbackInput} multiline placeholder="Sếp đang bận tâm điều gì? Lỗi App hay Góp ý tính năng mới?" placeholderTextColor="#64748b" value={feedbackText} onChangeText={setFeedbackText} />
             <View style={styles.modalActions}>
-              <TouchableOpacity
-                style={styles.modalCancelBtn}
-                onPress={() => setShowFeedback(false)}
-                disabled={isSending}
-              >
-                <Text style={styles.modalCancelText}>HỦY BỎ</Text>
+              <TouchableOpacity style={styles.modalCancelBtn} onPress={() => setShowFeedback(false)} disabled={isSending}>
+                <Text style={styles.modalCancelText}>HỦY THƯ</Text>
               </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.modalSendBtn, isSending && { opacity: 0.5 }]}
-                onPress={handleSendFeedback}
-                disabled={isSending}
-              >
-                <Text style={styles.modalSendText}>{isSending ? 'ĐANG MÃ HÓA...' : 'TRUYỀN TIN'}</Text>
+              <TouchableOpacity style={[styles.modalSendBtn, isSending && { opacity: 0.5 }]} onPress={handleSendFeedback} disabled={isSending}>
+                <Text style={styles.modalSendText}>{isSending ? 'ĐANG DỊCH MÃ...' : 'PHÓNG THƯ'}</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0A0A0F',
-  },
+  container: { flex: 1 },
+  // Dashboard Header
   dashboard: {
-    paddingHorizontal: 16,
-    paddingTop: 10,
-    paddingBottom: 20,
-    backgroundColor: '#121220',
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: '#1E1E2E',
+    paddingHorizontal: 20, paddingTop: 10, paddingBottom: 20,
+    backgroundColor: 'rgba(255,255,255,0.02)',
+    borderBottomLeftRadius: 30, borderBottomRightRadius: 30,
+    borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.06)',
+    shadowColor: '#000', shadowOffset: { width:0, height:10 }, shadowOpacity: 0.3, shadowRadius: 15, elevation: 10,
   },
-  profileRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatarGlow: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: '#1E1E2E',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#6C63FF40',
-  },
-  profileInfo: {
-    flex: 1,
-    marginLeft: 16,
-  },
-  userName: {
-    color: '#FFF',
-    fontSize: 20,
-    fontWeight: '900',
-    marginBottom: 4,
-  },
-  levelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6,
-  },
-  levelTag: {
-    backgroundColor: '#6C63FF',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 6,
-    marginRight: 10,
-  },
-  levelTagText: {
-    color: '#FFF',
-    fontSize: 10,
-    fontWeight: '900',
-  },
-  xpLabelSmall: {
-    color: '#8080A0',
-    fontSize: 11,
-    fontWeight: '700',
-  },
-  xpTrackMini: {
-    height: 6,
-    backgroundColor: '#1E1E2E',
-    borderRadius: 3,
-    width: '100%',
-    overflow: 'hidden',
-  },
-  xpFillMini: {
-    height: '100%',
-    backgroundColor: '#6C63FF',
-    borderRadius: 3,
-  },
+  profileRow: { flexDirection: 'row', alignItems: 'center' },
+  avatarWrapper: { width: 68, height: 68, justifyContent: 'center', alignItems: 'center' },
+  avatarGlowBase: { position: 'absolute', width: 68, height: 68, borderRadius: 34, backgroundColor: 'rgba(139, 92, 246, 0.3)' },
+  avatarGlass: { width: 60, height: 60, borderRadius: 30, backgroundColor: 'rgba(255,255,255,0.1)', justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: 'rgba(255,255,255,0.3)'},
+  profileInfo: { flex: 1, marginLeft: 16 },
+  userName: { color: '#f8fafc', fontSize: 22, fontWeight: '900', marginBottom: 6, textShadowColor: 'rgba(0,0,0,0.5)', textShadowRadius: 6 },
+  levelRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
+  levelTag: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8, marginRight: 10, shadowColor: '#8b5cf6', shadowOpacity: 0.5, shadowRadius: 5 },
+  levelTagText: { color: '#fff', fontSize: 11, fontWeight: '900', textTransform: 'uppercase' },
+  xpLabelSmall: { color: '#94a3b8', fontSize: 13, fontWeight: '700' },
+  xpTrackMini: { height: 8, backgroundColor: 'rgba(0,0,0,0.4)', borderRadius: 4, width: '100%', overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.05)' },
+  xpFillMini: { height: '100%', borderRadius: 4 },
 
-  // Tab Switcher
-  tabSwitcher: {
-    flexDirection: 'row',
-    marginTop: 20,
-    backgroundColor: '#0F0F1A',
-    borderRadius: 12,
-    padding: 4,
-    borderWidth: 1,
-    borderColor: '#1E1E2E',
-  },
-  tabItem: {
-    flex: 1,
-    paddingVertical: 10,
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  tabItemActive: {
-    backgroundColor: '#6C63FF20',
-    borderWidth: 1,
-    borderColor: '#6C63FF40',
-  },
-  tabItemText: {
-    color: '#666',
-    fontSize: 12,
-    fontWeight: '800',
-    letterSpacing: 1,
-  },
-  tabItemTextActive: {
-    color: '#6C63FF',
-  },
+  // Tabs
+  tabSwitcher: { flexDirection: 'row', marginTop: 24, backgroundColor: 'rgba(0,0,0,0.3)', borderRadius: 16, padding: 6, borderWidth: 1, borderColor: 'rgba(255,255,255,0.08)' },
+  tabItem: { flex: 1, paddingVertical: 12, alignItems: 'center', borderRadius: 12 },
+  tabItemActive: { backgroundColor: 'rgba(255,255,255,0.1)', shadowColor: '#8b5cf6', shadowOpacity: 0.2, shadowRadius: 5 },
+  tabItemText: { color: '#64748b', fontSize: 13, fontWeight: '800', letterSpacing: 0.5 },
+  tabItemTextActive: { color: '#e2e8f0', textShadowColor: '#c084fc', textShadowRadius: 8 },
 
-  scrollArea: {
-    paddingVertical: 16,
-  },
+  scrollArea: { paddingVertical: 20 },
 
-  // Vault
-  vaultArea: {
-    paddingBottom: 20,
-  },
-  emptyVaultCard: {
-    marginHorizontal: 16,
-    padding: 30,
-    backgroundColor: '#121220',
-    borderRadius: 20,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#1E1E2E',
-    marginBottom: 20,
-    borderStyle: 'dashed',
-  },
-  emptyVaultText: {
-    color: '#666',
-    fontSize: 13,
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-  vaultGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 16,
-    gap: 12,
-    marginBottom: 24,
-  },
-  archiveVaultCard: {
-    width: (SCREEN_WIDTH - 32 - 12) / 2,
-    backgroundColor: '#121220',
-    borderRadius: 18,
-    padding: 16,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.04)',
-  },
-  vaultEmoji: {
-    fontSize: 32,
-    marginBottom: 12,
-  },
-  vaultItemTitle: {
-    color: '#FFF',
-    fontSize: 14,
-    fontWeight: '900',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  vaultItemSub: {
-    color: '#555',
-    fontSize: 10,
-    fontWeight: '700',
-    letterSpacing: 1,
-  },
+  // Vault / Missions
+  vaultArea: { paddingBottom: 20 },
+  glassVaultCard: { width: (SCREEN_WIDTH - 40 - 16) / 2, backgroundColor: 'rgba(255,255,255,0.04)', borderRadius: 24, padding: 20, alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 10 },
+  vaultGrid: { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 20, gap: 16, marginBottom: 24 },
+  vaultEmoji: { fontSize: 36, marginBottom: 14, textShadowColor: 'rgba(255,255,255,0.3)', textShadowRadius: 10 },
+  vaultItemTitle: { color: '#f8fafc', fontSize: 14, fontWeight: '800', textAlign: 'center', marginBottom: 6 },
+  vaultItemSub: { color: '#94a3b8', fontSize: 11, fontWeight: '700', letterSpacing: 1 },
 
-  // Missions
-  missionCard: {
-    marginHorizontal: 16,
-    backgroundColor: '#121220',
-    borderRadius: 16,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.04)',
-  },
-  missionCardCompleted: {
-    borderColor: '#4CAF5040',
-    opacity: 0.8,
-  },
-  missionInfo: {
-    flex: 1,
-    marginRight: 10,
-  },
-  missionTitle: {
-    color: '#E0E0E0',
-    fontSize: 15,
-    fontWeight: '800',
-    marginBottom: 4,
-  },
-  missionDesc: {
-    color: '#666',
-    fontSize: 12,
-    lineHeight: 18,
-  },
-  missionBtn: {
-    backgroundColor: '#333',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  missionBtnDone: {
-    backgroundColor: '#1A3A1A',
-  },
-  missionBtnText: {
-    color: '#FFF',
-    fontSize: 10,
-    fontWeight: '900',
-  },
+  glassMissionCard: { marginHorizontal: 20, backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: 20, padding: 18, flexDirection: 'row', alignItems: 'center', marginBottom: 16, borderWidth: 1, borderColor: 'rgba(255,255,255,0.08)' },
+  missionCardCompleted: { backgroundColor: 'rgba(16, 185, 129, 0.05)', borderColor: 'rgba(16, 185, 129, 0.2)' },
+  missionInfo: { flex: 1, marginRight: 14 },
+  missionTitle: { color: '#f8fafc', fontSize: 15, fontWeight: '800', marginBottom: 6 },
+  missionDesc: { color: '#94a3b8', fontSize: 13, lineHeight: 18, fontWeight: '500' },
+  missionBtn: { backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: 16, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(255,255,255,0.05)' },
+  missionBtnDone: { backgroundColor: 'rgba(16, 185, 129, 0.1)', borderColor: 'rgba(16, 185, 129, 0.3)' },
+  missionBtnText: { color: '#e2e8f0', fontSize: 11, fontWeight: '900', textAlign: 'center' },
 
+  // Stats Grid
+  statsLayout: { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 20, gap: 14, marginBottom: 30 },
+  statMiniCard: { width: (SCREEN_WIDTH - 40 - 14) / 2, backgroundColor: 'rgba(255,255,255,0.04)', borderRadius: 20, padding: 16, flexDirection: 'row', alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 5 },
+  statIconWrap: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center', marginRight: 12, borderWidth: 1, borderColor: 'rgba(255,255,255,0.05)'},
+  statNum: { color: '#f8fafc', fontSize: 18, fontWeight: '900' },
+  statTag: { color: '#94a3b8', fontSize: 12, fontWeight: '700' },
 
-  // Stats
-  statsLayout: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 16,
-    gap: 10,
-    marginBottom: 24,
-  },
-  statMiniCard: {
-    width: (SCREEN_WIDTH - 32 - 10) / 2,
-    backgroundColor: '#121220',
-    borderRadius: 16,
-    padding: 14,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.04)',
-  },
-  statNum: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: '900',
-  },
-  statTag: {
-    color: '#666',
-    fontSize: 11,
-    fontWeight: '700',
-  },
+  sectionHead: { paddingHorizontal: 24, marginBottom: 14, borderLeftWidth: 4, borderLeftColor: '#8b5cf6', marginLeft: 20 },
+  sectionTitle: { color: '#e2e8f0', fontSize: 13, fontWeight: '900', letterSpacing: 1.2 },
 
-  // Sections
-  sectionHead: {
-    paddingHorizontal: 16,
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    color: '#FFF',
-    fontSize: 13,
-    fontWeight: '900',
-    letterSpacing: 1,
-  },
+  badgeScroll: { paddingHorizontal: 20, gap: 14, marginBottom: 30 },
+  badgeItem: { width: 70, height: 70, borderRadius: 22, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.05)' },
+  badgeItemActive: { backgroundColor: 'rgba(255, 215, 0, 0.08)', borderColor: 'rgba(255, 215, 0, 0.4)', shadowColor: '#FFD700', shadowOpacity: 0.3, shadowRadius: 10 },
+  badgeIcon: { fontSize: 34 },
+  badgeCheck: { position: 'absolute', top: -6, right: -6, backgroundColor: '#10b981', width: 22, height: 22, borderRadius: 11, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: '#1e1b4b' },
+  badgeCheckIcon: { color: '#fff', fontSize: 11, fontWeight: '900' },
 
-  // Badges
-  badgeScroll: {
-    paddingHorizontal: 16,
-    gap: 12,
-    marginBottom: 24,
-  },
-  badgeItem: {
-    width: 64,
-    height: 64,
-    borderRadius: 20,
-    backgroundColor: '#121220',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#1E1E2E',
-  },
-  badgeItemActive: {
-    borderColor: '#FFD70040',
-    backgroundColor: '#1A1A0A',
-  },
-  badgeIcon: {
-    fontSize: 30,
-  },
-  badgeCheck: {
-    position: 'absolute',
-    top: -4,
-    right: -4,
-    backgroundColor: '#4CAF50',
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#121220',
-  },
-  badgeCheckIcon: {
-    color: '#FFF',
-    fontSize: 10,
-    fontWeight: '900',
-  },
+  // Bookmarks - Dựng Lại Chuyên Mục Yêu thích
+  bookmarkScroll: { paddingHorizontal: 20, gap: 14, marginBottom: 30 },
+  bookCardLight: { width: 160, backgroundColor: 'rgba(255,255,255,0.04)', borderRadius: 20, padding: 18, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  bookEmoji: { fontSize: 26, marginBottom: 10, textShadowColor: 'rgba(255,255,255,0.3)', textShadowRadius: 8 },
+  bookTitle: { color: '#f8fafc', fontSize: 14, fontWeight: '800', marginBottom: 8, lineHeight: 20 },
+  bookCategory: { color: '#a78bfa', fontSize: 11, fontWeight: '800', textTransform: 'uppercase' },
 
-  // Bookmarks
-  bookmarkScroll: {
-    paddingHorizontal: 16,
-    gap: 12,
-    marginBottom: 24,
-  },
-  bookCard: {
-    width: 150,
-    backgroundColor: '#121220',
-    borderRadius: 20,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.04)',
-  },
-  bookEmoji: {
-    fontSize: 24,
-    marginBottom: 8,
-  },
-  bookTitle: {
-    color: '#E0E0E0',
-    fontSize: 14,
-    fontWeight: '800',
-    marginBottom: 6,
-    lineHeight: 18,
-  },
-  bookCategory: {
-    color: '#6C63FF',
-    fontSize: 11,
-    fontWeight: '800',
-  },
-  emptyBook: {
-    marginHorizontal: 16,
-    padding: 20,
-    borderRadius: 16,
-    backgroundColor: '#121220',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  emptyText: {
-    color: '#666',
-    fontSize: 12,
-  },
+  emptyCardLight: { marginHorizontal: 20, padding: 24, borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', marginBottom: 30, borderWidth: 1, borderColor: 'rgba(255,255,255,0.05)', borderStyle: 'dashed' },
+  emptyTextLight: { color: '#8080A0', fontSize: 13, textAlign: 'center', lineHeight: 22, fontWeight: '600' },
 
-  // Message
-  psySay: {
-    marginHorizontal: 16,
-    padding: 16,
-    backgroundColor: '#121220',
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#6C63FF20',
-    marginBottom: 20,
-  },
-  psySayText: {
-    color: '#8080A0',
-    fontSize: 13,
-    fontStyle: 'italic',
-    textAlign: 'center',
-  },
+  // Messages
+  psySay: { marginHorizontal: 20, padding: 20, backgroundColor: 'transparent', marginBottom: 24 },
+  psySayText: { color: '#94a3b8', fontSize: 14, fontStyle: 'italic', textAlign: 'center', lineHeight: 22 },
 
-  // Logout
-  logoutBtn: {
-    marginHorizontal: 16,
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: '#121220',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#FF525230',
-  },
-  logoutBtnText: {
-    color: '#FF5252',
-    fontSize: 12,
-    fontWeight: '900',
-    letterSpacing: 1,
-  },
+  // Action Buttons Bottom
+  actionButtonsRow: { flexDirection: 'row', marginHorizontal: 20, marginBottom: 16, gap: 14 },
+  actionBtnBlue: { flex: 1, height: 52, borderRadius: 16, justifyContent: 'center', alignItems: 'center', backgroundColor: '#3b82f6', shadowColor: '#3b82f6', shadowOpacity: 0.4, shadowRadius: 8 },
+  actionBtnDark: { flex: 1, height: 52, borderRadius: 16, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  actionBtnText: { color: '#fff', fontSize: 13, fontWeight: '900', letterSpacing: 1 },
+  actionBtnTextDark: { color: '#e2e8f0', fontSize: 13, fontWeight: '900', letterSpacing: 1 },
 
-  // Action Buttons
-  actionButtonsRow: {
-    flexDirection: 'row',
-    marginHorizontal: 16,
-    marginBottom: 12,
-    gap: 12,
-  },
-  actionBtn: {
-    flex: 1,
-    height: 48,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  actionBtnText: {
-    color: '#FFF',
-    fontSize: 12,
-    fontWeight: '900',
-    letterSpacing: 1,
-  },
+  logoutBtnGlass: { marginHorizontal: 20, height: 52, borderRadius: 16, backgroundColor: 'rgba(239, 68, 68, 0.1)', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(239, 68, 68, 0.4)' },
+  logoutBtnText: { color: '#f87171', fontSize: 13, fontWeight: '900', letterSpacing: 1.5 },
 
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.85)',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  modalContent: {
-    backgroundColor: '#161625',
-    borderRadius: 20,
-    padding: 24,
-    borderWidth: 1,
-    borderColor: '#6C63FF50',
-  },
-  modalTitle: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: '900',
-    marginBottom: 8,
-    textAlign: 'center',
-    letterSpacing: 1,
-  },
-  modalDesc: {
-    color: '#A0A0B0',
-    fontSize: 11,
-    textAlign: 'center',
-    marginBottom: 20,
-    lineHeight: 18,
-  },
-  emailInput: {
-    backgroundColor: '#121220',
-    borderRadius: 12,
-    height: 48,
-    paddingHorizontal: 16,
-    color: '#FFF',
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#2A2A3E',
-    fontSize: 14,
-  },
-  feedbackInput: {
-    backgroundColor: '#121220',
-    borderRadius: 12,
-    height: 120,
-    padding: 16,
-    color: '#FFF',
-    textAlignVertical: 'top',
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: '#2A2A3E',
-    fontSize: 14,
-  },
-  modalActions: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  modalCancelBtn: {
-    flex: 1,
-    height: 46,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2A2A3E',
-  },
-  modalCancelText: {
-    color: '#888',
-    fontWeight: '900',
-    fontSize: 12,
-    letterSpacing: 1,
-  },
-  modalSendBtn: {
-    flex: 1,
-    height: 46,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#6C63FF',
-    shadowColor: '#6C63FF',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  modalSendText: {
-    color: '#FFF',
-    fontWeight: '900',
-    fontSize: 12,
-    letterSpacing: 1,
-  },
+  // Modals Mail Feedback
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.9)', justifyContent: 'center', padding: 24 },
+  modalContent: { backgroundColor: '#1e1b4b', borderRadius: 24, padding: 28, borderWidth: 1, borderColor: 'rgba(139, 92, 246, 0.5)', shadowColor: '#8b5cf6', shadowOpacity: 0.2, shadowRadius: 20 },
+  modalTitle: { color: '#f8fafc', fontSize: 17, fontWeight: '900', marginBottom: 8, textAlign: 'center', letterSpacing: 1 },
+  modalDesc: { color: '#94a3b8', fontSize: 13, textAlign: 'center', marginBottom: 24, lineHeight: 20 },
+  emailInput: { backgroundColor: 'rgba(0,0,0,0.3)', borderRadius: 14, height: 50, paddingHorizontal: 18, color: '#fff', marginBottom: 14, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', fontSize: 14 },
+  feedbackInput: { backgroundColor: 'rgba(0,0,0,0.3)', borderRadius: 14, height: 120, padding: 18, color: '#fff', marginBottom: 24, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', fontSize: 14, textAlignVertical: 'top' },
+  modalActions: { flexDirection: 'row', gap: 12 },
+  modalCancelBtn: { flex: 1, height: 48, backgroundColor: 'rgba(255,255,255,0.05)', justifyContent: 'center', alignItems: 'center', borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  modalCancelText: { color: '#94a3b8', fontSize: 13, fontWeight: '800' },
+  modalSendBtn: { flex: 1, height: 48, backgroundColor: '#8b5cf6', justifyContent: 'center', alignItems: 'center', borderRadius: 14 },
+  modalSendText: { color: '#fff', fontSize: 13, fontWeight: '900', letterSpacing: 1 },
 });

@@ -285,5 +285,536 @@ export const QUIZZES: Quiz[] = [
       { id: 'q11_8', type: 'scenario', scenario: 'Thám tử tự tay vẽ chân dung hung thủ.', options: ['Phác thảo giúp hình dung rõ hơn về đối tượng.', 'Việc tự vẽ có thể khiến thám tử thiếu khách quan.', 'Chân dung được vẽ chi tiết hơn ảnh chụp từ camera.', 'Kỹ năng vẽ là công cụ hữu ích trong điều tra.'], correctIndex: 1, explanation: 'Đừng quá yêu sản phẩm của chính mình.' }
     ]
   },
-  // ... (các quiz còn lại từ q12 đến q48 sẽ được viết tương tự với correctIndex phân bố ngẫu nhiên 0-3)
+  // VÙNG 2 tiếp theo
+  {
+    id: 'q12',
+    title: 'Cảm xúc',
+    regionId: 'r2',
+    requiredLevel: 12,
+    xpReward: 140,
+    gemReward: 7,
+    questions: [
+      { id: 'q12_1', type: 'scenario', scenario: 'Đúng lúc đang hưng phấn vì được thưởng, bạn quyết định mua sắm sạch túi.', options: ['Cảm xúc tốt làm mình xứng đáng được thưởng.', 'Vui quá nên lý trí tạm nghỉ, dễ chi tiêu bốc đồng.', 'Tiền để dành cũng để tiêu, mua gì chẳng được.', 'Cơ hội tốt không nên bỏ lỡ khi đang có hứng.'], correctIndex: 1, explanation: 'Vui quá là lúc lý trí nghỉ giải lao.' },
+      { id: 'q12_2', type: 'scenario', scenario: 'Bạn đang bực mình nên dự án sếp giao bạn thấy toàn rủi ro.', options: ['Tâm trạng tiêu cực làm phóng đại nguy cơ.', 'Dự án mới nào cũng có rủi ro cần đánh giá.', 'Cảm xúc cá nhân ảnh hưởng đến góc nhìn về công việc.', 'Sự tức giận khiến mình thiếu khách quan.'], correctIndex: 0, explanation: 'Tâm trạng xấu bóp méo đánh giá rủi ro.' },
+      { id: 'q12_3', type: 'scenario', scenario: 'Quảng cáo xe có cảnh gia đình cười hạnh phúc, bạn muốn mua ngay.', options: ['Xe tốt vì được quảng cáo với hình ảnh đẹp.', 'Cảm xúc vui vẻ từ quảng cáo gắn liền với sản phẩm.', 'Gia đình hạnh phúc là điều ai cũng mong muốn.', 'Xe hơi là phương tiện quan trọng cho gia đình.'], correctIndex: 1, explanation: 'Cảm xúc "hạnh phúc" bị dính vào cái xe.' },
+      { id: 'q12_4', type: 'scenario', scenario: 'Bạn thù ghét một hãng điện thoại nên họ làm gì bạn cũng chê.', options: ['Cảm xúc tiêu cực chi phối cách đánh giá.', 'Hãng đó thực sự có chất lượng kém hơn.', 'Cạnh tranh trên thị trường tạo thành kiến.', 'Trải nghiệm tồi trước đây ảnh hưởng nhận định.'], correctIndex: 0, explanation: 'Sự yêu/ghét đi trước mọi phân tích.' },
+      { id: 'q12_5', type: 'scenario', scenario: 'Chốt đơn vì “Thích thì nhích” bất chấp nợ nần.', options: ['Đam mê là quan trọng nhất.', 'Cảm xúc nhất thời dẫn đến quyết định thiếu cân nhắc.', 'Không nên để lo lắng tài chính cản trở niềm vui.', 'Cơ hội tốt cần nắm bắt ngay.'], correctIndex: 1, explanation: 'Quyết định theo rung động.' },
+      { id: 'q12_6', type: 'scenario', scenario: 'Tại sao quán nhậu hay bật nhạc sôi động?', options: ['Âm nhạc tạo không khí vui, kích thích khách gọi nhiều hơn.', 'Khách thích không gian náo nhiệt khi tụ tập.', 'Âm thanh lớn làm giảm khả năng kiểm soát hành vi.', 'Tạo ấn tượng quán trẻ trung, năng động.'], correctIndex: 0, explanation: 'Âm nhạc là vũ khí thao túng phán đoán.' },
+      { id: 'q12_7', type: 'scenario', scenario: 'Bạn đồng ý cho vay tiền sau khi vừa được ăn một bữa ngon tuyệt.', options: ['Cảm xúc tích cực làm tăng tính hào phóng.', 'Bữa ăn ngon thể hiện sự tử tế của người mời.', 'Lòng biết ơn khiến sẵn sàng đáp lại.', 'Mối quan hệ tốt nên được vun đắp qua giúp đỡ.'], correctIndex: 0, explanation: 'Dạ dày no, lý trí lỏng lẻo.' },
+      { id: 'q12_8', type: 'scenario', scenario: 'Thám tử bước vào vụ án kinh dị, thấy buồn nôn và muốn về ngay.', options: ['Phản ứng cảm xúc mạnh cản trở quan sát khách quan.', 'Hiện trường rùng rợn thường khiến điều tra viên mất bình tĩnh.', 'Sợ hãi là phản ứng tự nhiên trước cái chết thương tâm.', 'Cần giữ khoảng cách để tránh ám ảnh tâm lý.'], correctIndex: 0, explanation: 'Phải gạt bỏ cảm xúc mới thấy được manh mối.' }
+    ]
+  },
+  {
+    id: 'q13',
+    title: 'Tê liệt',
+    regionId: 'r2',
+    requiredLevel: 13,
+    xpReward: 160,
+    gemReward: 8,
+    questions: [
+      { id: 'q13_1', type: 'scenario', scenario: 'Đứng trước 100 vị trà sữa, bạn mất 15 phút chưa chọn được gì.', options: ['Quá nhiều lựa chọn khiến việc quyết định khó khăn.', 'Bạn cầu toàn nên cần cân nhắc kỹ.', 'Sở thích đa dạng nên khó chọn một thứ.', 'Các quán có chất lượng không đồng đều.'], correctIndex: 0, explanation: 'Càng nhiều lựa chọn càng gây tê liệt.' },
+      { id: 'q13_2', type: 'scenario', scenario: 'Sau khi mua 1 cái áo trong số 50 cái, bạn cứ nghĩ “biết thế mua cái kia”.', options: ['Luôn có sự so sánh sau khi quyết định.', 'Tâm lý tiếc nuối khi có quá nhiều phương án.', 'Sản phẩm chọn không đáp ứng kỳ vọng.', 'Bạn dễ bị ảnh hưởng bởi ý kiến người khác.'], correctIndex: 1, explanation: 'Nhiều lựa chọn làm giảm sự hài lòng.' },
+      { id: 'q13_3', type: 'scenario', scenario: 'Menu quán Michelin chỉ có 3 món và bạn thấy rất yên tâm.', options: ['Số lượng ít thể hiện tập trung vào chất lượng.', 'Quyết định dễ dàng hơn khi có ít lựa chọn.', 'Thực đơn đơn giản phù hợp ẩm thực cao cấp.', 'Nhà hàng uy tín chỉ phục vụ món thế mạnh.'], correctIndex: 1, explanation: 'Ít là nhiều.' },
+      { id: 'q13_4', type: 'scenario', scenario: 'Lướt Netflix 30 phút rồi… tắt máy đi ngủ.', options: ['Nội dung không đủ hấp dẫn.', 'Quá nhiều phim khiến không biết chọn xem gì.', 'Mệt mỏi trước khi quyết định được bộ phim.', 'Thời gian tìm kiếm chiếm hết thời gian xem.'], correctIndex: 1, explanation: 'Não đình công trước ma trận tùy chọn.' },
+      { id: 'q13_5', type: 'scenario', scenario: 'Tại sao các gói cước mobile hay chỉ có 3-4 mức giá chính?', options: ['Giúp khách dễ so sánh và lựa chọn.', 'Doanh nghiệp tiết kiệm chi phí quản lý.', 'Số lượng ít làm tăng khả năng chốt đơn.', 'Thị trường viễn thông có quy định số lượng.'], correctIndex: 0, explanation: 'Đơn giản hóa để chốt đơn nhanh.' },
+      { id: 'q13_6', type: 'scenario', scenario: 'Bạn thấy hạnh phúc khi được tặng quà ngẫu nhiên hơn là tự đi chọn.', options: ['Sự bất ngờ mang lại cảm xúc tích cực.', 'Được tặng quà thể hiện sự quan tâm.', 'Việc chọn lựa gây áp lực và lo lắng.', 'Quà tặng có giá trị tinh thần cao hơn.'], correctIndex: 2, explanation: 'Lựa chọn là một gánh nặng tâm lý.' },
+      { id: 'q13_7', type: 'scenario', scenario: 'Tại sao Mark Zuckerberg hay mặc đúng một kiểu áo xám?', options: ['Tiết kiệm thời gian cho quyết định quan trọng.', 'Phong cách tối giản là xu hướng công nghệ.', 'Chọn trang phục hàng ngày gây hao tổn tinh thần.', 'Đồng phục giúp tạo dựng hình ảnh cá nhân.'], correctIndex: 0, explanation: 'Để dành não cho việc quan trọng.' },
+      { id: 'q13_8', type: 'scenario', scenario: 'Thám tử bước vào vụ án có 1000 nghi phạm.', options: ['Số lượng lớn làm phức tạp điều tra.', 'Cần thu hẹp phạm vi để tập trung nguồn lực.', 'Khối lượng công việc lớn dễ gây tê liệt phân tích.', 'Phân loại và ưu tiên đối tượng là bước đầu.'], correctIndex: 2, explanation: 'Phải thu hẹp phạm vi mới tìm được hung thủ.' }
+    ]
+  },
+  {
+    id: 'q14',
+    title: 'Kỳ vọng',
+    regionId: 'r2',
+    requiredLevel: 14,
+    xpReward: 180,
+    gemReward: 9,
+    questions: [
+      { id: 'q14_1', type: 'scenario', scenario: 'Sếp bảo: “Anh tin em tài năng”, thế là em phá án nhanh gấp đôi.', options: ['Lời động viên tạo động lực làm việc.', 'Sự kỳ vọng từ cấp trên thúc đẩy nỗ lực.', 'Niềm tin vào bản thân được củng cố.', 'Trách nhiệm với sự tin tưởng khiến cố gắng hết sức.'], correctIndex: 1, explanation: 'Kỳ vọng tích cực đẩy giới hạn con người.' },
+      { id: 'q14_2', type: 'scenario', scenario: 'Bố mẹ luôn bảo con vô dụng, sau này con thành… vô dụng thật.', options: ['Lời nói cha mẹ ảnh hưởng lớn đến trẻ.', 'Đánh giá tiêu cực lặp lại hình thành niềm tin sai.', 'Trẻ em dễ bị ảnh hưởng bởi kỳ vọng người lớn.', 'Sự thiếu tin tưởng làm giảm động lực phấn đấu.'], correctIndex: 1, explanation: 'Gán nhãn tương lai cho một đứa trẻ.' },
+      { id: 'q14_3', type: 'scenario', scenario: 'Bạn dạy chó và tin nó thông minh nhất xóm, nó học cực nhanh.', options: ['Niềm tin của người dạy ảnh hưởng cách huấn luyện.', 'Kỳ vọng tích cực tạo môi trường học tốt.', 'Chó cảm nhận được thái độ của chủ.', 'Phương pháp huấn luyện thay đổi theo niềm tin.'], correctIndex: 1, explanation: 'Năng lượng tích cực truyền sang đối tượng.' },
+      { id: 'q14_4', type: 'scenario', scenario: 'Bác sĩ nói “Thuốc này cực xịn”, bạn uống thấy đỡ hẳn dù là thuốc cảm thường.', options: ['Niềm tin vào hiệu quả thuốc tạo tác động tích cực.', 'Sự tin tưởng vào chuyên môn bác sĩ giúp điều trị hiệu quả.', 'Tâm lý thoải mái khi được dùng thuốc tốt hỗ trợ hồi phục.', 'Kỳ vọng kết quả ảnh hưởng đến cảm nhận cơ thể.'], correctIndex: 0, explanation: 'Niềm tin chữa lành cơ thể.' },
+      { id: 'q14_5', type: 'scenario', scenario: 'Trong thí nghiệm, chuột “Thần đồng” chạy nhanh hơn chuột “Thường” dù giống hệt.', options: ['Kỳ vọng người thực hiện ảnh hưởng cách đối xử.', 'Chuột được gắn nhãn tích cực nhận chăm sóc tốt hơn.', 'Thái độ quan sát vô thức tác động kết quả thí nghiệm.', 'Kỳ vọng tạo thay đổi hành vi người thực hiện.'], correctIndex: 0, explanation: 'Thái độ quan sát định hình kết quả.' },
+      { id: 'q14_6', type: 'scenario', scenario: 'Bạn dán nhãn đồng nghiệp là “Cú đêm”, họ bắt đầu làm tốt hơn vào tối.', options: ['Nhãn hiệu ảnh hưởng cách người khác nhìn nhận.', 'Con người điều chỉnh hành vi để phù hợp kỳ vọng.', 'Kỳ vọng tạo cơ hội thể hiện đúng nhãn.', 'Cảm giác được công nhận thúc đẩy nỗ lực.'], correctIndex: 1, explanation: 'Con người có xu hướng khớp với nhãn.' },
+      { id: 'q14_7', type: 'scenario', scenario: 'Một lời động viên đúng lúc trị giá hơn ngàn vàng.', options: ['Sự công nhận có tác dụng thúc đẩy tinh thần.', 'Lời khích lệ giúp người nhận tin vào khả năng.', 'Động lực từ bên ngoài tạo hiệu ứng tích cực.', 'Sự quan tâm đúng lúc tạo ảnh hưởng lớn.'], correctIndex: 1, explanation: 'Kỳ vọng là cú hích tâm lý mạnh nhất.' },
+      { id: 'q14_8', type: 'scenario', scenario: 'Thám tử bước vào vụ án bế tắc và tự nhủ “Mình sẽ không bao giờ tìm ra”.', options: ['Suy nghĩ tiêu cực làm giảm động lực và nỗ lực.', 'Tự tạo áp lực dẫn đến chán nản, bỏ cuộc.', 'Niềm tin thất bại khiến không cố gắng hết sức.', 'Dự đoán xấu ảnh hưởng cách tiếp cận vấn đề.'], correctIndex: 0, explanation: 'Kỳ vọng thấp dẫn đến nỗ lực thấp.' }
+    ]
+  },
+  {
+    id: 'q15',
+    title: 'Spotlight',
+    regionId: 'r2',
+    requiredLevel: 15,
+    xpReward: 200,
+    gemReward: 10,
+    questions: [
+      { id: 'q15_1', type: 'scenario', scenario: 'Bạn dính vết bẩn trên áo và thề là cả thiên hạ đang nhìn chằm chằm.', options: ['Mọi người chú ý đến điểm bất thường trên người khác.', 'Chúng ta nghĩ mình là trung tâm của sự chú ý.', 'Vết bẩn dễ bị phát hiện nhất.', 'Sự tự ti khiến phóng đại mức độ quan tâm.'], correctIndex: 1, explanation: 'Ta luôn nghĩ mình là tâm điểm, thực ra chả ai quan tâm.' },
+      { id: 'q15_2', type: 'scenario', scenario: 'Lỡ miệng nói hố, bạn mất ngủ 3 đêm vì nhục, trong khi mọi người đã quên.', options: ['Sai lầm của bản thân có tác động lớn hơn thực tế.', 'Người khác ít khi nhớ lâu về lỗi lầm của ta.', 'Xấu hổ khiến ta tập trung quá mức vào sai lầm.', 'Mọi người bận rộn với cuộc sống của họ.'], correctIndex: 1, explanation: 'Cái tôi quá lớn nên tưởng lỗi lầm nào cũng vĩ đại.' },
+      { id: 'q15_3', type: 'scenario', scenario: 'Bạn đi gym và sợ mọi người cười vì mình tập sai tư thế.', options: ['Người tập gym hay quan sát đánh giá kỹ thuật người khác.', 'Nỗi sợ bị đánh giá khiến cảm thấy mọi ánh mắt hướng về mình.', 'Tập sai tư thế là vấn đề phổ biến của người mới.', 'Phòng tập là nơi mọi người thường so sánh.'], correctIndex: 1, explanation: 'Sự thật: Ai cũng bận nhìn mình trong gương rồi.' },
+      { id: 'q15_4', type: 'scenario', scenario: 'Thuyết trình xong bạn thấy mình tệ, dù khán giả thấy ổn.', options: ['Tự đánh giá khắt khe hơn người ngoài.', 'Khán giả không đủ chuyên môn đánh giá.', 'Bạn tập trung vào sai sót nhỏ người khác không để ý.', 'Lo lắng làm sai lệch nhận thức về hiệu suất.'], correctIndex: 2, explanation: 'Tự soi mình quá kỹ.' },
+      { id: 'q15_5', type: 'scenario', scenario: 'Tại sao người ta hay đỏ mặt khi bị lộ một lỗi nhỏ?', options: ['Phản ứng cơ thể trước cảm giác bị phơi bày.', 'Sợ bị đánh giá thấp vì sai lầm nhỏ.', 'Xấu hổ khi nghĩ mọi người đang chú ý.', 'Lo lắng về hậu quả dù không quan trọng.'], correctIndex: 2, explanation: 'Vỡ trận tâm lý do tưởng mình bị soi.' },
+      { id: 'q15_6', type: 'scenario', scenario: 'Bạn mặc lại bộ đồ cũ và lo đồng nghiệp biết, thực ra họ chả nhớ.', options: ['Mọi người quá bận với công việc riêng.', 'Trang phục người khác không phải điều đáng nhớ.', 'Tự ti về ngoại hình khiến nghĩ người khác cũng để ý.', 'Phóng đại tầm quan trọng của bản thân trong mắt người khác.'], correctIndex: 3, explanation: 'Thế giới xoay quanh chính họ, không phải bạn.' },
+      { id: 'q15_7', type: 'scenario', scenario: 'Để bớt run khi đứng trước đám đông, bạn nên nhớ:', options: ['Mọi người đến để nghe nội dung, không đánh giá bạn.', 'Khán giả tập trung vào thông điệp hơn người trình bày.', 'Hầu hết mọi người bận tâm đến bản thân để chú ý bạn.', 'Sai sót nhỏ không ảnh hưởng chất lượng bài thuyết trình.'], correctIndex: 2, explanation: 'Phá vỡ ánh đèn sân khấu ảo.' },
+      { id: 'q15_8', type: 'scenario', scenario: 'Thám tử làm đổ một ly nước, cảm thấy rất xấu hổ.', options: ['Xấu hổ làm phân tâm khỏi mục tiêu chính.', 'Cần tập trung vào nhiệm vụ thay vì lo lắng sai sót.', 'Vụng về có thể xảy ra với bất kỳ ai.', 'Đừng để chuyện nhỏ ảnh hưởng hiệu quả công việc.'], correctIndex: 1, explanation: 'Quên cái tôi đi mới thấy được cái chung.' }
+    ]
+  },
+  {
+    id: 'q16',
+    title: 'Của mình',
+    regionId: 'r2',
+    requiredLevel: 16,
+    xpReward: 220,
+    gemReward: 12,
+    questions: [
+      { id: 'q16_1', type: 'scenario', scenario: 'Bạn đòi bán áo rách giá 200k, dù giá mới 100k, vì “áo kỷ niệm”.', options: ['Đồ vật gắn kỷ niệm có giá trị tinh thần cao.', 'Người sở hữu đánh giá cao đồ của mình hơn người khác.', 'Áo kỷ niệm không thể thay thế.', 'Giá trị cảm xúc khiến khó định giá khách quan.'], correctIndex: 1, explanation: 'Sở hữu thứ gì là ta tự nâng giá nó lên.' },
+      { id: 'q16_2', type: 'scenario', scenario: 'Cho mượn xe máy, bạn lo họ làm hỏng dù xe cũ mèm.', options: ['Người khác không cẩn thận với đồ không phải của họ.', 'Giá trị đồ vật tăng lên trong mắt người sở hữu.', 'Xe cũ vẫn có giá trị sử dụng và tình cảm gắn bó.', 'Lo lắng về tài sản cá nhân là điều dễ hiểu.'], correctIndex: 1, explanation: 'Quý trọng tài sản cá nhân phi lý.' },
+      { id: 'q16_3', type: 'scenario', scenario: 'Tại sao các app hay cho dùng thử miễn phí 30 ngày?', options: ['Giúp người dùng trải nghiệm đầy đủ tính năng.', 'Sau thời gian dùng, người dùng khó từ bỏ sản phẩm.', 'Thói quen sử dụng hình thành sau 30 ngày.', 'Người dùng thấy mất mát khi không còn được dùng miễn phí.'], correctIndex: 1, explanation: 'Nắm giữ 30 ngày là coi như của mình rồi.' },
+      { id: 'q16_4', type: 'scenario', scenario: 'Bạn từ chối đổi điện thoại mới dù được tặng, vì “quen tay”.', options: ['Sự quen thuộc tạo cảm giác an toàn, khó thay đổi.', 'Điện thoại mới có nhiều tính năng không cần thiết.', 'Chuyển dữ liệu và làm quen thiết bị mới tốn thời gian.', 'Gắn bó với vật dụng khiến đánh giá cao hơn giá trị thực.'], correctIndex: 3, explanation: 'Sự gắn kết làm mờ đi lợi ích mới.' },
+      { id: 'q16_5', type: 'scenario', scenario: 'Khi bán nhà, chủ luôn hét giá cao hơn 20-30% thị trường.', options: ['Nhà đất luôn có tiềm năng tăng giá.', 'Người bán tính cả giá trị tình cảm và kỷ niệm.', 'Mỗi ngôi nhà có đặc điểm riêng khó định giá.', 'Chi phí cải tạo nhà thường bị người mua bỏ qua.'], correctIndex: 1, explanation: 'Họ cộng thêm giá trị cảm xúc cho người mua.' },
+      { id: 'q16_6', type: 'scenario', scenario: 'Bạn đau lòng khi vứt bỏ một tờ lịch cũ.', options: ['Đồ vật gắn bó lâu tạo cảm giác khó rời xa.', 'Mỗi vật dụng đều có kỷ niệm riêng.', 'Vứt đồ đồng nghĩa từ bỏ quá khứ.', 'Tiếc nuối khi mất thứ mình sở hữu là cảm xúc tự nhiên.'], correctIndex: 3, explanation: 'Tâm lý không muốn đánh mất sở hữu.' },
+      { id: 'q16_7', type: 'scenario', scenario: 'Phần thưởng cho việc nắm giữ cái cũ là gì?', options: ['Cảm giác an toàn với những gì quen thuộc.', 'Sự tiếc nuối khi bỏ lỡ cơ hội đổi mới.', 'Giá trị tinh thần từ kỷ niệm gắn liền.', 'Cơ hội trải nghiệm mới bị bỏ lỡ.'], correctIndex: 3, explanation: 'Bẫy tâm lý ngăn cản nâng cấp.' },
+      { id: 'q16_8', type: 'scenario', scenario: 'Thám tử bước vào nhà nghi phạm và mượn một món đồ vật.', options: ['Mượn đồ để tạo áp lực tâm lý.', 'Đồ vật có thể chứa thông tin quan trọng.', 'Mượn đồ khiến nghi phạm lo lắng về tài sản.', 'Quan sát phản ứng khi bị lấy đi đồ vật.'], correctIndex: 2, explanation: 'Vật cũ có thể khui ra nhiều bí mật.' }
+    ]
+  },
+
+  // ===================== VÙNG 3: DẮT MŨI =====================
+  {
+    id: 'q17',
+    title: 'Bầy đàn',
+    regionId: 'r3',
+    requiredLevel: 17,
+    xpReward: 240,
+    gemReward: 4,
+    questions: [
+      { id: 'q17_1', type: 'scenario', scenario: 'Thấy hàng dài xếp mua bánh mì, dù không đói bạn vẫn xếp hàng theo.', options: ['Hàng đông là dấu hiệu sản phẩm chất lượng.', 'Tò mò về thứ thu hút đám đông.', 'Muốn trải nghiệm xem sản phẩm có tốt không.', 'Nhiều người cùng làm tạo cảm giác an toàn, đúng đắn.'], correctIndex: 3, explanation: 'Người ta làm thì mình cũng làm – tâm lý bầy đàn.' },
+      { id: 'q17_2', type: 'scenario', scenario: 'Bạn mua cổ phiếu X vì thấy ai cũng nhắc trên mạng.', options: ['Thông tin cộng đồng là nguồn tham khảo đáng tin.', 'Số đông thường đúng trong quyết định đầu tư.', 'Sự quan tâm nhiều cho thấy tiềm năng.', 'Bị ảnh hưởng bởi xu hướng mà không phân tích.'], correctIndex: 3, explanation: 'Bỏ qua phân tích để theo số đông.' },
+      { id: 'q17_3', type: 'scenario', scenario: 'Cuộc họp ai cũng đồng ý với sếp, bạn dù thấy sai vẫn giơ tay.', options: ['Đồng thuận giúp cuộc họp kết thúc nhanh.', 'Không muốn là người duy nhất có ý kiến khác.', 'Sếp có kinh nghiệm, quyết định đúng.', 'Áp lực hòa nhập khiến che giấu quan điểm.'], correctIndex: 3, explanation: 'Sợ khác biệt so với nhóm.' },
+      { id: 'q17_4', type: 'scenario', scenario: 'Tại sao video TikTok hay hiện số lượt xem khủng?', options: ['Hiển thị số lớn để thu hút thêm người xem.', 'Số lượt xem là thước đo chất lượng.', 'Người dùng có xu hướng xem video đã được nhiều người xem.', 'Số cao tạo hiệu ứng lan truyền mạnh.'], correctIndex: 2, explanation: 'Số đông là bằng chứng giá trị ảo.' },
+      { id: 'q17_5', type: 'scenario', scenario: 'Bạn đổi kiểu tóc kỳ quặc vì “giới trẻ đang chuộng”.', options: ['Muốn hòa nhập với xu hướng cộng đồng.', 'Kiểu mới thể hiện năng động, bắt kịp thời đại.', 'Thay đổi theo số đông để tránh bị đánh giá lỗi thời.', 'Dễ bị ảnh hưởng bởi những gì đang phổ biến.'], correctIndex: 3, explanation: 'Đu trend bất chấp bản sắc.' },
+      { id: 'q17_6', type: 'scenario', scenario: 'Quán vắng bạn không vào, quán đông bạn sẵn sàng chờ 1 tiếng.', options: ['Quán đông chứng tỏ đồ ngon, dịch vụ tốt.', 'Sự đông đúc tạo cảm giác yên tâm.', 'Tin số đông đánh giá chính xác hơn.', 'Quyết định dựa trên hành vi người khác giảm rủi ro.'], correctIndex: 3, explanation: 'Đông người là bằng chứng an toàn ảo.' },
+      { id: 'q17_7', type: 'scenario', scenario: 'Hiệu ứng đoàn tàu thường dẫn đến hậu quả gì?', options: ['Tạo quyết định sáng suốt nhờ học hỏi số đông.', 'Mọi người mất khả năng đánh giá độc lập.', 'Lan tỏa thông tin hữu ích trong cộng đồng.', 'Thúc đẩy gắn kết và đồng thuận xã hội.'], correctIndex: 1, explanation: 'Mất khả năng tư duy độc lập.' },
+      { id: 'q17_8', type: 'scenario', scenario: 'Thám tử bước vào đám đông đang hô hào đuổi bắt một người.', options: ['Cần can thiệp ngăn chặn hành vi quá khích.', 'Đám đông dễ bị kích động và thiếu khách quan.', 'Phải xác minh thông tin trước khi kết luận.', 'Sự việc cần xử lý theo quy trình pháp luật.'], correctIndex: 1, explanation: 'Đám đông thường hung hãn và thiếu lý trí.' }
+    ]
+  },
+  {
+    id: 'q18',
+    title: 'Một chân',
+    regionId: 'r3',
+    requiredLevel: 18,
+    xpReward: 260,
+    gemReward: 5,
+    questions: [
+      { id: 'q18_1', type: 'scenario', scenario: 'Ai đó nhờ bạn giữ hộ đồ 1 phút, sau đó nhờ bạn trông hộ 1 tiếng. Bạn đồng ý.', options: ['Bạn tốt bụng, sẵn sàng giúp đỡ.', 'Việc nhỏ dễ đồng ý, sau khó từ chối việc lớn.', 'Không muốn phá vỡ hình ảnh người tốt.', 'Lòng tốt khiến khước từ lời nhờ vả chính đáng.'], correctIndex: 1, explanation: 'Đồng ý việc nhỏ dẫn đến việc lớn.' },
+      { id: 'q18_2', type: 'scenario', scenario: 'App bắt bạn đăng ký dùng thử 0đ, sau 7 ngày nó tự trừ 1 triệu.', options: ['Đã đồng ý điều khoản khi đăng ký.', 'Bắt đầu sử dụng tạo cảm giác khó dừng.', 'Cảm thấy đã cam kết nên phải thanh toán.', 'App khai thác tâm lý muốn nhất quán với hành động ban đầu.'], correctIndex: 1, explanation: 'Một khi đã “mở cửa” thì rất khó đóng lại.' },
+      { id: 'q18_3', type: 'scenario', scenario: 'Bạn đồng ý ký tên ủng hộ môi trường, sau đó họ nhờ bạn quyên góp.', options: ['Sau cam kết, muốn hành động nhất quán.', 'Quyên góp là cơ hội thể hiện trách nhiệm xã hội.', 'Không muốn bị coi là không giữ lời hứa.', 'Ủng hộ ban đầu khiến dễ đồng ý yêu cầu tiếp theo.'], correctIndex: 3, explanation: 'Hành động nhỏ tạo ra trách nhiệm lớn.' },
+      { id: 'q18_4', type: 'scenario', scenario: 'Người bán hàng nhờ bạn mặc thử áo, sau đó ép bạn mua.', options: ['Thử đồ tạo cảm giác sở hữu tạm thời, khó trả lại.', 'Ngại khi đã làm phiền mà không mua.', 'Sau khi thử, dễ bị thuyết phục về sự phù hợp.', 'Cảm giác có trách nhiệm với sản phẩm đã thử.'], correctIndex: 1, explanation: 'Đã thử là đã bắt đầu “đồng ý”.' },
+      { id: 'q18_5', type: 'scenario', scenario: 'Để mượn 10 triệu, bạn nên mượn 100k trước.', options: ['Xây dựng thói quen cho vay số nhỏ trước.', 'Người cho vay dễ đồng ý khoản nhỏ, sau khó từ chối khoản lớn.', 'Tạo lòng tin qua giao dịch nhỏ.', 'Sự nhất quán trong hành vi giúp thuyết phục.'], correctIndex: 1, explanation: 'Xây dựng thói quen “đồng ý” cho đối phương.' },
+      { id: 'q18_6', type: 'scenario', scenario: 'Tại sao khảo sát hay bắt đầu bằng câu hỏi Có/Không dễ dàng?', options: ['Giúp người tham gia làm quen với hình thức.', 'Tạo thói quen trả lời “có” trước khi vào câu hỏi chính.', 'Lọc người thực sự quan tâm.', 'Câu dễ giúp người tham gia tự tin hơn.'], correctIndex: 1, explanation: 'Giam bạn vào guồng quay câu trả lời.' },
+      { id: 'q18_7', type: 'scenario', scenario: 'Khi đã trót làm một việc nhỏ, ta thường cảm thấy…', options: ['Hài lòng và muốn dừng lại.', 'Có trách nhiệm phải làm tiếp việc liên quan.', 'Muốn thay đổi hướng để tránh ràng buộc.', 'Áp lực từ sự nhất quán của bản thân.'], correctIndex: 3, explanation: 'Áp lực của sự nhất quán nội tại.' },
+      { id: 'q18_8', type: 'scenario', scenario: 'Thám tử bước vào phòng thẩm vấn và mời nghi phạm một điếu thuốc.', options: ['Tạo không khí thân thiện để nghi phạm thoải mái.', 'Sự tiếp nhận nhỏ mở đường cho hợp tác lớn hơn.', 'Xây dựng quan hệ trước khi vào vấn đề chính.', 'Hành động nhỏ thể hiện thiện chí.'], correctIndex: 1, explanation: 'Một sự nhận lời nhỏ mở đường cho lời khai.' }
+    ]
+  },
+  {
+    id: 'q19',
+    title: 'Cửa mặt',
+    regionId: 'r3',
+    requiredLevel: 19,
+    xpReward: 280,
+    gemReward: 6,
+    questions: [
+      { id: 'q19_1', type: 'scenario', scenario: 'Bạn nhờ vay 1 tỷ, người ta từ chối, bạn xin vay 10 triệu và họ đồng ý ngay.', options: ['Yêu cầu lớn làm yêu cầu nhỏ sau có vẻ hợp lý.', 'Người nghe đã từ chối một lần nên khó từ chối lần hai.', 'Sự nhượng bộ khiến đối phương cảm thấy có lỗi.', 'So với 1 tỷ, 10 triệu là con số quá nhỏ.'], correctIndex: 0, explanation: 'Yêu cầu cực lớn làm yêu cầu nhỏ trở nên hợp lý.' },
+      { id: 'q19_2', type: 'scenario', scenario: 'Con đòi mua iPhone 15 Pro Max, mẹ mắng, con xin mua cái ốp lưng 100k.', options: ['Mẹ vừa từ chối việc lớn nên dễ đồng ý việc nhỏ.', 'Ốp lưng là phụ kiện cần thiết.', 'Con biết thương lượng để đạt mục tiêu.', 'Sự thay đổi yêu cầu khiến mẹ thấy con biết điều.'], correctIndex: 0, explanation: 'Mẹ thấy mình vừa từ chối việc to nên tặc lưỡi cho việc nhỏ.' },
+      { id: 'q19_3', type: 'scenario', scenario: 'Tại sao các shop hay treo bảng sale 70% nhưng thực tế toàn sale 10%?', options: ['70% tạo ấn tượng giảm sâu, thu hút chú ý.', 'Khách thấy giảm 10% là chấp nhận sau khi thấy 70% “quá đáng”.', 'Đây là chiêu để khách vào shop.', 'Sự tương phản giữa các mức giảm làm tăng cảm giác hời.'], correctIndex: 3, explanation: 'Sự tương phản làm giảm sự phản kháng.' },
+      { id: 'q19_4', type: 'scenario', scenario: 'Sếp bắt làm 10 báo cáo cuối tuần, bạn kêu khổ, sếp bảo “Thôi làm 2 cái thôi”.', options: ['Sếp thực chất chỉ muốn 2 báo cáo từ đầu.', 'Sự phản đối khiến sếp điều chỉnh.', 'Đề xuất yêu cầu cao trước khiến yêu cầu thực tế dễ được chấp nhận.', 'Sếp muốn tạo cảm giác nhượng bộ để bạn vui vẻ.'], correctIndex: 2, explanation: 'Thực ra sếp chỉ cần bạn làm 2 cái.' },
+      { id: 'q19_5', type: 'scenario', scenario: 'Người lạ nhờ bạn giúp 1 ngày, bạn từ chối, họ nhờ giúp 5 phút.', options: ['Cảm thấy có lỗi khi từ chối lần đầu nên dễ đồng ý lần sau.', 'Yêu cầu 5 phút quá nhỏ để từ chối sau khi đã từ chối 1 ngày.', 'Sự linh hoạt thể hiện tôn trọng thời gian bạn.', 'Muốn giữ hình ảnh người tốt sau khi từ chối.'], correctIndex: 1, explanation: 'Nhượng bộ tạo ra áp lực đáp lại.' },
+      { id: 'q19_6', type: 'scenario', scenario: 'Để thuyết phục thám tử khác, hãy đưa ra phương án điên rồ nhất trước.', options: ['Phương án điên rồ làm giảm sức đề kháng với phương án thực tế.', 'Đối phương thấy phương án thứ hai hợp lý khi so sánh.', 'Tạo ấn tượng bạn đã nghiêm túc xem xét mọi khả năng.', 'Sự khác biệt lớn giữa hai phương án làm mờ điểm yếu của phương án sau.'], correctIndex: 3, explanation: 'Hạ nhiệt sự phòng thủ của đối phương.' },
+      { id: 'q19_7', type: 'scenario', scenario: 'Hậu quả của việc bị dính bẫy tương phản là gì?', options: ['Quyết định dựa trên so sánh thay vì giá trị thực.', 'Đồng ý với điều mình không thực sự muốn.', 'Mất khả năng đánh giá khách quan.', 'Bị thao túng để chấp nhận phương án có lợi cho người khác.'], correctIndex: 1, explanation: 'Rơi vào ma trận so sánh giả tạo.' },
+      { id: 'q19_8', type: 'scenario', scenario: 'Thám tử bước vào vụ án và yêu cầu “Bắt tất cả mọi người!”', options: ['Yêu cầu vô lý tạo áp lực để đạt sự thỏa hiệp.', 'Sự cực đoan làm lộ diện người có liên quan.', 'Thăm dò phản ứng nghi phạm.', 'Yêu cầu không khả thi dẫn đến đề xuất phương án khả thi hơn.'], correctIndex: 0, explanation: 'Tạo áp lực cực đại để nhận lấy sự thỏa hiệp.' }
+    ]
+  },
+  {
+    id: 'q20',
+    title: 'Phe ta',
+    regionId: 'r3',
+    requiredLevel: 20,
+    xpReward: 300,
+    gemReward: 7,
+    questions: [
+      { id: 'q20_1', type: 'scenario', scenario: 'Bạn thấy bạn mình sai nhưng vì “cùng phe” nên vẫn bênh chằm chặp.', options: ['Tình bạn quan trọng hơn đúng sai.', 'Thiên vị người cùng nhóm là điều tự nhiên.', 'Không muốn mất lòng bạn.', 'Sai thì cũng phải bảo vệ nhau.'], correctIndex: 1, explanation: 'Thiên vị người cùng nhóm.' },
+      { id: 'q20_2', type: 'scenario', scenario: 'Nhân viên cũ ghét nhân viên mới dù họ chưa làm gì sai.', options: ['Ma cũ bắt nạt ma mới là chuyện thường.', 'Não tự tạo ranh giới bọn ta – bọn nó.', 'Nhân viên mới thường kém năng lực.', 'Sợ bị thay thế nên có thái độ.'], correctIndex: 1, explanation: 'Não tự tạo ranh giới bọn ta – bọn nó.' },
+      { id: 'q20_3', type: 'scenario', scenario: 'Tại sao các fanclub hay cãi nhau tay đôi trên mạng?', options: ['Hâm mộ cuồng nhiệt dẫn đến xung đột.', 'Cơ chế bảo vệ phe ta (In-group).', 'Mạng xã hội khuyến khích tranh luận.', 'Muốn chứng tỏ lòng trung thành.'], correctIndex: 1, explanation: 'Tăng bản sắc cá nhân nhờ thành tích nhóm.' },
+      { id: 'q20_4', type: 'scenario', scenario: 'Bạn tin rằng quê mình là nơi nhiều người tài nhất thế giới.', options: ['Đúng thế, quê mình có nhiều nhân tài.', 'Tự tôn địa phương thái quá.', 'Tình yêu quê hương là điều tốt.', 'Mình lớn lên ở đó nên tự hào.'], correctIndex: 1, explanation: 'Bias địa phương.' },
+      { id: 'q20_5', type: 'scenario', scenario: 'Sếp chỉ tuyển người cùng trường đại học với mình.', options: ['Ủng hộ trường cũ là điều nên làm.', 'Bẫy In-group bias trong tuyển dụng.', 'Người cùng trường có chất lượng tốt.', 'Dễ tin tưởng người có cùng xuất thân.'], correctIndex: 1, explanation: 'Bỏ qua nhân tài khác vì sự thân thuộc.' },
+      { id: 'q20_6', type: 'scenario', scenario: 'Trong bóng đá, fan đội nhà luôn thấy trọng tài ép đội mình.', options: ['Trọng tài thường thiên vị đội khách.', 'Góc nhìn bị bóp méo bởi màu áo.', 'Đội nhà bị ép thật.', 'Sự bất công luôn hiện hữu.'], correctIndex: 1, explanation: 'Góc nhìn bị bóp méo bởi màu áo.' },
+      { id: 'q20_7', type: 'scenario', scenario: 'Để chung sống hòa bình, ta cần làm gì?', options: ['Xóa bỏ các nhóm.', 'Tìm mục tiêu chung cho cả hai nhóm.', 'Nghỉ chơi với nhóm kia.', 'Đánh nhau để phân thắng bại.'], correctIndex: 1, explanation: 'Sát nhập hai nhóm thành một “Phe ta” lớn hơn.' },
+      { id: 'q20_8', type: 'scenario', scenario: 'Thám tử bước vào vụ án chia phe phái trong gia đình.', options: ['Khó phá vì lời khai bị chi phối.', 'Cảnh giác với lời khai thiên vị từ phe cánh.', 'Cần hòa giải trước khi điều tra.', 'Nghe lời khai từ cả hai phía.'], correctIndex: 1, explanation: 'Lời khai bị nhuộm màu bởi sự trung thành mù quáng.' }
+    ]
+  },
+  {
+    id: 'q21',
+    title: 'Kẻ lạ',
+    regionId: 'r3',
+    requiredLevel: 21,
+    xpReward: 320,
+    gemReward: 8,
+    questions: [
+      { id: 'q21_1', type: 'scenario', scenario: 'Bạn mặc định những người từ nước X là… lừa đảo.', options: ['Đúng vậy, nhiều vụ lừa đảo từ nước X.', 'Coi mọi người trong nhóm khác đều giống hệt nhau.', 'Bạn có thông tin đáng tin cậy.', 'Phòng thủ trước người lạ là cần thiết.'], correctIndex: 1, explanation: 'Coi mọi người trong nhóm khác đều giống hệt nhau.' },
+      { id: 'q21_2', type: 'scenario', scenario: 'Thanh niên nghĩ “Người già toàn bọn bảo thủ và lú lẫn”.', options: ['Đúng, người già khó thay đổi.', 'Bẫy đánh đồng nhóm ngoài.', 'Có nhiều người già như vậy.', 'Tuổi tác ảnh hưởng đến tư duy.'], correctIndex: 1, explanation: 'Xóa nhòa sự khác biệt cá nhân của kẻ lạ.' },
+      { id: 'q21_3', type: 'scenario', scenario: 'Tại sao chúng ta hay vơ đũa cả nắm khi nói về đối thủ?', options: ['Cho nhanh, khỏi mất công phân tích.', 'Não lười phân tích cá thể hóa.', 'Họ thực sự giống nhau.', 'Đơn giản hóa để dễ bề ghét bỏ.'], correctIndex: 1, explanation: 'Đơn giản hóa để dễ bề ghét bỏ.' },
+      { id: 'q21_4', type: 'scenario', scenario: 'Bạn thấy một người ăn xin và thề họ là lừa đảo không cần điều tra.', options: ['Tỉnh táo vì nhiều người giả mạo.', 'Định kiến với nhóm không thuộc về ta.', 'Họ thường có tổ chức lừa đảo.', 'Kinh nghiệm bản thân cho thấy vậy.'], correctIndex: 1, explanation: 'Gán mác xấu cho nhóm không thuộc về ta.' },
+      { id: 'q21_5', type: 'scenario', scenario: 'Càng ghét nhóm khác, chúng ta càng thấy họ…', options: ['Đáng thương.', 'Giống nhau như đúc.', 'Khác biệt rõ ràng.', 'Thông minh hơn mình.'], correctIndex: 1, explanation: 'Vô hiệu hóa sự phức tạp của nhóm địch.' },
+      { id: 'q21_6', type: 'scenario', scenario: 'Hậu quả của sự vơ đũa cả nắm là gì?', options: ['An toàn hơn.', 'Xung đột và kỳ thị vô căn cứ.', 'Hạnh phúc hơn.', 'Dễ dàng kết bạn.'], correctIndex: 1, explanation: 'Mầm mống của sự chia rẽ.' },
+      { id: 'q21_7', type: 'scenario', scenario: 'Để công bằng, thám tử cần nhìn nghi phạm như thế nào?', options: ['Một kẻ tội đồ điển hình.', 'Một cá thể độc lập không đại diện cho nhóm của họ.', 'Người lạ cần đề phòng.', 'Dựa vào hồ sơ nhóm để phán đoán.'], correctIndex: 1, explanation: 'Phá vỡ rào cản định kiến.' },
+      { id: 'q21_8', type: 'scenario', scenario: 'Thám tử bước vào vụ án mạng nơi hung thủ bị cho là “tất cả mọi người”.', options: ['Bắt hết.', 'Cảnh giác với bẫy đánh đồng nhóm ngoài.', 'Ngủ đi.', 'Hỏi ý kiến đám đông.'], correctIndex: 1, explanation: 'Mỗi cá nhân là một bí ẩn, không phải một con số.' }
+    ]
+  },
+  {
+    id: 'q22',
+    title: 'Không ai',
+    regionId: 'r3',
+    requiredLevel: 22,
+    xpReward: 340,
+    gemReward: 9,
+    questions: [
+      { id: 'q22_1', type: 'scenario', scenario: 'Thấy người bị nạn trên đường đông, ai cũng nhìn rồi đi qua vì nghĩ “người khác sẽ cứu”.', options: ['Họ vô tâm.', 'Trách nhiệm bị phân tán trong đám đông.', 'Họ bận việc riêng.', 'Sợ bị liên lụy.'], correctIndex: 1, explanation: 'Trách nhiệm bị phân tán trong đám đông.' },
+      { id: 'q22_2', type: 'scenario', scenario: 'Trong nhóm chat 100 người, hỏi “Ai làm việc này không?” và chả ai trả lời.', options: ['Mọi người lười.', 'Khuếch tán trách nhiệm.', 'Họ bận thật.', 'Do sếp chưa chỉ đạo.'], correctIndex: 1, explanation: 'Càng đông người, càng ít nỗ lực cá nhân.' },
+      { id: 'q22_3', type: 'scenario', scenario: 'Nếu bị nạn giữa đám đông, thám tử khuyên bạn nên làm gì?', options: ['Hét to “CỨU VỚI”.', 'Chỉ đích danh một người: “Anh áo đỏ hãy giúp tôi!”', 'Im lặng chờ ai đó giúp.', 'Khóc lóc để gây chú ý.'], correctIndex: 1, explanation: 'Chỉ định trách nhiệm để ngăn chặn bẫy đám đông.' },
+      { id: 'q22_4', type: 'scenario', scenario: 'Tại sao ở làng quê, người bị nạn lại được cứu nhanh hơn ở phố thị?', options: ['Người quê tốt hơn.', 'Đám đông ở phố làm loãng trách nhiệm.', 'Ở quê ít người nên dễ thấy.', 'Ở quê có thói quen giúp đỡ hàng xóm.'], correctIndex: 1, explanation: 'Số lượng ít làm tăng trọng số cá nhân.' },
+      { id: 'q22_5', type: 'scenario', scenario: 'Bạn thấy khói bốc lên từ nhà hàng xóm nhưng thấy cả xóm im lìm nên bạn cũng… đi ngủ.', options: ['Bạn bình tĩnh.', 'Bẫy sự thờ ơ tập thể.', 'Cháy nhẹ, không đáng lo.', 'Tưởng họ đã gọi cứu hỏa.'], correctIndex: 1, explanation: 'Mọi người đang nhìn nhau để xem tình hình.' },
+      { id: 'q22_6', type: 'scenario', scenario: 'Căn phòng càng đông người chứng kiến vụ án, cơ hội bắt hung thủ càng…', options: ['Cao hơn.', 'Thấp hơn do hỗn loạn và ỷ lại.', 'Bình thường.', 'Không liên quan.'], correctIndex: 1, explanation: 'Người này tưởng người kia đã báo cảnh sát.' },
+      { id: 'q22_7', type: 'scenario', scenario: 'Điều gì phá vỡ Bystander effect?', options: ['Thêm người.', 'Sự xuất hiện của một người xung phong đầu tiên.', 'Im lặng.', 'Đi về.'], correctIndex: 1, explanation: 'Hành động mồi kích hoạt ý thức cộng đồng.' },
+      { id: 'q22_8', type: 'scenario', scenario: 'Thám tử bước vào đám đông đang bao quanh một người bị đánh.', options: ['Vào xem ké.', 'Giải tán và phân công nhiệm vụ cho từng người.', 'Hô hào mọi người đánh tiếp.', 'Đứng nhìn.'], correctIndex: 1, explanation: 'Xác định lại trách nhiệm cho từng cá nhân.' }
+    ]
+  },
+  {
+    id: 'q23',
+    title: 'Ỷ lại',
+    regionId: 'r3',
+    requiredLevel: 23,
+    xpReward: 360,
+    gemReward: 10,
+    questions: [
+      { id: 'q23_1', type: 'scenario', scenario: 'Làm việc nhóm 10 người, bạn lén lút làm ít hơn so với khi làm 1 mình.', options: ['Bạn lười.', 'Nỗ lực giảm khi công lao bị hòa tan.', 'Bạn bận.', 'Tại mọi người không làm.'], correctIndex: 1, explanation: 'Nỗ lực giảm khi công lao bị hòa tan.' },
+      { id: 'q23_2', type: 'scenario', scenario: 'Kéo co đội 20 người, bạn chỉ dùng 50% sức vì “có ai biết đâu”.', options: ['Khôn lỏi.', 'Bẫy ỷ lại xã hội.', 'Bạn yếu.', 'Tiết kiệm sức.'], correctIndex: 1, explanation: 'Mất động lực khi thiếu sự giám sát cá nhân.' },
+      { id: 'q23_3', type: 'scenario', scenario: 'Tại sao các dự án nhóm thường bị chậm deadline?', options: ['Nhiều việc quá.', 'Bệnh ỷ lại tập thể.', 'Tại sếp giao nhiều.', 'Do mạng chậm.'], correctIndex: 1, explanation: 'Ai cũng nghĩ mình không quan trọng.' },
+      { id: 'q23_4', type: 'scenario', scenario: 'Để trị Social loafing, thám tử nên làm gì?', options: ['Mắng cả nhóm.', 'Đánh giá điểm và công việc của từng người công khai.', 'Nghỉ làm.', 'Đi ngủ.'], correctIndex: 1, explanation: 'Cá nhân hóa trách nhiệm và thành quả.' },
+      { id: 'q23_5', type: 'scenario', scenario: 'Bạn thề là mình rất chăm, nhưng vào nhóm bạn lại… đi chơi game.', options: ['Game hay.', 'Cơ chế lười biếng vô thức của nhóm.', 'Bạn hèn.', 'Do duyên.'], correctIndex: 1, explanation: 'Sự bí ẩn của đám đông cổ vũ sự lười.' },
+      { id: 'q23_6', type: 'scenario', scenario: 'Trong buổi brainstorming, chỉ có 2 người nói, 8 người im lặng gật đầu.', options: ['Họ thông minh.', 'Sự ỷ lại tư duy.', 'Họ mệt.', 'Không có ý tưởng.'], correctIndex: 1, explanation: 'Đừng để tiếng nói số đông lấn át nỗ lực cá nhân.' },
+      { id: 'q23_7', type: 'scenario', scenario: 'Lợi ích của việc làm việc cá nhân so với làm nhóm 10 người là?', options: ['Nhàn hơn.', 'Năng suất trên từng người cao hơn.', 'Vui hơn.', 'Được khen nhiều hơn.'], correctIndex: 1, explanation: 'Càng đông hiệu suất càng giảm nếu không quản lý tốt.' },
+      { id: 'q23_8', type: 'scenario', scenario: 'Thám tử bước vào văn phòng nơi ai cũng đang “chờ lệnh”.', options: ['Ra lệnh.', 'Phân chia nhiệm vụ độc lập cho mỗi thám tử.', 'Im lặng.', 'Đi về.'], correctIndex: 1, explanation: 'Xóa bỏ sự ỷ lại bằng trách nhiệm rạch ròi.' }
+    ]
+  },
+  {
+    id: 'q24',
+    title: 'Thành phố',
+    regionId: 'r3',
+    requiredLevel: 24,
+    xpReward: 400,
+    gemReward: 15,
+    questions: [
+      { id: 'q24_1', type: 'scenario', scenario: 'Bạn bước vào tòa nhà bỏ hoang, một người mặc đồ đen nói “Đừng bao giờ quay đầu lại”.', options: ['Quay lại luôn.', 'Sập bẫy tò mò phản kháng.', 'Chạy mất dép.', 'Nghiêm túc nghe theo.'], correctIndex: 1, explanation: 'Lệnh cấm kích thích sự vi phạm.' },
+      { id: 'q24_2', type: 'scenario', scenario: 'Hung thủ đang điều khiển đám đông bằng những lời mật ngọt.', options: ['Nghe theo.', 'Dùng tư duy thám tử bóc tách từng lớp dối trá.', 'Chạy trốn.', 'May mắn.'], correctIndex: 1, explanation: 'Sức mạnh của lời nói thao túng số đông.' },
+      { id: 'q24_3', type: 'scenario', scenario: 'Vũ khí mạnh nhất để chống lại sự “Dắt mũi” ở Phố Thị?', options: ['Súng.', 'Kiến thức về các thiên kiến tâm lý.', 'Tiền.', 'Mối quan hệ.'], correctIndex: 1, explanation: 'Hiểu bẫy là bước đầu để thoát bẫy.' },
+      { id: 'q24_4', type: 'scenario', scenario: 'Bạn cảm thấy mình thật nhỏ bé giữa các tòa nhà cao tầng.', options: ['Đúng thế.', 'Hiệu ứng môi trường ảnh hưởng vị thế cá nhân.', 'Bạn thấp thật.', 'Hợp lý.'], correctIndex: 1, explanation: 'Không gian định nghĩa cảm xúc.' },
+      { id: 'q24_5', type: 'scenario', scenario: 'Tại sao kẻ gian thường đóng giả người quyền lực?', options: ['Cho oai.', 'Lợi dụng bẫy uy quyền.', 'Họ giàu.', 'Sự thật.'], correctIndex: 1, explanation: 'Não bộ tự động vâng lời bộ quân phục.' },
+      { id: 'q24_6', type: 'scenario', scenario: 'Để thoát khỏi mê cung phố thị, thám tử cần điều gì?', options: ['Bản đồ.', 'Sự tỉnh táo trước mọi lời dụ dỗ đám đông.', 'La bàn.', 'Xe nhanh.'], correctIndex: 1, explanation: 'Bản đồ nằm trong tâm trí của bạn.' },
+      { id: 'q24_7', type: 'scenario', scenario: 'Kẻ dắt mũi sợ nhất điều gì?', options: ['Cảnh sát.', 'Người đặt câu hỏi “Tại sao?”.', 'Tiền.', 'Bị lộ.'], correctIndex: 1, explanation: 'Câu hỏi phá vỡ vòng lặp thao túng.' },
+      { id: 'q24_8', type: 'scenario', scenario: 'Thám tử đứng trước ngã tư Phố Thị, nơi mọi con đường đều có bẫy.', options: ['Đi đại.', 'Phân tích các lực đẩy tâm lý xung quanh để chọn lối đi.', 'Quay đầu.', 'May mắn.'], correctIndex: 1, explanation: 'Quyết định dựa trên logic thực nghiệm.' }
+    ]
+  },
+
+  // ===================== VÙNG 4: LÚ LẪN =====================
+  {
+    id: 'q25',
+    title: 'Dở dang',
+    regionId: 'r4',
+    requiredLevel: 25,
+    xpReward: 300,
+    gemReward: 4,
+    questions: [
+      { id: 'q25_1', type: 'scenario', scenario: 'Đang xem phim hay thì mất điện, cả đêm bạn không ngủ được vì cứ nghĩ về đoạn kết.', options: ['Bạn yêu phim.', 'Não ưu tiên ghi nhớ việc chưa hoàn thành.', 'Sợ bóng tối.', 'Do phim đỉnh.'], correctIndex: 1, explanation: 'Não bộ ưu tiên ghi nhớ những việc chưa hoàn thành.' },
+      { id: 'q25_2', type: 'scenario', scenario: 'Bài hát cứ lặp đi lặp lại trong đầu vì bạn chỉ thuộc đúng một câu.', options: ['Sâu tai.', 'Não “vòng lặp” để cố kết thúc thông tin.', 'Bạn yêu nhạc.', 'Tâm thần.'], correctIndex: 1, explanation: 'Não “vòng lặp” để cố gắng kết thúc thông tin.' },
+      { id: 'q25_3', type: 'scenario', scenario: 'Tại sao các shop hay cho tích điểm “Mua 8 tặng 1” và đã tích sẵn 2 điểm?', options: ['Họ tốt.', 'Tạo cảm giác dự án đã bắt đầu và cần hoàn thiện.', 'Lừa đảo.', 'Khuyến mãi.'], correctIndex: 1, explanation: 'Kích hoạt nhu cầu lấp đầy chỗ trống.' },
+      { id: 'q25_4', type: 'scenario', scenario: 'Học bù đầu 10 chương, thi xong bạn quên sạch sành sanh.', options: ['Bạn lười.', 'Nhiệm vụ hoàn thành nên não “xóa bộ nhớ”.', 'Học vẹt.', 'Mất trí.'], correctIndex: 1, explanation: 'Khi xong việc, Zeigarnik effect biến mất.' },
+      { id: 'q25_5', type: 'scenario', scenario: 'Để nhớ lâu một kiến thức, thám tử khuyên bạn nên làm gì?', options: ['Học liên tục 10 tiếng.', 'Học ngắt quãng để tạo sự “dở dang” giả cho não.', 'Đi ngủ.', 'Bỏ học.'], correctIndex: 1, explanation: 'Ngắt quãng đúng lúc làm não bám sát thông tin hơn.' },
+      { id: 'q25_6', type: 'scenario', scenario: 'Người yêu cũ luôn là người khó quên nhất vì…', options: ['Họ đẹp.', 'Mối tình chưa đi đến hồi kết (dở dang).', 'Bạn chung thủy.', 'Do duyên.'], correctIndex: 1, explanation: 'Một câu hỏi không có đáp án là câu hỏi ám ảnh nhất.' },
+      { id: 'q25_7', type: 'scenario', scenario: 'Tại sao các game hay có thanh tiến trình (progress bar)?', options: ['Cho đẹp.', 'Tận dụng để thôi thúc bạn làm nốt.', 'Máy tính tự hiện.', 'Trend.'], correctIndex: 1, explanation: 'Nhìn thấy sự dở dang làm ta bứt rứt.' },
+      { id: 'q25_8', type: 'scenario', scenario: 'Thám tử đứng trước một vụ án bị bỏ dở từ 10 năm trước.', options: ['Bỏ qua.', 'Sức mạnh ám ảnh của “việc chưa xong” thúc đẩy điều tra.', 'Khó quá.', 'May mắn.'], correctIndex: 1, explanation: 'Hồ sơ chưa đóng là động lực mạnh nhất của thám tử.' }
+    ]
+  },
+  {
+    id: 'q26',
+    title: 'Ký ức ảo',
+    regionId: 'r4',
+    requiredLevel: 26,
+    xpReward: 320,
+    gemReward: 5,
+    questions: [
+      { id: 'q26_1', type: 'scenario', scenario: 'Bạn thề là mình đã khóa cửa, nhưng thực tế là chưa.', options: ['Bạn già.', 'Não tự lấp đầy lỗ hổng bằng thứ “nên có”.', 'Quên.', 'Có trộm.'], correctIndex: 1, explanation: 'Não tự lấp đầy lỗ hổng bằng thứ “nên có”.' },
+      { id: 'q26_2', type: 'scenario', scenario: 'Hàng ngàn người thề thấy Pikachu có vệt đen ở đuôi (thực tế là không).', options: ['Pikachu đổi mẫu.', 'Mandela effect.', 'Họ nhầm.', 'Ảo giác.'], correctIndex: 1, explanation: 'Trí nhớ là thứ có thể bị “xào nấu” tập thể.' },
+      { id: 'q26_3', type: 'scenario', scenario: 'Tại sao nhân chứng thường khai sai màu áo hung thủ sau 1 tuần?', options: ['Họ nói dối.', 'Trí nhớ bị biến đổi theo thời gian.', 'Họ cận.', 'Hung thủ thay áo.'], correctIndex: 1, explanation: 'Mỗi lần nhớ lại là một lần não… viết lại kịch bản.' },
+      { id: 'q26_4', type: 'scenario', scenario: 'Bạn nhớ mình bị lạc ở siêu thị hồi 5 tuổi dù mẹ bảo “làm gì có”.', options: ['Bạn nhớ đúng.', 'Ký ức bị cấy.', 'Mẹ quên.', 'Bịa đặt.'], correctIndex: 1, explanation: 'Nghe kể nhiều quá nên não tự biến thành “trải nghiệm”.' },
+      { id: 'q26_5', type: 'scenario', scenario: 'Trong phòng thẩm vấn, thám tử hỏi “Cái xe đỏ chạy nhanh không?” dù xe màu xanh.', options: ['Hỏi ngu.', 'Bẫy thông tin sai lạc.', 'Thám tử mù màu.', 'May mắn.'], correctIndex: 1, explanation: 'Câu hỏi định hướng cài cắm ký ức giả cho nhân chứng.' },
+      { id: 'q26_6', type: 'scenario', scenario: 'Bạn quả quyết mình đã ăn cơm rồi, dù bụng đang kêu.', options: ['No ảo.', 'Ký ức giả do thói quen.', 'Bạn hâm.', 'Do mạng.'], correctIndex: 1, explanation: 'Hành động lặp đi lặp lại làm não lẫn lộn.' },
+      { id: 'q26_7', type: 'scenario', scenario: 'Để kiểm chứng trí nhớ, cách tốt nhất là?', options: ['Suy nghĩ kỹ.', 'Xem lại bằng chứng vật lý.', 'Hỏi bạn bè.', 'Đi ngủ.'], correctIndex: 1, explanation: 'Đừng bao giờ tin 100% vào bộ não của mình.' },
+      { id: 'q26_8', type: 'scenario', scenario: 'Thám tử tìm thấy một nhật ký viết sai sự thật một cách vô ý.', options: ['Tội phạm xảo quyệt.', 'Nghi phạm bị bẫy ký ức giả.', 'Nhật ký rác.', 'May mắn.'], correctIndex: 1, explanation: 'Sự thật nằm ở chứng cứ, không phải cảm nhận.' }
+    ]
+  },
+  {
+    id: 'q27',
+    title: 'Đạo văn',
+    regionId: 'r4',
+    requiredLevel: 27,
+    xpReward: 340,
+    gemReward: 6,
+    questions: [
+      { id: 'q27_1', type: 'scenario', scenario: 'Bạn nghĩ ra một giai điệu cực hay, sau đó phát hiện nó là nhạc chuông của bạn thân.', options: ['Ý tưởng lớn gặp nhau.', 'Não nhớ giai điệu nhưng quên nguồn gốc.', 'Bạn giỏi.', 'Trùng hợp.'], correctIndex: 1, explanation: 'Não nhớ giai điệu nhưng quên nguồn gốc.' },
+      { id: 'q27_2', type: 'scenario', scenario: 'Nhà văn viết một câu triết lý và thề là mình tự nghĩ ra, dù nó có trong sách SGK.', options: ['Thiên tài.', 'Bẫy Cryptomnesia.', 'Hợp lý.', 'Ảo tưởng.'], correctIndex: 1, explanation: 'Ký ức cũ hiện ra như ý tưởng mới.' },
+      { id: 'q27_3', type: 'scenario', scenario: 'Tại sao các ca sĩ hay bị dính scandal “đạo nhạc” dù họ thề là không biết?', options: ['Họ nói dối.', 'Cơ chế ghi nhớ tiềm thức lừa dối họ.', 'Họ hâm.', 'May mắn.'], correctIndex: 1, explanation: 'Tai nghe – não giữ – tay viết lại như của mình.' },
+      { id: 'q27_4', type: 'scenario', scenario: 'Bạn kể một câu chuyện cười cho chính người đã kể nó cho bạn nghe.', options: ['Bạn vui tính.', 'Quên nguồn gốc thông tin.', 'Bạn hâm.', 'Do duyên.'], correctIndex: 1, explanation: 'Đỉnh cao của sự “ngáo” trí nhớ.' },
+      { id: 'q27_5', type: 'scenario', scenario: 'Làm sao để tránh đạo văn vô thức?', options: ['Đừng đọc gì cả.', 'Ghi chú nguồn gốc mọi thứ bạn học được.', 'Đi chơi.', 'May mắn.'], correctIndex: 1, explanation: 'Quản lý nguồn tin là cách duy nhất.' },
+      { id: 'q27_6', type: 'scenario', scenario: 'Não bộ thích lưu trữ “nội dung” hơn là “nguồn gốc”. Đúng hay sai?', options: ['Sai.', 'Đúng.', 'Tùy người.', 'Hợp lý.'], correctIndex: 1, explanation: 'Cái gì quan trọng (nội dung) thì giữ, ai nói (nguồn) thì vứt.' },
+      { id: 'q27_7', type: 'scenario', scenario: 'Bạn thấy ý tưởng của mình bị người khác nói ra trong cuộc họp.', options: ['Họ ăn cắp.', 'Có thể họ cũng bị Cryptomnesia.', 'Bạn nói quá chậm.', 'May mắn.'], correctIndex: 1, explanation: 'Đừng vội kết tội khi chưa hiểu bộ não.' },
+      { id: 'q27_8', type: 'scenario', scenario: 'Thám tử bắt gặp một vụ án giống hệt vụ án nổi tiếng trong tiểu thuyết.', options: ['Bắt chước.', 'Kẻ thủ ác bị ám thị Cryptomnesia.', 'Trùng hợp.', 'May mắn.'], correctIndex: 1, explanation: 'Thực tế đôi khi là bản sao vô thức của hư cấu.' }
+    ]
+  },
+  {
+    id: 'q28',
+    title: 'Nhầm nguồn',
+    regionId: 'r4',
+    requiredLevel: 28,
+    xpReward: 360,
+    gemReward: 7,
+    questions: [
+      { id: 'q28_1', type: 'scenario', scenario: 'Bạn thề là sếp nói cho nghỉ thứ 6, nhưng hóa ra là… sếp trong mơ.', options: ['Bạn mơ ngủ.', 'Nhầm lẫn giữa thực và mộng.', 'Sếp ác.', 'Hết cứu.'], correctIndex: 1, explanation: 'Nhầm lẫn giữa thực và mộng.' },
+      { id: 'q28_2', type: 'scenario', scenario: 'Tin rằng cà rốt giúp mắt sáng như đèn pha vì nghe bà kể (thực tế là do tuyên truyền thế chiến).', options: ['Bà đúng.', 'Lỗi nguồn tin lịch sử.', 'Sự thật.', 'Bạn tin người.'], correctIndex: 1, explanation: 'Tin đồn biến thành kiến thức thường thức.' },
+      { id: 'q28_3', type: 'scenario', scenario: 'Tại sao tin giả (fake news) lại sống dai?', options: ['Vì nó hay.', 'Vì ta quên mất nguồn là từ “bài đăng nhảm” và chỉ nhớ nội dung.', 'Do mạng.', 'Hợp lý.'], correctIndex: 1, explanation: 'Sleeper effect: Nội dung ở lại, nguồn ra đi.' },
+      { id: 'q28_4', type: 'scenario', scenario: 'Bạn nhớ mang máng đã đọc tin này trên báo lớn, hóa ra là trên… lá cải.', options: ['Bạn nhầm.', 'Bẫy Source monitoring.', 'Báo nào chả thế.', 'Do mắt.'], correctIndex: 1, explanation: 'Nâng cấp nguồn tin theo ý muốn của não.' },
+      { id: 'q28_5', type: 'scenario', scenario: 'Làm thế nào để thám tử không bị nhầm nguồn tin?', options: ['Tin sếp.', 'Luôn kiểm tra chéo (cross–verify).', 'Đi ngủ.', 'May mắn.'], correctIndex: 1, explanation: 'Một nguồn là không nguồn.' },
+      { id: 'q28_6', type: 'scenario', scenario: 'Bạn mắng con vì tội lười, sau đó nhớ ra là mình… mắng nhầm đứa khác.', options: ['Bạn già.', 'Lỗi giám sát nguồn đối tượng.', 'Con lười thiệt mà.', 'Hợp lý.'], correctIndex: 1, explanation: 'Nhầm chủ thể của ký ức.' },
+      { id: 'q28_7', type: 'scenario', scenario: 'Sleeper effect là gì?', options: ['Hiệu ứng ngủ gật.', 'Thông tin từ nguồn không tin cậy càng lâu càng dễ tin.', 'Game hay.', 'Ảo giác.'], correctIndex: 1, explanation: 'Thời gian xóa nhòa sự cảnh giác về nguồn gốc.' },
+      { id: 'q28_8', type: 'scenario', scenario: 'Thám tử đối mặt với nhân chứng thề là “Thấy tận mắt”.', options: ['Tin luôn.', 'Cảnh giác với sự nhầm lẫn giữa tận mắt và nghe kể.', 'Bắt hung thủ.', 'May mắn.'], correctIndex: 1, explanation: 'Trí nhớ là kẻ nói dối tài ba.' }
+    ]
+  },
+  {
+    id: 'q29',
+    title: 'Tin đồn',
+    regionId: 'r4',
+    requiredLevel: 29,
+    xpReward: 380,
+    gemReward: 8,
+    questions: [
+      { id: 'q29_1', type: 'scenario', scenario: 'Ai cũng bảo ăn món X bị ung thư, bạn vứt luôn thùng món X dù báo chí chưa nói.', options: ['Bạn cẩn thận.', 'Thông tin ngoài lề đè bẹp sự thực.', 'Món X dở.', 'Do lo sợ.'], correctIndex: 1, explanation: 'Thông tin ngoài lề đè bẹp sự thực.' },
+      { id: 'q29_2', type: 'scenario', scenario: 'Clip cắt ghép làm bạn tin ca sĩ A là người xấu.', options: ['Cắt ghép đỉnh.', 'Não tin vào hình ảnh trước khi tin vào logic.', 'Sự thật.', 'Xử lý kém.'], correctIndex: 1, explanation: 'Não bộ tin vào hình ảnh trước khi tin vào logic.' },
+      { id: 'q29_3', type: 'scenario', scenario: 'Tại sao tin đồn trong công ty lại lan nhanh hơn thông báo chính thức?', options: ['Nó ly kỳ.', 'Đáp ứng nhu cầu giải tỏa tâm lý và kết nối.', 'Thông báo sếp dở.', 'Do rảnh.'], correctIndex: 1, explanation: 'Tin đồn là keo dán xã hội (dù độc hại).' },
+      { id: 'q29_4', type: 'scenario', scenario: 'Bạn thấy người ta bảo “Trái đất phẳng” và bắt đầu nghi ngờ khoa học.', options: ['Bạn thông minh.', 'Dính bẫy tin đồn cực đoan.', 'Khoa học sai thật.', 'Ảo giác.'], correctIndex: 1, explanation: 'Sự lặp lại tạo ra cảm giác về chân lý.' },
+      { id: 'q29_5', type: 'scenario', scenario: 'Cách dập tắt tin đồn hiệu quả nhất?', options: ['Im lặng.', 'Cung cấp thông tin minh bạch và trung thực ngay.', 'Mắng người đồn.', 'Đi chơi.'], correctIndex: 1, explanation: 'Chân lý là thuốc độc của tin đồn.' },
+      { id: 'q29_6', type: 'scenario', scenario: 'Sức mạnh của lời đồn nằm ở đâu?', options: ['Sự thật.', 'Sự sợ hãi và tò mò.', 'Người đồn giàu.', 'May mắn.'], correctIndex: 1, explanation: 'Càng sợ người ta càng đồn.' },
+      { id: 'q29_7', type: 'scenario', scenario: 'Tại sao thám tử không được nghe tin đồn từ hàng xóm?', options: ['Họ nói dối.', 'Tin đồn biến dạng qua mỗi người kể.', 'Họ bận.', 'Tiết kiệm thời gian.'], correctIndex: 1, explanation: 'Thông tin tam sao thất bản.' },
+      { id: 'q29_8', type: 'scenario', scenario: 'Thám tử bước vào vụ án mạng nôn nao cả khu phố.', options: ['Hỏi dân.', 'Gạt bỏ mọi lời đồn, chỉ tin vào chứng cứ pháp y.', 'Đi về.', 'May mắn.'], correctIndex: 1, explanation: 'Đám đông luôn phóng đại sự thật.' }
+    ]
+  },
+  {
+    id: 'q30',
+    title: 'Déjà vu',
+    regionId: 'r4',
+    requiredLevel: 30,
+    xpReward: 400,
+    gemReward: 9,
+    questions: [
+      { id: 'q30_1', type: 'scenario', scenario: 'Đang ăn cơm, bạn khựng lại: “Cảnh này mình thấy ở đâu rồi!”', options: ['Tiền kiếp.', 'Não xử lý nhầm thông tin hiện tại thành ký ức.', 'Mơ ngủ.', 'Trùng hợp.'], correctIndex: 1, explanation: 'Não xử lý nhầm thông tin hiện tại thành ký ức.' },
+      { id: 'q30_2', type: 'scenario', scenario: 'Gặp người lạ mà cứ thề là bạn thân từ thuở nào dù mới gặp lần đầu.', options: ['Nhân duyên.', 'Ảo giác quen thuộc.', 'Họ giống ai đó.', 'Bạn hâm.'], correctIndex: 1, explanation: 'Lỗi đồng bộ của hai bán cầu não.' },
+      { id: 'q30_3', type: 'scenario', scenario: 'Ngược lại với Déjà vu, nhìn đồ vật thân thuộc mà thấy lạ hoắc.', options: ['Mất trí.', 'Jamais vu.', 'Đồ vật mới.', 'Do nhìn lâu quá.'], correctIndex: 1, explanation: 'Mất cảm giác quen thuộc với thứ đã biết.' },
+      { id: 'q30_4', type: 'scenario', scenario: 'Tại sao ta hay gặp Déjà vu khi… mệt mỏi?', options: ['Thần kinh yếu.', 'Não bộ bị trễ nhịp xử lý (lag).', 'Hợp lý.', 'Ảo ảnh.'], correctIndex: 1, explanation: 'Não bộ “lag” nên ghi đè dữ liệu sai vị trí.' },
+      { id: 'q30_5', type: 'scenario', scenario: 'Bạn đọc một từ mãi và thấy nó… chẳng có ý nghĩa gì nữa.', options: ['Từ đó sai.', 'Semantic satiation.', 'Bạn mệt.', 'Hết chữ.'], correctIndex: 1, explanation: 'Lặp lại quá nhiều làm tế bào thần kinh trơ lỳ.' },
+      { id: 'q30_6', type: 'scenario', scenario: 'Khi gặp Déjà vu, thám tử nên làm gì?', options: ['Tin vào định mệnh.', 'Bình tĩnh kiểm tra thực tế, coi đó là lỗi thần kinh.', 'Sợ hãi.', 'May mắn.'], correctIndex: 1, explanation: 'Đừng để cảm giác dắt mũi logic.' },
+      { id: 'q30_7', type: 'scenario', scenario: 'Déjà vu có phải là bằng chứng của dòng thời gian song song?', options: ['Đúng thế.', 'Chưa có bằng chứng khoa học, chỉ là giả thuyết.', 'Hâm.', 'May mắn.'], correctIndex: 1, explanation: 'Khoa học thiên về giải thích sinh học hơn.' },
+      { id: 'q30_8', type: 'scenario', scenario: 'Thám tử bước vào căn phòng xa lạ nhưng thấy quen thuộc đến lạ kỳ.', options: ['Nhà mình.', 'Cảnh giác với bẫy Déjà vu hoặc ký ức tiềm ẩn.', 'Ngủ đi.', 'May mắn.'], correctIndex: 1, explanation: 'Có thể bạn đã thấy nó trong một bức ảnh cũ.' }
+    ]
+  },
+  {
+    id: 'q31',
+    title: 'Quên cửa',
+    regionId: 'r4',
+    requiredLevel: 31,
+    xpReward: 420,
+    gemReward: 10,
+    questions: [
+      { id: 'q31_1', type: 'scenario', scenario: 'Vừa bước qua cửa phòng để lấy đồ, bỗng quên mất mình định lấy gì.', options: ['Bạn già.', 'Cánh cửa đóng lại một bối cảnh bộ nhớ của não.', 'Đồ vật chạy mất.', 'Ảo giác.'], correctIndex: 1, explanation: 'Cánh cửa đóng lại một bối cảnh bộ nhớ của não.' },
+      { id: 'q31_2', type: 'scenario', scenario: 'Đang nói chuyện hay bỗng có người cắt ngang, thế là quên tiệt định nói gì.', options: ['Bạn lú.', 'Lỗi bộ nhớ đệm (working memory).', 'Người kia ác.', 'Do mạng.'], correctIndex: 1, explanation: 'Bộ nhớ tạm thời bị ghi đè.' },
+      { id: 'q31_3', type: 'scenario', scenario: 'Tại sao thám tử hay mang theo sổ tay thay vì tin vào đầu mình?', options: ['Cho oai.', 'Chống lại sự rơi rụng của working memory.', 'Nghiệp vụ.', 'May mắn.'], correctIndex: 1, explanation: 'Bút mực mờ hơn trí nhớ tốt.' },
+      { id: 'q31_4', type: 'scenario', scenario: 'Bạn nhớ số điện thoại trong 5 giây, sau đó quên sạch.', options: ['Bình thường.', 'Cơ chế xóa rác của bộ nhớ ngắn hạn.', 'Bạn kém.', 'Do số khó.'], correctIndex: 1, explanation: 'Não không muốn giữ thứ vô dụng lâu.' },
+      { id: 'q31_5', type: 'scenario', scenario: 'Để nhớ lại thứ vừa quên sau khi đi qua cửa, bạn nên làm gì?', options: ['Vò đầu.', 'Quay lại vị trí cũ trước khi đi qua cửa.', 'Đi ngủ.', 'Khóc.'], correctIndex: 1, explanation: 'Khôi phục bối cảnh gốc của ký ức.' },
+      { id: 'q31_6', type: 'scenario', scenario: 'Não bộ có thể giữ bao nhiêu món đồ trong bộ nhớ ngắn hạn cùng lúc?', options: ['Vô hạn.', 'Khoảng 7 (cộng trừ 2).', '100.', '1.'], correctIndex: 1, explanation: 'Định luật Miller về giới hạn bộ nhớ.' },
+      { id: 'q31_7', type: 'scenario', scenario: 'Hậu quả của việc quá tải thông tin là gì?', options: ['Thông minh hơn.', 'Mất khả năng ghi nhớ và ra quyết định.', 'Vui vẻ.', 'May mắn.'], correctIndex: 1, explanation: 'Não bộ sẽ “treo máy” như máy tính.' },
+      { id: 'q31_8', type: 'scenario', scenario: 'Thám tử bước vào vụ án với quá nhiều nghi phạm và dữ liệu.', options: ['Bắt hết.', 'Phân nhóm thông tin để tránh quá tải bộ nhớ.', 'Đi về.', 'May mắn.'], correctIndex: 1, explanation: 'Chia nhỏ để trị.' }
+    ]
+  },
+  {
+    id: 'q32',
+    title: 'Mê cung',
+    regionId: 'r4',
+    requiredLevel: 32,
+    xpReward: 500,
+    gemReward: 20,
+    questions: [
+      { id: 'q32_1', type: 'scenario', scenario: 'Bạn lạc trong mê cung và thấy một bảng chỉ dẫn: “Đừng tin vào ký ức của bạn”.', options: ['Vất bảng đi.', 'Nghiệm ra chân lý về sự sai lạc của bộ não.', 'Sợ quá.', 'May mắn.'], correctIndex: 1, explanation: 'Bài học lớn nhất của vùng này.' },
+      { id: 'q32_2', type: 'scenario', scenario: 'Vũ khí mạnh nhất để chống lại sự “Lú lẫn” là gì?', options: ['La bàn.', 'Sự ghi chép và kiểm chứng trực quan.', 'Đèn pin.', 'Tiền.'], correctIndex: 1, explanation: 'Chứng cứ vật lý không biết nói dối.' },
+      { id: 'q32_3', type: 'scenario', scenario: 'Kẻ thù lớn nhất trong Mê Cung Lú Lẫn là ai?', options: ['Hung thủ.', 'Chính bộ não hay tự huyễn hoặc của ta.', 'Con quái vật.', 'Sếp.'], correctIndex: 1, explanation: 'Kẻ thù nằm trong gương.' },
+      { id: 'q32_4', type: 'scenario', scenario: 'Tại sao những câu chuyện cổ tích lại hay có đoạn lặp lại?', options: ['Tác giả lười.', 'Để cấy ký ức lâu dài vào não trẻ em.', 'Trend.', 'Hợp lý.'], correctIndex: 1, explanation: 'Sự lặp lại là mẹ của ký ức.' },
+      { id: 'q32_5', type: 'scenario', scenario: 'Bạn cảm thấy thời gian trôi nhanh hơn khi về già.', options: ['Đúng thế.', 'Do não ít trải nghiệm mới (logarithmic time).', 'Bạn già thật.', 'Ảo giác.'], correctIndex: 1, explanation: 'Trải nghiệm mới làm chậm dòng thời gian.' },
+      { id: 'q32_6', type: 'scenario', scenario: 'Để thoát mê cung, thám tử cần điều gì ngoài bản đồ?', options: ['Lòng dũng cảm.', 'Tư duy phản biện lại chính kinh nghiệm của mình.', 'Thịt bò khô.', 'May mắn.'], correctIndex: 1, explanation: 'Kinh nghiệm đôi khi là cái bẫy.' },
+      { id: 'q32_7', type: 'scenario', scenario: 'Điều gì xảy ra nếu bạn thoát được Mê Cung?', options: ['Trở thành thần.', 'Lên level mới và mở khóa vùng 5.', 'Hết game.', 'Được tiền.'], correctIndex: 1, explanation: 'Phần thưởng là sự trưởng thành trong tư duy.' },
+      { id: 'q32_8', type: 'scenario', scenario: 'Thám tử bước ra khỏi cửa Mê Cung và thấy ánh sáng.', options: ['Nhắm mắt.', 'Tận hưởng sự tỉnh táo sau một hành trình “hack não”.', 'Quay lại.', 'May mắn.'], correctIndex: 1, explanation: 'Chào mừng bạn đến với thế giới thực.' }
+    ]
+  },
+
+  // ===================== VÙNG 5: NGÁO QUYẾT ĐỊNH =====================
+  {
+    id: 'q33',
+    title: 'Cố đấm',
+    regionId: 'r5',
+    requiredLevel: 33,
+    xpReward: 420,
+    gemReward: 4,
+    questions: [
+      { id: 'q33_1', type: 'scenario', scenario: 'Bạn mua vé xem phim 100k, phim dở tệ nhưng bạn vẫn ngồi xem hết “vì tiếc tiền vé”.', options: ['Bạn kiên nhẫn.', 'Tiền đã mất không thể lấy lại, đừng mất thêm thời gian.', 'Bạn yêu phim.', 'Do điện ảnh.'], correctIndex: 1, explanation: 'Tiền đã mất không thể lấy lại, đừng mất thêm thời gian.' },
+      { id: 'q33_2', type: 'scenario', scenario: 'Yêu một người độc hại 5 năm, bạn không dám chia tay vì “tiếc công sức thanh xuân”.', options: ['Tình yêu cao thượng.', 'Quá khứ không nên là cái cùm cho tương lai.', 'Bạn chung thủy.', 'Do duyên số.'], correctIndex: 1, explanation: 'Quá khứ không nên là cái cùm cho tương lai.' },
+      { id: 'q33_3', type: 'scenario', scenario: 'Cố ăn hết bát cơm dù đã no lòi mắt vì “tiếc công nấu”.', options: ['Bạn tiết kiệm.', 'Ăn quá no sẽ tốn thêm tiền thuốc.', 'Bạn đói.', 'Ngon quá.'], correctIndex: 1, explanation: 'Ăn quá no sẽ tốn thêm tiền thuốc.' },
+      { id: 'q33_4', type: 'scenario', scenario: 'Startup thua lỗ 1 tỷ, bạn đổ thêm 1 tỷ nữa “để cứu vãn danh dự”.', options: ['Bạn dũng cảm.', 'Đừng ném tiền tốt theo tiền xấu.', 'Bạn giàu.', 'Do thị trường.'], correctIndex: 1, explanation: 'Đừng ném tiền tốt theo tiền xấu.' },
+      { id: 'q33_5', type: 'scenario', scenario: 'Tại sao các dự án nhà nước hay bị kéo dài và đội vốn?', options: ['Nhiều việc quá.', 'Tâm lý không nỡ từ bỏ những gì đã đầu tư.', 'Do thời tiết.', 'Hợp lý.'], correctIndex: 1, explanation: 'Càng đổ nhiều tiền càng khó dừng lại.' },
+      { id: 'q33_6', type: 'scenario', scenario: 'Bạn cầm một cổ phiếu đang chia 10 nhưng không bán vì “chờ về bờ”.', options: ['Bạn kiên định.', 'Hy vọng viển vông dựa trên nỗi đau quá khứ.', 'Bạn thông minh.', 'Do sàn lỗi.'], correctIndex: 1, explanation: 'Hy vọng viển vông dựa trên nỗi đau quá khứ.' },
+      { id: 'q33_7', type: 'scenario', scenario: 'Cách tốt nhất để thoát bẫy sunk cost?', options: ['Tiết kiệm hơn.', 'Hỏi: Nếu bây giờ mới bắt đầu, mình có làm việc này không?', 'Cố thêm tí nữa.', 'May mắn.'], correctIndex: 1, explanation: 'Tập trung vào lợi ích tương lai, lờ đi chi phí quá khứ.' },
+      { id: 'q33_8', type: 'scenario', scenario: 'Thám tử phát hiện mình đã điều tra sai hướng suốt 1 tháng.', options: ['Cố bẻ lái sang hướng đó.', 'Can đảm bỏ hết làm lại từ đầu.', 'Lấp liếm.', 'May mắn.'], correctIndex: 1, explanation: 'Sự thật quan trọng hơn cái tôi.' }
+    ]
+  },
+  {
+    id: 'q34',
+    title: 'Sợ mất',
+    regionId: 'r5',
+    requiredLevel: 34,
+    xpReward: 440,
+    gemReward: 5,
+    questions: [
+      { id: 'q34_1', type: 'scenario', scenario: 'Bạn thấy đau khổ khi mất 100k gấp đôi niềm vui khi được 100k.', options: ['Bạn nghèo.', 'Nỗi đau mất mát luôn nặng nề hơn niềm vui tương đương.', 'Bình thường.', 'Do tiền.'], correctIndex: 1, explanation: 'Nỗi đau mất mát luôn nặng nề hơn niềm vui tương đương.' },
+      { id: 'q34_2', type: 'scenario', scenario: 'Shop bảo “Mua ngay kẻo hết”, bạn chốt đơn vì sợ mất cơ hội.', options: ['Săn sale.', 'Nỗi sợ mất món hời thúc đẩy hành động.', 'Đồ xịn.', 'Do sếp.'], correctIndex: 1, explanation: 'Nỗi sợ mất món hời thúc đẩy hành động.' },
+      { id: 'q34_3', type: 'scenario', scenario: 'Bạn không dám đầu tư chứng khoán vì sợ mất tiền, dù khả năng thắng cao.', options: ['Bạn cẩn thận.', 'Sợ thua làm ta bỏ lỡ mọi cơ hội thắng.', 'Bạn thông minh.', 'Do sàn.'], correctIndex: 1, explanation: 'Sợ thua làm ta bỏ lỡ mọi cơ hội thắng.' },
+      { id: 'q34_4', type: 'scenario', scenario: 'Tại sao các app hay có chế độ “Dùng thử 7 ngày”?', options: ['Họ tốt.', 'Khi đã có, ta sẽ làm mọi cách để không mất.', 'Trend.', 'May mắn.'], correctIndex: 1, explanation: 'Khi đã có, ta sẽ làm mọi cách để không mất.' },
+      { id: 'q34_5', type: 'scenario', scenario: 'Trong đàm phán, nhấn mạnh vào “Điều bạn sẽ MẤT” hiệu quả hơn “Điều bạn được”. Đúng hay sai?', options: ['Sai.', 'Đúng.', 'Tùy người.', 'Hợp lý.'], correctIndex: 1, explanation: 'Con người nhạy cảm với sự đe dọa mất mát.' },
+      { id: 'q34_6', type: 'scenario', scenario: 'Tại sao người ta hay giữ những đồ vật cũ kỹ vô dụng?', options: ['Kỷ niệm.', 'Sợ cảm giác mất đi quyền sở hữu.', 'Lười vứt.', 'Hợp lý.'], correctIndex: 1, explanation: 'Vứt đồ là một dạng tổn thất tâm lý.' },
+      { id: 'q34_7', type: 'scenario', scenario: 'Hậu quả của loss aversion trong trading?', options: ['Lãi to.', 'Gồng lỗ đến chết nhưng chốt lời cực non.', 'Vui vẻ.', 'May mắn.'], correctIndex: 1, explanation: 'Sợ chốt lỗ nên chấp nhận rủi ro lớn hơn.' },
+      { id: 'q34_8', type: 'scenario', scenario: 'Thám tử đe dọa nghi phạm: “Nếu không khai, anh sẽ MẤT cơ hội giảm án”.', options: ['Ác quá.', 'Đòn tâm lý đánh vào nỗi sợ bị tước đoạt.', 'Bình thường.', 'May mắn.'], correctIndex: 1, explanation: 'Đòn tâm lý đánh vào nỗi sợ bị tước đoạt.' }
+    ]
+  },
+  {
+    id: 'q35',
+    title: 'Đóng khung',
+    regionId: 'r5',
+    requiredLevel: 35,
+    xpReward: 460,
+    gemReward: 6,
+    questions: [
+      { id: 'q35_1', type: 'scenario', scenario: 'Sữa ghi “99% không béo” bạn mua ngay, sữa ghi “1% béo” bạn chê.', options: ['Bạn sành ăn.', 'Cách trình bày thay đổi hoàn toàn phán đoán.', 'Sự thật khác nhau.', 'Do hãng.'], correctIndex: 1, explanation: 'Cách trình bày thay đổi hoàn toàn phán đoán.' },
+      { id: 'q35_2', type: 'scenario', scenario: 'Bác sĩ bảo “Tỷ lệ sống là 90%”, bạn yên tâm mổ. Nếu bảo “Tỷ lệ chết 10%”, bạn chạy mất dép.', options: ['Bạn sợ chết.', 'Cùng một con số, góc nhìn khác nhau gây cảm xúc khác.', 'Y học đỉnh.', 'May mắn.'], correctIndex: 1, explanation: 'Cùng một con số, góc nhìn khác nhau gây cảm xúc khác.' },
+      { id: 'q35_3', type: 'scenario', scenario: 'Tại sao món ăn 100k lại ghi là 99k?', options: ['Rẻ hơn 1k.', 'Não đọc số đầu tiên và gán mác rẻ.', 'Hết tiền lẻ.', 'Trend.'], correctIndex: 1, explanation: 'Não đọc số đầu tiên và gán mác rẻ.' },
+      { id: 'q35_4', type: 'scenario', scenario: 'Bạn khen cô gái: “Em trông đỡ béo hơn hôm qua”. Bạn sẽ nhận được gì?', options: ['Cái tát.', 'Lời cảm ơn.', 'Sự hâm mộ.', 'May mắn.'], correctIndex: 0, explanation: 'Đóng khung tiêu cực dù ý đồ tốt.' },
+      { id: 'q35_5', type: 'scenario', scenario: 'Trong tranh luận, thám tử nên “đóng khung” sự thật như thế nào?', options: ['Nói hết ra.', 'Chọn góc nhìn có lợi cho việc lấy lời khai.', 'Im lặng.', 'May mắn.'], correctIndex: 1, explanation: 'Sự thật là đất nặn trong tay người khéo léo.' },
+      { id: 'q35_6', type: 'scenario', scenario: 'Công ty thông báo “Giảm lương 10%” và “Tặng thưởng 90% lương cũ”. Cái nào dễ nghe hơn?', options: ['Cả hai như nhau.', 'Cái số 2 (dù thực tế tệ hơn).', 'Cái số 1.', 'May mắn.'], correctIndex: 1, explanation: 'Ngôn từ “tặng thưởng” che mờ sự thật “giảm”.' },
+      { id: 'q35_7', type: 'scenario', scenario: 'Lợi ích của hiệu ứng đóng khung trong marketing?', options: ['Lừa khách.', 'Làm sản phẩm trông hấp dẫn hơn mà không cần đổi chất lượng.', 'Vui.', 'May mắn.'], correctIndex: 1, explanation: 'Thay vỏ đổi đời.' },
+      { id: 'q35_8', type: 'scenario', scenario: 'Thám tử bước vào hiện trường và gọi nó là “Một tác phẩm nghệ thuật”.', options: ['Biến thái.', 'Đóng khung để giữ bình tĩnh điều tra.', 'Hâm.', 'May mắn.'], correctIndex: 1, explanation: 'Cách bạn gọi tên thế giới định nghĩa thái độ của bạn.' }
+    ]
+  },
+  {
+    id: 'q36',
+    title: 'Đơn vị',
+    regionId: 'r5',
+    requiredLevel: 36,
+    xpReward: 480,
+    gemReward: 7,
+    questions: [
+      { id: 'q36_1', type: 'scenario', scenario: 'Bát phở to gấp đôi bình thường, bạn cố ăn hết dù đã no từ giữa chừng.', options: ['Ăn khỏe.', 'Ta có xu hướng hoàn thành 1 đơn vị được giao bất kể kích cỡ.', 'Ngon quá.', 'Tiết kiệm.'], correctIndex: 1, explanation: 'Ta có xu hướng hoàn thành 1 đơn vị được giao bất kể kích cỡ.' },
+      { id: 'q36_2', type: 'scenario', scenario: 'Tại sao kẹo trong gói to lại làm bạn ăn nhiều hơn kẹo gói nhỏ?', options: ['Gói to rẻ hơn.', 'Một gói là một mục tiêu, kích cỡ mục tiêu thay đổi lượng ăn.', 'Do kẹo ngon.', 'Ngẫu nhiên.'], correctIndex: 1, explanation: 'Một gói là một mục tiêu, kích cỡ mục tiêu thay đổi lượng ăn.' },
+      { id: 'q36_3', type: 'scenario', scenario: 'Bạn đọc hết một quyển sách dở chỉ vì “trót đọc rồi phải xong”.', options: ['Yêu sách.', 'Nhu cầu hoàn thành một chỉnh thể.', 'Lười vứt.', 'May mắn.'], correctIndex: 1, explanation: 'Nhu cầu hoàn thành một chỉnh thể.' },
+      { id: 'q36_4', type: 'scenario', scenario: 'Để giảm cân, thám tử khuyên bạn dùng bát đĩa như thế nào?', options: ['Bát to.', 'Bát đĩa nhỏ hơn.', 'Không dùng bát.', 'Ăn bốc.'], correctIndex: 1, explanation: 'Đánh lừa não bộ về một “đơn vị đầy đủ”.' },
+      { id: 'q36_5', type: 'scenario', scenario: 'Tại sao các app hay chia nhỏ bài học thành từng đoạn ngắn?', options: ['Dễ học.', 'Tạo ra nhiều cảm giác chiến thắng nhỏ.', 'Lười viết dài.', 'May mắn.'], correctIndex: 1, explanation: 'Tạo ra nhiều cảm giác chiến thắng nhỏ.' },
+      { id: 'q36_6', type: 'scenario', scenario: 'Bạn uống hết chai nước 1.5 lít chỉ vì “mở nắp rồi”.', options: ['Khát nước.', 'Khi đơn vị quá lớn, ta dễ bị quá tải nhưng vẫn cố.', 'Bạn khỏe.', 'Do nước.'], correctIndex: 1, explanation: 'Khi đơn vị quá lớn, ta dễ bị quá tải nhưng vẫn cố.' },
+      { id: 'q36_7', type: 'scenario', scenario: 'Cách tốt nhất để tiết kiệm tiền là chia nhỏ tiền vào nhiều hũ.', options: ['Lằng nhằng.', 'Đúng (tạo ra nhiều đơn vị để cân nhắc).', 'Sai.', 'Hợp lý.'], correctIndex: 1, explanation: 'Lấy tiền ra khỏi một hũ “đơn vị” khó hơn tiêu tiền từ một cọc lớn.' },
+      { id: 'q36_8', type: 'scenario', scenario: 'Thám tử bước vào hiện trường mê cung và chia nó thành từng ô gạch.', options: ['Rảnh.', 'Dùng unit bias để không bỏ sót mét vuông nào.', 'Vui tính.', 'May mắn.'], correctIndex: 1, explanation: 'Kiểm soát bằng cách định nghĩa lại đơn vị.' }
+    ]
+  },
+  {
+    id: 'q37',
+    title: 'Sướng trước',
+    regionId: 'r5',
+    requiredLevel: 37,
+    xpReward: 500,
+    gemReward: 8,
+    questions: [
+      { id: 'q37_1', type: 'scenario', scenario: 'Chọn nhận 1 triệu ngay bây giờ thay vì 2 triệu sau 1 năm.', options: ['Bạn thông minh.', 'Não ưu tiên phần thưởng tức thì bất chấp giá trị nhỏ.', 'Bạn cần tiền gấp.', 'Do lạm phát.'], correctIndex: 1, explanation: 'Não ưu tiên phần thưởng tức thì bất chấp giá trị nhỏ.' },
+      { id: 'q37_2', type: 'scenario', scenario: 'Bạn thức đêm xem phim dù biết mai đi làm sẽ gật gù.', options: ['Phim hay.', 'Vui bây giờ, khổ kệ tôi mai.', 'Bạn khỏe.', 'Do bận.'], correctIndex: 1, explanation: 'Vui bây giờ, khổ kệ tôi mai.' },
+      { id: 'q37_3', type: 'scenario', scenario: 'Tại sao người ta hay quẹt thẻ tín dụng bừa bãi?', options: ['Giàu.', 'Sướng lúc mua, nỗi đau trả tiền bị đẩy lùi xa.', 'Tiện lợi.', 'May mắn.'], correctIndex: 1, explanation: 'Hành động và hậu quả bị tách rời về thời gian.' },
+      { id: 'q37_4', type: 'scenario', scenario: 'Bạn hứa “Mai sẽ tập gym” nhưng mai đến bạn lại bảo “Mai nữa”.', options: ['Bạn lười.', 'Tương lai là một con người khác, không phải tôi bây giờ.', 'Máy tập hỏng.', 'Do mưa.'], correctIndex: 1, explanation: 'Tương lai là một con người khác, không phải tôi bây giờ.' },
+      { id: 'q37_5', type: 'scenario', scenario: 'Cách để trị bệnh trì hoãn là?', options: ['Tự mắng mình.', 'Chia nhỏ phần thưởng và trả ngay lập tức.', 'Ngủ nhiều hơn.', 'May mắn.'], correctIndex: 1, explanation: 'Dụ dỗ con thú “Hiện tại” trong bạn.' },
+      { id: 'q37_6', type: 'scenario', scenario: 'Tại sao đồ ăn nhanh (junk food) lại khó cưỡng?', options: ['Ngon.', 'Thỏa mãn tức thì cơn đói và ham muốn vị giác.', 'Rẻ.', 'May mắn.'], correctIndex: 1, explanation: 'Phần thưởng hóa học ngay lập tức.' },
+      { id: 'q37_7', type: 'scenario', scenario: 'Hậu quả của việc luôn chọn “Ngay bây giờ” là gì?', options: ['Hạnh phúc.', 'Nghèo khó và sức khỏe kém về lâu dài.', 'Thông minh.', 'May mắn.'], correctIndex: 1, explanation: 'Sự kiên nhẫn định nghĩa thành công.' },
+      { id: 'q37_8', type: 'scenario', scenario: 'Thám tử từ chối lời hối lộ 1 tỷ hôm nay để giữ danh dự cả đời.', options: ['Anh hùng.', 'Khả năng trì hoãn sự thỏa mãn siêu hạng.', 'Hâm.', 'May mắn.'], correctIndex: 1, explanation: 'Chỉ thám tử thực thụ mới thấy giá trị của tương lai.' }
+    ]
+  },
+  {
+    id: 'q38',
+    title: 'Xác suất',
+    regionId: 'r5',
+    requiredLevel: 38,
+    xpReward: 520,
+    gemReward: 9,
+    questions: [
+      { id: 'q38_1', type: 'scenario', scenario: 'Tung đồng xu 10 lần ra mặt ngửa, bạn thề lần 11 sẽ ra sấp.', options: ['Bạn giỏi tính.', 'Mỗi lần tung là hoàn toàn độc lập, não đừng tự vẽ.', 'Lẽ thường.', 'Do đồng xu.'], correctIndex: 1, explanation: 'Mỗi lần tung là hoàn toàn độc lập, não đừng tự vẽ.' },
+      { id: 'q38_2', type: 'scenario', scenario: 'Con đầu là trai, con hai là trai, bạn tin con ba “chắc chắn” là gái.', options: ['Cầu được ước thấy.', 'Tự nhiên không có bộ nhớ để “bù đắp” cho bạn.', 'Duyên số.', 'Hợp lý.'], correctIndex: 1, explanation: 'Tự nhiên không có bộ nhớ để “bù đắp” cho bạn.' },
+      { id: 'q38_3', type: 'scenario', scenario: 'Tại sao các sòng bài hay hiện bảng lịch sử các ván trước?', options: ['Cho khách xem.', 'Để dụ khách dính bẫy gambler’s fallacy.', 'Minh bạch.', 'May mắn.'], correctIndex: 1, explanation: 'Lừa não bộ tìm quy luật trong sự ngẫu nhiên.' },
+      { id: 'q38_4', type: 'scenario', scenario: 'Bạn thi thử được 10, thi thật được 8, bạn bảo “do xui”.', options: ['Xui thật.', 'Phong độ cực cao thường không kéo dài lâu.', 'Học tài thi phận.', 'Do đề.'], correctIndex: 1, explanation: 'Phong độ cực cao thường không kéo dài lâu.' },
+      { id: 'q38_5', type: 'scenario', scenario: 'Mắng nhân viên khi họ làm tệ làm họ làm tốt hơn (thực tế là do họ tự hồi quy).', options: ['Bạn uy quyền.', 'Lần sau họ tốt hơn đơn giản vì lần trước đã quá tệ.', 'Họ sợ.', 'May mắn.'], correctIndex: 1, explanation: 'Lần sau họ tốt hơn đơn giản vì lần trước đã quá tệ.' },
+      { id: 'q38_6', type: 'scenario', scenario: 'Khen nhân viên làm họ làm dở đi vào lần sau.', options: ['Khen làm họ kiêu.', 'Năng lực đột biến luôn có xu hướng quay về mức cũ.', 'Họ lười.', 'May mắn.'], correctIndex: 1, explanation: 'Năng lực đột biến luôn có xu hướng quay về mức cũ.' },
+      { id: 'q38_7', type: 'scenario', scenario: 'Làm thế nào để thám tử không bị số liệu lừa?', options: ['Tin trực giác.', 'Hiểu về xác suất và sự ngẫu nhiên.', 'Hỏi chuyên gia.', 'May mắn.'], correctIndex: 1, explanation: 'Quy luật số lớn không áp dụng cho số nhỏ.' },
+      { id: 'q38_8', type: 'scenario', scenario: 'Thám tử bước vào vụ án mạng xảy ra liên tiếp 3 ngày.', options: ['Chắc chắn hnay có tiếp.', 'Cảnh giác với sự trùng hợp ngẫu nhiên.', 'Bắt hung thủ.', 'May mắn.'], correctIndex: 1, explanation: 'Quy luật chỉ xuất hiện khi có bằng chứng, không phải sự đoán mò.' }
+    ]
+  },
+  {
+    id: 'q39',
+    title: 'Kiểm soát',
+    regionId: 'r5',
+    requiredLevel: 39,
+    xpReward: 300,
+    gemReward: 10,
+    questions: [
+      { id: 'q39_1', type: 'scenario', scenario: 'Bạn nhấn nút đi bộ ở ngã tư liên tục và tin nó sẽ làm đèn xanh nhanh hơn (dù nút đó hỏng).', options: ['Bạn nhiệt tình.', 'Hành động tạo cảm giác ta đang làm chủ tình hình.', 'Nút đó xịn.', 'Do may.'], correctIndex: 1, explanation: 'Hành động tạo cảm giác ta đang làm chủ tình hình.' },
+      { id: 'q39_2', type: 'scenario', scenario: 'Tự tay chọn số Vietlott và thấy tự tin thắng hơn là máy chọn.', options: ['Bạn có thần hộ mệnh.', 'Xác suất như nhau, nhưng cái tôi làm bạn thấy mình khác biệt.', 'Số đẹp.', 'Sự thật.'], correctIndex: 1, explanation: 'Xác suất như nhau, nhưng cái tôi làm bạn thấy mình khác biệt.' },
+      { id: 'q39_3', type: 'scenario', scenario: 'Tại sao các nút “Đóng cửa” trong thang máy thường không có tác dụng?', options: ['Lỗi kỹ thuật.', 'Placebo button cho tâm trí bớt sốt ruột.', 'Hết tác dụng.', 'May mắn.'], correctIndex: 1, explanation: 'Placebo button cho tâm trí bớt sốt ruột.' },
+      { id: 'q39_4', type: 'scenario', scenario: 'Cầu thủ mặc lại “chiếc tất may mắn” để đảm bảo chiến thắng.', options: ['Cẩn thận.', 'Mối liên hệ nhân quả ảo.', 'Tất đẹp.', 'Sự thật.'], correctIndex: 1, explanation: 'Mối liên hệ nhân quả ảo.' },
+      { id: 'q39_5', type: 'scenario', scenario: 'Tại sao sếp hay bắt sửa những chi tiết nhỏ vô nghĩa trong báo cáo?', options: ['Sếp kỹ tính.', 'Để khẳng định quyền kiểm soát dự án.', 'Sếp rảnh.', 'Do bạn sai.'], correctIndex: 1, explanation: 'Sửa để thấy mình đang “làm việc”.' },
+      { id: 'q39_6', type: 'scenario', scenario: 'Bạn tin mình có thể dự báo thời tiết bằng cách… nhìn mây theo kiểu riêng.', options: ['Bạn là thiên tài.', 'Gán quy luật cho sự hỗn loạn.', 'Mây nói thật.', 'May mắn.'], correctIndex: 1, explanation: 'Gán quy luật cho sự hỗn loạn.' },
+      { id: 'q39_7', type: 'scenario', scenario: 'Hậu quả của illusion of control trong kinh doanh?', options: ['Thành công rực rỡ.', 'Chủ quan và bỏ qua các rủi ro khách quan.', 'Vui vẻ.', 'May mắn.'], correctIndex: 1, explanation: 'Tự tin quá mức dẫn đến thảm họa.' },
+      { id: 'q39_8', type: 'scenario', scenario: 'Thám tử lắc xúc xắc mạnh tay để mong ra số to.', options: ['Khỏe tay.', 'Lực tay không thay đổi được số phận của hạt nhựa.', 'Do xúc xắc.', 'May mắn.'], correctIndex: 1, explanation: 'Lực tay không thay đổi được số phận của hạt nhựa.' }
+    ]
+  },
+  {
+    id: 'q40',
+    title: 'Sàn đấu',
+    regionId: 'r5',
+    requiredLevel: 40,
+    xpReward: 600,
+    gemReward: 25,
+    questions: [
+      { id: 'q40_1', type: 'scenario', scenario: 'Phần thưởng cuối cùng của Sàn Đấu Ngáo Quyết Định là gì?', options: ['Tiền vàng.', 'Sự tự do khỏi những lựa chọn ngu ngốc.', 'Cúp.', 'Được khen.'], correctIndex: 1, explanation: 'Lý trí là tự do.' },
+      { id: 'q40_2', type: 'scenario', scenario: 'Kẻ chiến thắng ở vùng này cần điều gì nhất?', options: ['Tiền.', 'Tư duy “Số 0”: Luôn bắt đầu từ con số 0 để đánh giá.', 'Máu lạnh.', 'Sự may mắn.'], correctIndex: 1, explanation: 'Quên quá khứ để nhìn vào sự thực.' },
+      { id: 'q40_3', type: 'scenario', scenario: 'Bạn bước ra khỏi sàn đấu và thấy mình… vẫn nghèo.', options: ['Đúng thế.', 'Giàu kiến thức là bước đầu của giàu tiền bạc.', 'Game lừa.', 'Ảo giác.'], correctIndex: 1, explanation: 'Kiến thức cần thời gian để đơm hoa.' },
+      { id: 'q40_4', type: 'scenario', scenario: 'Vũ khí bí mật của thám tử để không bao giờ “Ngáo”?', options: ['Súng.', 'Luôn dùng bộ não hệ thống 2 để phân tích.', 'Kính lúp.', 'Tiền.'], correctIndex: 1, explanation: 'Chậm lại để đúng hơn.' },
+      { id: 'q40_5', type: 'scenario', scenario: 'Tại sao vùng này lại có tên là “Sàn Đấu”?', options: ['Cho oai.', 'Vì bạn phải đấu tranh với chính bản năng của mình.', 'Có quái vật.', 'Gợi cảm hứng.'], correctIndex: 1, explanation: 'Kẻ thù lớn nhất là bản thân.' },
+      { id: 'q40_6', type: 'scenario', scenario: 'Chúc mừng bạn đã hoàn thành 40 kỳ án!', options: ['Cảm ơn.', 'Quyết tâm mở khóa vùng cuối cùng.', 'Nghỉ thôi.', 'Mệt quá.'], correctIndex: 1, explanation: 'Đỉnh cao vẫy gọi.' },
+      { id: 'q40_7', type: 'scenario', scenario: 'Bạn cảm thấy mình thông minh lên 200%.', options: ['Đúng thế.', 'Cẩn thận với Dunning–Kruger (vùng 1).', 'Ảo giác.', 'May mắn.'], correctIndex: 1, explanation: 'Vừa học xong là lúc dễ ảo tưởng nhất.' },
+      { id: 'q40_8', type: 'scenario', scenario: 'Thám tử bước vào thang máy đi lên tầng cao nhất.', options: ['Đóng cửa.', 'Sẵn sàng cho Tháp Thao Túng.', 'Đi xuống.', 'May mắn.'], correctIndex: 1, explanation: 'Chặng đường cuối cùng bắt đầu.' }
+    ]
+  },
+
+  // ===================== VÙNG 6: THAO TÚNG =====================
+
 ];

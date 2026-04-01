@@ -304,7 +304,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const triggerCelebration = useCallback((data: CelebrationData) => setPendingCelebration(data), []);
 
-  const openMysteryBox = useCallback(() => {
+  const openMysteryBox = useCallback((): { success: boolean; reward?: string; type?: 'gems' | 'xp' } => {
     if (!canOpenMysteryBox()) return { success: false };
     const isGems = Math.random() < 0.7;
     const rewardValue = isGems ? (Math.floor(Math.random() * 26) + 15) : (Math.floor(Math.random() * 71) + 50);
