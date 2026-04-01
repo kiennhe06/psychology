@@ -22,6 +22,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import MissionReportScreen from './src/screens/MissionReportScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
+import SwipeGameScreen from './src/screens/SwipeGameScreen';
 import { Compass, Brain, ShoppingBag, User } from 'lucide-react-native';
 import { useGame } from './src/context/gameContext';
 
@@ -52,6 +53,7 @@ export type RootStackParamList = {
     isDaily: boolean;
   };
   MissionReport: { missionId: string };
+  SwipeGame: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -183,6 +185,11 @@ const App = () => {
               name="MissionReport"
               component={MissionReportScreen}
               options={{ animation: 'slide_from_bottom' }}
+            />
+            <Stack.Screen
+              name="SwipeGame"
+              component={SwipeGameScreen}
+              options={{ animation: 'fade' }}
             />
           </Stack.Navigator>
         </NavigationContainer>

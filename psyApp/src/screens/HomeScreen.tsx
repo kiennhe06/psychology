@@ -29,6 +29,7 @@ type RootStackParamList = {
   Detail: { effect: EffectModel };
   Analyzer: undefined;
   Settings: undefined;
+  SwipeGame: undefined;
 };
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
   greetingText: { fontSize: 14, fontWeight: '600', lineHeight: 22, fontStyle: 'italic' },
 
   // Titles
-  headerArea: { paddingHorizontal: 16, marginBottom: 16, marginTop: 10 },
+  headerArea: { paddingHorizontal: 16, marginBottom: 16, marginTop: 4 },
   headerTitleNeon: { fontSize: 26, fontWeight: '900', color: '#f8fafc', letterSpacing: 0.5, textShadowColor: 'rgba(139, 92, 246, 0.8)', textShadowRadius: 10, textShadowOffset: { width: 0, height: 2 } },
   subtitleGlass: { fontSize: 13, color: '#94A3B8', fontWeight: '700', marginTop: 4 },
 
